@@ -1,0 +1,350 @@
+@import './utils/index';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .pause {
+    animation-play-state: paused;
+  }
+
+  .h-body {
+    height: calc(100vh - 70px);
+  }
+
+  .min-h-body {
+    min-height: calc(100vh - 70px);
+  }
+  .transform-none {
+    transform: none;
+  }
+}
+
+@layer base {
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+
+  ul ul,
+  ol ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    margin-left: 15px;
+  }
+
+  ol ol,
+  ul ol {
+    list-style-type: lower-latin;
+    list-style-position: inside;
+    margin-left: 15px;
+  }
+}
+
+@layer components {
+  .sticky-action-column {
+    @apply sticky right-0 z-10 shadow-left bg-white;
+  }
+  .toast-base {
+    @apply opacity-0 origin-bottom transition-all duration-[230ms] ease-[cubic-bezier(0.21,1.02,0.73,1)] group-has-[.toast-1:hover,.toast-2:hover,.toast-3:hover]:scale-100 group-has-[.toast-1:hover,.toast-2:hover,.toast-3:hover]:-translate-y-0;
+    .go2072408551 {
+      @apply transition-transform duration-[230ms] ease-in-out group-has-[.toast-1:hover,.toast-2:hover,.toast-3:hover]:-translate-y-2;
+    }
+  }
+  .toast-1 {
+    @apply opacity-100 scale-100;
+    #toastContent {
+      opacity: 100;
+    }
+    #dismissAllToast {
+      display: inline;
+    }
+  }
+  .toast-2 {
+    @apply opacity-100 scale-90 translate-y-[75%];
+  }
+  .toast-3 {
+    @apply opacity-100 scale-[0.8] translate-y-[150%];
+  }
+  .toast-4 {
+    @apply transition-none opacity-0 hidden scale-[0.7] translate-y-[230%];
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-user-select: none;
+  /* Safari 3.1+ */
+  -moz-user-select: none;
+  /* Firefox 2+ */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Standard syntax */
+  // user-drag: none;
+  -webkit-user-drag: none;
+}
+
+* {
+  box-sizing: border-box;
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-stretch: 100%;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #bebdbf #ffffff;
+  }
+}
+
+#side-bar {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffffeb #193d8f;
+}
+
+/* Legacy browsers with `::-webkit-scrollbar-*` support */
+@supports selector(::-webkit-scrollbar) {
+  *::-webkit-scrollbar {
+    position: absolute;
+    max-height: 8px; /* height of horizontal scrollbar ← You're missing this */
+    max-width: 8px; /* width of vertical scrollbar */
+  }
+  // *::-webkit-scrollbar:hover {
+  //   height: 10px; /* height of horizontal scrollbar ← You're missing this */
+  //   width: 10px; /* width of vertical scrollbar */
+  // }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #bebdbf;
+    border-radius: 100px;
+  }
+}
+.react-flow__node-custom {
+  padding: 10px;
+  background-color: #556677;
+  color: white;
+}
+
+.bg-dot {
+  background: #f2f5f8;
+  background-image: radial-gradient(rgb(143, 143, 143) 1px, transparent 0);
+  background-size: 20px 20px;
+  background-position: -19px -19px;
+}
+
+.tooltip-container {
+  --tooltipBackground: #ffffff;
+  --tooltipBorder: #ffffff;
+  --tooltipColor: #ffffff;
+  border: 2px solid var(--tooltipBorder);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  transition: opacity 0.3s;
+  z-index: 9999;
+}
+
+.dark.tooltip-container {
+  --tooltipBackground: #394960;
+  --tooltipBorder: #394960;
+  --tooltipColor: #394960;
+  border: 2px solid var(--tooltipBorder);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  transition: opacity 0.3s;
+  z-index: 9999;
+}
+
+.tooltip-container[data-popper-interactive='false'] {
+  pointer-events: none;
+}
+
+.tooltip-arrow {
+  height: 1rem;
+  position: absolute;
+  width: 1rem;
+  pointer-events: none;
+}
+
+.tooltip-arrow::before {
+  border-style: solid;
+  content: '';
+  display: block;
+  height: 0;
+  margin: auto;
+  width: 0;
+}
+
+.tooltip-arrow::after {
+  border-style: solid;
+  content: '';
+  display: block;
+  height: 0;
+  margin: auto;
+  position: absolute;
+  width: 0;
+}
+
+.tooltip-container[data-popper-placement*='bottom'] .tooltip-arrow {
+  left: 0;
+  margin-top: -0.4rem;
+  top: 0;
+}
+
+.tooltip-container[data-popper-placement*='bottom'] .tooltip-arrow::before {
+  border-color: transparent transparent var(--tooltipBorder) transparent;
+  border-width: 0 0.5rem 0.4rem 0.5rem;
+  position: absolute;
+  top: -1px;
+}
+
+.tooltip-container[data-popper-placement*='bottom'] .tooltip-arrow::after {
+  border-color: transparent transparent var(--tooltipBackground) transparent;
+  border-width: 0 0.5rem 0.4rem 0.5rem;
+}
+
+.tooltip-container[data-popper-placement*='top'] .tooltip-arrow {
+  bottom: 0;
+  left: 0;
+  margin-bottom: -1rem;
+}
+
+.tooltip-container[data-popper-placement*='top'] .tooltip-arrow::before {
+  border-color: var(--tooltipBorder) transparent transparent transparent;
+  border-width: 0.4rem 0.5rem 0 0.5rem;
+  position: absolute;
+  top: 1px;
+}
+
+.tooltip-container[data-popper-placement*='top'] .tooltip-arrow::after {
+  border-color: var(--tooltipBackground) transparent transparent transparent;
+  border-width: 0.4rem 0.5rem 0 0.5rem;
+}
+
+.tooltip-container[data-popper-placement*='right'] .tooltip-arrow {
+  left: 0;
+  margin-left: -0.7rem;
+}
+
+.tooltip-container[data-popper-placement*='right'] .tooltip-arrow::before {
+  border-color: transparent var(--tooltipBorder) transparent transparent;
+  border-width: 0.5rem 0.4rem 0.5rem 0;
+}
+
+.tooltip-container[data-popper-placement*='right'] .tooltip-arrow::after {
+  border-color: transparent var(--tooltipBackground) transparent transparent;
+  border-width: 0.5rem 0.4rem 0.5rem 0;
+  left: 6px;
+  top: 0;
+}
+
+.tooltip-container[data-popper-placement*='left'] .tooltip-arrow {
+  margin-right: -0.7rem;
+  right: 0;
+}
+
+.tooltip-container[data-popper-placement*='left'] .tooltip-arrow::before {
+  border-color: transparent transparent transparent var(--tooltipBorder);
+  border-width: 0.5rem 0 0.5rem 0.4em;
+}
+
+.tooltip-container[data-popper-placement*='left'] .tooltip-arrow::after {
+  border-color: transparent transparent transparent var(--tooltipBackground);
+  border-width: 0.5rem 0 0.5rem 0.4em;
+  left: 3px;
+  top: 0;
+}
+
+.target-popper {
+  max-width: 200px;
+  margin-top: 3rem;
+  font-size: 13px;
+  text-align: left;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 2;
+  border: 2px solid var(--tooltipBorder);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+  transition: opacity 0.3s;
+}
+
+// css for animating the spinner
+.spinner_V8m1 {
+  transform-origin: center;
+  animation: spinner_zKoa 2s linear infinite;
+}
+
+.spinner_V8m1 circle {
+  stroke-linecap: round;
+  animation: spinner_YpZS 1.5s ease-in-out infinite;
+}
+
+@keyframes spinner_zKoa {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner_YpZS {
+  0% {
+    stroke-dasharray: 0 150;
+    stroke-dashoffset: 0;
+  }
+
+  47.5% {
+    stroke-dasharray: 42 150;
+    stroke-dashoffset: -16;
+  }
+
+  95%,
+  100% {
+    stroke-dasharray: 42 150;
+    stroke-dashoffset: -59;
+  }
+}
+
+.ql-editor {
+  // font-family: '__inter_879697', '__inter_Fallback_879697';
+  position: relative;
+  min-height: 100px !important;
+  max-height: 300px;
+  border: 0px;
+}
+.rdrDefinedRangesWrapper {
+  @include breakpoint-down('sm') {
+    display: none;
+  }
+}
+
+svg {
+  flex-shrink: 0;
+}
