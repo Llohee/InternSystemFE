@@ -13,7 +13,7 @@ import { Button } from '../button/button'
 // import { UserMenu } from './user-menu'
 // import { UserDetail } from '@/models/api'
 import { MenuBar, MenuBarItemLink, MenuBarItems } from '../menu-bar/menu-bar'
-import { useHeaderSelectedItem } from '@/hooks/header-item'
+import { useHeaderSelectedItem } from '@/hooks/zustand/header-item'
 // import { Tag } from '../tag'
 interface HeaderProps {
   title?: string

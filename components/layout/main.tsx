@@ -38,7 +38,7 @@ export function MainLayout({ children, title, nonePadding }: LayoutProps) {
     <>
       {/* <EndUserWrapper> */}
       <div className="bg-white flex flex-col h-screen relative text-typography-body">
-        <MetaHeader />
+        {/* <MetaHeader /> */}
         <Head>
           <title>{title ?? siteTitle}</title>
         </Head>
