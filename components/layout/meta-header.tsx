@@ -8,7 +8,7 @@ const MetaHeader = () => {
   return (
     <Head>
       {/* <link rel="icon" href={favicon.src} /> */}
-      <meta name="description" content="Hệ thống hỗ trợ Service Desk" />
+      {/* <meta name="description" content="Hệ thống hỗ trợ Service Desk" />
       <meta
         property="og:image"
         
@@ -19,8 +19,8 @@ const MetaHeader = () => {
         content="Hệ thống hỗ trợ Service Desk"
         key="ogdesc"
       />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="twitter:card" content="summary_large_image" /> */}
+      {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
 
       <title>{siteTitle}</title>
     </Head>
