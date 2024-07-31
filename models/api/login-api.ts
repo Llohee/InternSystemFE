@@ -11,7 +11,10 @@ export type UserDetail = {
   role: string
   create_time: string
   activities: string
-  access_token: string
+  access_token: {
+    expireAt: number
+    token: string
+  }
   refresh_token: string
 }
 export interface AccessTokenDecoded {

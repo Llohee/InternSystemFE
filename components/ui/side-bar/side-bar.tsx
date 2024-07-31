@@ -1,9 +1,9 @@
 import { SideBarItemType } from '@/models/ui/sidebar'
 import { Disclosure, Popover } from '@headlessui/react'
 import Link from 'next/link'
-// import { Tooltip } from '../tooltip/tooltip'
-import { useState } from 'react'
+import { Tooltip } from '../tooltip/tooltip'
 import { usePopper } from 'react-popper'
+import { useState } from 'react'
 export interface SideBarProps {
   header: React.ReactNode
   isOpen: boolean
@@ -14,7 +14,6 @@ export interface SideBarProps {
   sidebaritems: SideBarItemType[]
   chosseSideBarItem?: SideBarItemType[]
 }
-
 export function SideBar(props: SideBarProps) {
   return (
     <div>
@@ -75,7 +74,7 @@ export function SideBar(props: SideBarProps) {
           </div>
           <div
             id="side-bar"
-            className="grow h-[calc(100vh_-_175px)] px-1 overflow-auto flex flex-col gap-0.5 text-black"
+            className="grow h-[calc(100vh_-_175px)] px-1 overflow-auto flex flex-col gap-0.5 text-typography-body"
           >
             {props.sidebaritems.map((val, index) => (
               <SideBarItem
@@ -115,13 +114,13 @@ const SideBarItem = (props: SideBarItemProps) => {
 
   if (!props.item.subSideBarItem)
     return (
-      // <Tooltip
-      //   tootipDetail={
-      //     <div className="whitespace-nowrap">{props.item.text.trim()}</div>
-      //   }
-      //   placementTootip="right"
-      //   visible={props.isOpen || !props.item.icon}
-      // >
+      <Tooltip
+        tootipDetail={
+          <div className="whitespace-nowrap">{props.item.text.trim()}</div>
+        }
+        placementTootip="right"
+        visible={props.isOpen || !props.item.icon}
+      >
         <Link href={props.item.link}>
           <div
             className={`flex px-5 py-3 text-left text-pretty ${
@@ -163,6 +162,7 @@ const SideBarItem = (props: SideBarItemProps) => {
             )}
           </div>
         </Link>
+      </Tooltip>
     )
   if (!props.isOpen) {
     const [referenceElement, setReferenceElement] = useState<any>()
@@ -184,13 +184,13 @@ const SideBarItem = (props: SideBarItemProps) => {
         <Popover className="group" ref={setReferenceElement}>
           {({ open }) => (
             <>
-              {/* <Tooltip
+              <Tooltip
                 tootipDetail={
                   <div className="whitespace-nowrap">{props.item.text}</div>
                 }
                 placementTootip="right-start"
                 visible={props.isOpen || open}
-              > */}
+              >
                 <Popover.Button
                   className={`flex px-5 py-3 ${open && 'bg-grey-1/45'} ${
                     !props.isOpen
@@ -237,7 +237,7 @@ const SideBarItem = (props: SideBarItemProps) => {
                     </div>
                   )}
                 </Popover.Button>
-              {/* </Tooltip> */}
+              </Tooltip>
 
               <Popover.Panel
                 ref={setPopperElement}
@@ -273,11 +273,11 @@ const SideBarItem = (props: SideBarItemProps) => {
       <Disclosure defaultOpen={props.isOpen ? check(props.item) : false}>
         {({ open }) => (
           <div className="group sidebaritem">
-            {/* <Tooltip
+            <Tooltip
               tootipDetail={props.item.text}
               placementTootip="right"
               visible={props.isOpen}
-            > */}
+            >
               <Disclosure.Button
                 onClick={props.openSideBar}
                 className={`flex px-5 py-3 ${
@@ -328,7 +328,7 @@ const SideBarItem = (props: SideBarItemProps) => {
                   </div>
                 )}
               </Disclosure.Button>
-            {/* </Tooltip> */}
+            </Tooltip>
             {props.isOpen && (
               <Disclosure.Panel className="transition-[height] ease-in-out duration-1000">
                 {props.item.subSideBarItem && (

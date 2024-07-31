@@ -1,5 +1,6 @@
 import { CheckEmailRequest, CheckEmailResponse, LoginRequest, UserDetail } from "@/models/api/login-api"
 import axiosClient from "./axios-client"
+import { trymObject } from "@/utils"
 
 const loginApi = {
   ckeckEmail(data: CheckEmailRequest): Promise<CheckEmailResponse> {
@@ -8,8 +9,8 @@ const loginApi = {
   },
   login(data: LoginRequest): Promise<UserDetail> {
     const url = '/auth/login/'
-    console.log(data)
     return axiosClient.post(url, {
+      ...trymObject(data),
       device: localStorage.getItem('fcmToken') || undefined,
     })
   },

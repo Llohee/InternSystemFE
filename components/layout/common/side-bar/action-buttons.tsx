@@ -1,15 +1,12 @@
 import { Button } from '@/components/ui/button/button'
-// import { useLogoutNavigate } from '@/hooks'
-// import { useGetAccessToken } from '@/hooks/query/auth'
-// import { useTranslation } from 'react-i18next'
+import { useLogoutNavigate } from '@/hooks/useLogout'
 
 interface ActionButtonsProps {
   sidebarExpanded: boolean
 }
 
 const ActionButtons = (props: ActionButtonsProps) => {
-  // const logoutNavigate = useLogoutNavigate()
-  // const getAccessToken = useGetAccessToken()
+  const logoutNavigate = useLogoutNavigate()
   return (
     <div
       className={`w-full flex justify-center items-center py-4 ${
@@ -18,8 +15,7 @@ const ActionButtons = (props: ActionButtonsProps) => {
     >
       <Button
         onClick={() => {
-          // mutation.mutate({})
-          // logoutNavigate(getAccessToken.data?.accessToken)
+          logoutNavigate()
         }}
         intent="primary"
         className="!w-full flex gap-2 !p-2 items-center justify-center text-button-2 text-center"

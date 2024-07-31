@@ -8,6 +8,20 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-};
 
-export default nextConfig;
+  images: {
+    domains: ['images.pexels.com'],
+    unoptimized: true,
+  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '',
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   ]
+  // },
+}
+export default nextConfig
+// module.exports = nextConfig

@@ -1,84 +1,66 @@
-import { ErrorResponse } from "@/models/api/common";
-import { Button } from "../../ui/button/button";
-import { Input } from "../../ui/input/input";
-import { useLoginForm } from "../hooks";
-import Link from "next/link";
-import Avatar from "@/components/ui/avatar/avatar";
+import { ErrorResponse } from '@/models/api/common'
+import { Button } from '../../ui/button/button'
+import { Input } from '../../ui/input/input'
+import { useLoginForm } from '../hooks'
+import { LoginRequest } from '@/models/api'
 
 const LoginNormalForm = () => {
-  const {
-    setValue,
-    register,
-    clearErrors,
-    handleSubmit,
-    handleFormSubmit,
-    mutation,
-    errors,
-  } = useLoginForm();
+  const { handleFormSubmit, mutation, formlogin } = useLoginForm()
 
   return (
     <>
       <form
-        onSubmit={handleSubmit(handleFormSubmit)}
+        onSubmit={formlogin.handleSubmit(handleFormSubmit)}
         className="flex flex-col gap-10"
       >
         <div className="flex flex-col gap-6">
-          {/* <div className="flex flex-col gap-4 text-title-3 items-center">
-            <Avatar name={props.email} size="large" />
-            <div className="text-center text-heading-7">{props.email}</div>
-          </div> */}
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-4">
-              <Input
+              <Input<LoginRequest>
                 label="Email"
                 name="email"
-                register={register}
+                register={formlogin.register}
                 intent={
-                  mutation.isError || errors.password ? "error" : "default"
+                  mutation.isError || formlogin.formState.errors.email
+                    ? 'error'
+                    : 'default'
                 }
+                placeholder={'Nhập Email'}
                 message={
                   mutation.isError
                     ? (mutation.error.response?.data as ErrorResponse)
                         ?.description ??
-                      mutation.error.response ??
-                      "Đã có lỗi xảy ra, vui lòng thử lại sau!"
-                    : errors.password?.message ?? ""
+                      'Đã có lỗi xảy ra, vui lòng thử lại sau!'
+                    : formlogin.formState.errors.email?.message ?? ''
                 }
-                type={"text"}
+                type={'text'}
                 autoFocus
                 required
               />
-              <Input
-                label={"Mật khẩu"}
+              <Input<LoginRequest>
+                label={'Mật khẩu'}
                 name="password"
-                register={register}
+                register={formlogin.register}
                 intent={
-                  mutation.isError || errors.password ? "error" : "default"
+                  mutation.isError || formlogin.formState.errors.password
+                    ? 'error'
+                    : 'default'
                 }
-                type={"password"}
-                placeholder={"Nhập mật khẩu"}
+                type={'password'}
+                placeholder={'Nhập mật khẩu'}
                 message={
                   mutation.isError
                     ? (mutation.error.response?.data as ErrorResponse)
                         ?.description ??
-                      mutation.error.response ??
-                      "Đã có lỗi xảy ra, vui lòng thử lại sau!"
-                    : errors.password?.message ?? ""
+                      'Đã có lỗi xảy ra, vui lòng thử lại sau!'
+                    : formlogin.formState.errors.password?.message ?? ''
                 }
                 required
               />
-              {/* <div className="flex gap-2 items-center text-button-3 justify-end ">
-                <Link
-                  href={`/reset-password/?email=${props.email}`}
-                  className="text-right w-fit"
-                  >
-                  Quên mật khẩu?
-                </Link>
-                  </div> */}
             </div>
             <Button
-              intent={"primary"}
-              size={"medium"}
+              intent={'primary'}
+              size={'medium'}
               type="submit"
               fullWidth={true}
               posting={mutation.isLoading}
@@ -88,14 +70,8 @@ const LoginNormalForm = () => {
           </div>
         </div>
       </form>
-      {/* <div
-        onClick={props.pre}
-        className="flex gap-2 mt-4 items-center text-button-3 select-text cursor-pointer justify-center text-center text-primary-base hover:text-primary-hover focus:text-primary-pressed active:text-primary-pressed"
-      >
-        Quay lại
-      </div> */}
     </>
-  );
-};
+  )
+}
 
-export default LoginNormalForm;
+export default LoginNormalForm

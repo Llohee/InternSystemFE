@@ -1,4 +1,4 @@
-// import { roleUser, PermissionPaths } from '../api'
+import { roleUser } from "../api/common"
 
 export interface SideBarItemType {
   link: string
@@ -6,12 +6,10 @@ export interface SideBarItemType {
   iconFilled?: React.ReactNode
   text: string
   subSideBarItem?: SideBarSubItemType[]
-  // permissions?: PermissionPaths[]
-  // onlyFor?: roleUser[]
+  onlyFor: roleUser[]
 }
 export interface SideBarSubItemType {
   link: string
   text: string
-  // permissions?: PermissionPaths[]
-  // onlyFor?: roleUser[]
+  onlyFor: roleUser[]
 }

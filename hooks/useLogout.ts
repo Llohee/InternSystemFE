@@ -2,22 +2,20 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import toast from 'react-hot-toast'
-import { useGetAccessToken } from './query/auth'
 import { AxiosError } from 'axios'
 import loginApi from '@/apis/login-api'
 
 export const useLogoutNavigate = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
-  // const mutation = useLogoutMutation()
-  const logoutNavigate = useCallback(async (token?: string) => {
-    // if (token) mutation.mutateAsync(token)
-    if (typeof window !== 'undefined')
+  const logoutNavigate = useCallback(() => {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem('next-ca-userInfo')
+      localStorage.removeItem('next-ca-token')
+    }
     toast.remove()
     queryClient.clear()
     router.push('/login', undefined, {
-      shallow: true,
       unstable_skipClientCache: true,
     })
   }, [])
@@ -55,8 +53,9 @@ export const useAdminLogout = () => {
   }, [])
   return { adminLogoutNavigate }
 }
-// const useLogoutMutation = () => {
-//   return useMutation<any, AxiosError, string, any>({
-//     mutationFn: (accessToken) => loginApi.logout(accessToken),
-//   })
-// }
+const useLogoutMutation = () => {
+  return useMutation<any, AxiosError, string, any>(
+    // (accessToken) => loginApi.logout(accessToken),
+    {}
+  )
+}

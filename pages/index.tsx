@@ -1,20 +1,12 @@
-import { EmptyLayout } from '@/components/layout'
-import LandingPageContent from '@/components/welcome'
+import { AllUserAuth } from '@/components/auth/page-auth'
+import { MainLayout } from '@/components/layout'
 import { NextPageWithAuthLayout } from '@/pages/_app'
-import Head from 'next/head'
 
-const WelcomePage: NextPageWithAuthLayout = () => {
-  return (
-    <>
-      <Head>
-        <title>Welcome</title>
-      </Head>
-      <LandingPageContent />
-    </>
-  )
+const UniversityPage: NextPageWithAuthLayout = () => {
+  return <></>
 }
+UniversityPage.Layout = MainLayout
+UniversityPage.Auth = AllUserAuth
+UniversityPage.title = 'Trang chủ'
 
-WelcomePage.Layout = EmptyLayout
-WelcomePage.title = '@title'
-
-export default WelcomePage
+export default UniversityPage
