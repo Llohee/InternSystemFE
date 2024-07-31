@@ -1,21 +1,36 @@
+import '../styles/globals.scss'
 import { PublicAuth } from '@/components/auth/page-auth'
 import { EmptyLayout } from '@/components/layout'
-import { ErrorResponse } from '@/models/api/common'
-import '@/styles/globals.scss'
+import localFont from '@next/font/local'
 import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AxiosError } from 'axios'
 import { NextPage } from 'next'
-import { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode } from 'react'
-import toast from 'react-hot-toast'
-import NonSSRWrapper from '@/components/common/no-ssr-wrapper'
+import '../styles/globals.scss'
 import AuthProvider from '@/components/auth/auth-provider'
-// import { ConfigProvider } from 'antd'
+import NonSSRWrapper from '@/components/common/no-ssr-wrapper'
+import { ErrorResponse } from '@/models/api/common'
 import CustomToast from '@/components/ui/custom-toast/custom-toast'
+import toast from 'react-hot-toast'
+
+// const inter = Inter({
+//   subsets: ['latin', 'vietnamese'],
+// })
+
+// const nunitoSans = Nunito_Sans({
+//   subsets: ['latin', 'vietnamese'],
+//   variable: '--font-nunito-sans',
+// })
+// const nunitoSans = localFont({
+//   src: '../public/font/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf',
+//   variable: '--font-nunito-sans',
+// })
 
 export interface LayoutProps {
   children: ReactNode
@@ -23,10 +38,12 @@ export interface LayoutProps {
   title?: string
   nonePadding?: boolean
 }
+
 export interface AuthProps {
   children: ReactNode
   className?: string
 }
+
 export type NextPageWithAuthLayout = NextPage & {
   Layout?: (props: LayoutProps) => ReactElement
   Auth?: React.ComponentType<AuthProps>
@@ -37,6 +54,7 @@ export type NextPageWithAuthLayout = NextPage & {
 type AppPropsWithAuthLayout = AppProps & {
   Component: NextPageWithAuthLayout
 }
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -82,43 +100,27 @@ export const queryClient = new QueryClient({
     },
   }),
 })
+
 export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
   const Layout = Component.Layout ?? EmptyLayout
   const Auth = Component.Auth ?? PublicAuth
-
   const title = Component.title
-
   const nonePadding = Component.nonePadding
-
   return (
-    // <ConfigProvider
-    //   theme={{
-    //     token: {
-    //       colorBgContainerDisabled: '#0035800a',
-    //       colorTextDisabled: '#00204D40',
-    //       colorBorder: '#00358033',
-    //       colorText: '#00204Dcc',
-    //       colorPrimary: '#366ae2',
-    //       colorTextPlaceholder: '#00204D66',
-    //       // fontFamily: `${inter.style.fontFamily}`,
-    //       zIndexPopupBase: 9999,
-    //     },
-    //   }}
-    // >
-      <QueryClientProvider client={queryClient}>
-        <CustomToast />
-        <NonSSRWrapper>
-          <AuthProvider isPublic={Auth === PublicAuth}>
-            <Auth>
-              <Layout title={title} nonePadding={nonePadding ?? false}>
-                <main className={` h-full text-typography-body `}>
-                  <Component {...pageProps} />
-                </main>
-              </Layout>
-            </Auth>
-          </AuthProvider>
-        </NonSSRWrapper>
-      </QueryClientProvider>
-    // </ConfigProvider>
+    <QueryClientProvider client={queryClient}>
+      <CustomToast />
+      <NonSSRWrapper>
+        <AuthProvider isPublic={Auth === PublicAuth}>
+          <Auth>
+            <Layout title={title} nonePadding={nonePadding ?? false}>
+              <main className={` h-full text-typography-body `}>
+                <Component {...pageProps} />
+              </main>
+            </Layout>
+          </Auth>
+        </AuthProvider>
+      </NonSSRWrapper>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }

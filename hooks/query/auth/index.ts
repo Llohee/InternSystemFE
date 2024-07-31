@@ -37,8 +37,8 @@ export function useInitialPageAccessToken() {
           .refresh_token
       )
       localStorage.setItem('next-ca-userInfo', JSON.stringify(data))
-      localStorage.setItem('next-ca-token', data.access_token)
-      const decoded = jwtDecode<AccessTokenDecoded>(data.access_token)
+      localStorage.setItem('next-ca-token', data.access_token.token)
+      const decoded = jwtDecode<AccessTokenDecoded>(data.access_token.token)
       localStorage.setItem(
         'next-ca-nextTimeRefresh',
         (decoded.exp * 1000).toString()
@@ -70,8 +70,8 @@ export function useInitialPageAccessToken() {
       // refetch every 50 minutes
       // refetchInterval: 10 * 60 * 1000,
       refetchInterval: (data) => {
-        if (data !== undefined && data.access_token !== '') {
-          const decoded = jwtDecode<AccessTokenDecoded>(data.access_token)
+        if (data !== undefined && data.access_token.token !== '') {
+          const decoded = jwtDecode<AccessTokenDecoded>(data.access_token.token)
           const remainingTime = decoded.exp * 1000 - Date.now() - 5000
           return remainingTime
         }
