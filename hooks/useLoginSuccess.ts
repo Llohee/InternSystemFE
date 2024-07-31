@@ -11,11 +11,10 @@ export const useLoginSuccess = () => {
 
   const onLoginSuccess = useCallback((data: UserDetail) => {
     queryClient.clear()
-
     if (typeof window !== 'undefined') {
       localStorage.setItem('next-ca-userInfo', JSON.stringify(data))
-      localStorage.setItem('next-ca-token', data.access_token)
-      const decoded = jwtDecode<AccessTokenDecoded>(data.access_token)
+      localStorage.setItem('next-ca-token', data.access_token.token)
+      const decoded = jwtDecode<AccessTokenDecoded>(data.access_token.token)
       localStorage.setItem(
         'next-ca-nextTimeRefresh',
         (decoded.exp * 1000).toString()

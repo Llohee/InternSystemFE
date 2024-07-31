@@ -1,5 +1,4 @@
 /* eslint-disable */
-// import i18n from '@/i18n'
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 const axiosClient = axios.create({
@@ -16,7 +15,6 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config: InternalAxiosRequestConfig) {
     // Do something before request is sent
-    // config.headers['lang'] = i18n.language
     return config
   },
   function (error) {

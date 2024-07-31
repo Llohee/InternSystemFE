@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,15 +16,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
-    "plugins": [
-      {
-        "transform": "ts-transformer-keys/transformer"
-      }
-    ]
+    "plugins": [{ "transform": "ts-transformer-keys/transformer" }]
   },
   "include": [
     "next-env.d.ts",
@@ -39,10 +29,5 @@
     "models/api/tenant.-apits",
     "components/service/modal/sub-service-l2/confirm-delete-service-l2.tsx"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    ".vercel",
-    "out"
-  ]
+  "exclude": ["node_modules", ".next", ".vercel", "out"]
 }

@@ -13,7 +13,7 @@ const LoginPage: NextPageWithAuthLayout = () => {
         <title>Đăng nhập</title>
       </Head>
 
-      <Login accessCode={accessCode as string} email={email as string} />
+      <Login />
     </>
   )
 }

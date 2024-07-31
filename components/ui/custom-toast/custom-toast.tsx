@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button/button'
-import { Transition } from '@headlessui/react'
 import toast, { Toaster, ToastBar, useToasterStore } from 'react-hot-toast'
 import DOMPurify from 'dompurify'
 import ReactHtmlParser from 'html-react-parser'
+import { Transition } from '@headlessui/react'
 
 const CustomToast = () => {
   const { toasts } = useToasterStore()

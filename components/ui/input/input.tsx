@@ -176,7 +176,7 @@ export function Input<T extends FieldValues>({
   )
     register(name, {
       pattern: {
-        value: /^[\p{L}\p{N}_.\-@ ]*$/gimu,
+        value: /^[\p{L}\p{N}_.\-@ ]*$/u,
         message: `Không nhập ký tự đặc biệt`,
       },
     });
