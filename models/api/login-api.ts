@@ -24,13 +24,13 @@ export interface AccessTokenDecoded {
   id: string
   // session: string
 }
-export type LoginType = 'AD' | 'NORMAL' | 'KEYCLOAK' | 'ANONYMOUS'
+// export type LoginType = 'AD' | 'NORMAL' | 'KEYCLOAK' | 'ANONYMOUS'
 
-export interface CheckEmailRequest {
-  email: string
-}
+// export interface CheckEmailRequest {
+//   email: string
+// }
 
-export interface CheckEmailResponse {
-  url: string | undefined
-  type: LoginType
-}
+// export interface CheckEmailResponse {
+//   url: string | undefined
+//   type: LoginType
+// }

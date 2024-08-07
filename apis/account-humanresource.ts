@@ -1,28 +1,28 @@
-import { UniversityAccountFilterRequest, UpdateUserRequest, GetAllUsersResponse, UserGetDetail } from "@/models/api"
+import { GetAllUsersResponse, HumanresourceAccountFilterRequest, UpdateUserRequest, UserGetDetail } from "@/models/api"
 import { getQuery } from "./common-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
 
-const accountUniversityApi = {
-  getAllAccountUniversity(
+const accountHumanresource = {
+  getAllAccountHumanresource(
     accessToken: string,
-    filter: UniversityAccountFilterRequest,
+    filter: HumanresourceAccountFilterRequest,
     isSA?: boolean
   ): Promise<GetAllUsersResponse> {
-    const url = '/users/?role_user=AU'
+    const url = '/users/?role_user=HR'
 
     let query = getQuery(filter.query, filter.name, isSA === true ? [
       'fullname',
       'email',
-      'university'
+      'humanresource'
     ] : [
       'fullname',
       'email',
     ])
-    if (query && filter.university) {
-      query = `and(${query},eq(university,"${filter.university}"))`
-    } else if (filter.university) {
-      query = `eq(university, '${filter.university}')`
+    if (query && filter.humanresource) {
+      query = `and(${query},eq(humanresource,"${filter.humanresource}"))`
+    } else if (filter.humanresource) {
+      query = `eq(humanresource, '${filter.humanresource}')`
     }
 
     let sort = filter.sort
@@ -39,11 +39,11 @@ const accountUniversityApi = {
         page: filter.page,
         query,
         sort,
+        
       },
     })
   },
-
-  createUniversity(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
+  createHumanresource(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
     const url = '/users'
     const config = {
       headers: {
@@ -55,4 +55,4 @@ const accountUniversityApi = {
   }
 }
 
-export default accountUniversityApi
+export default accountHumanresource

@@ -1,9 +1,9 @@
 import { TypeQuery, TypeSort } from "./common"
 
-export interface UniversityAccountFilterRequest {
+export interface HumanresourceAccountFilterRequest {
   name: string
   limit: number
-  university?: string
+  humanresource?: string
   page: number
   query: TypeQuery[]
   sort: TypeSort[]

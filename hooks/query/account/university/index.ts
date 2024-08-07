@@ -5,7 +5,7 @@ import { useRoleIsSuperAdmin } from "@/components/auth/hooks"
 import { useEffect } from "react"
 import produce from "immer"
 import { useQuery } from "@tanstack/react-query"
-import accountUniversity from "@/apis/account-university"
+import accountUniversityApi from "@/apis/account-university"
 
 export const AccountUniversityKeys = {
   all: ['getAllAccountUniversity'] as const,
@@ -27,7 +27,7 @@ export function useGetAllAccountUniversity() {
   return useQuery(
     AccountUniversityKeys.getAllAccountUniversity(filterUser.filter),
     () =>
-      accountUniversity.getAllAccountUniversity(getAccessToken.data!.access_token.token, filterUser.filter, isSA),
+      accountUniversityApi.getAllAccountUniversity(getAccessToken.data!.access_token.token, filterUser.filter, isSA),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )
 }
