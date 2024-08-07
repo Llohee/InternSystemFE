@@ -2,7 +2,6 @@ import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
 import UniversityWrapper from '@/components/university'
 import { NextPageWithAuthLayout } from '@/pages/_app'
-import Head from 'next/head'
 
 const UniversityPage: NextPageWithAuthLayout = () => {
   return (
