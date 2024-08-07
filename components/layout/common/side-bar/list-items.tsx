@@ -72,8 +72,8 @@ export const university: SideBarItemType = {
   text: 'Trường học',
   onlyFor: ['SA'],
 }
-export const humanresource: SideBarItemType = {
-  link: '/humanresource',
+export const business: SideBarItemType = {
+  link: '/business',
   icon: (
     <svg
       xmlns="http://www.w3.org/2000/svg"

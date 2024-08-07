@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ActionButtons from './action-buttons'
-import { Account, home, humanresource, university } from './list-items'
+import { Account, home, business, university } from './list-items'
 
-const sidebarAllItems: any[] = [home, university, humanresource, Account]
+const sidebarAllItems: any[] = [home, university, business, Account]
 const SidebarLayout = (props: {
   sidebarExpanded: boolean
   setSidebarExpanded: (b: boolean) => void

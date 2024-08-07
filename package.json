@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@headlessui/tailwindcss": "^0.2.1",
+    "@hookform/devtools": "^4.3.1",
     "@next/font": "^14.2.5",
     "@tanstack/react-query": "^4.18.0",
     "@tanstack/react-query-devtools": "^4.18.0",
@@ -33,6 +34,7 @@
     "react-poper": "^1.1.5",
     "react-popper": "^2.3.0",
     "react-popper-tooltip": "^4.4.2",
+    "react-select": "^5.8.0",
     "sass": "^1.77.8",
     "string-hash": "^1.1.3",
     "tinycolor2": "^1.6.0",

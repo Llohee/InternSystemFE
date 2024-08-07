@@ -1,34 +1,29 @@
 import PageError from '@/components/page-error/error'
 import { Button } from '@/components/ui/button/button'
-import { TableSkeleton } from '@/components/ui/skeleton'
-import { useGetAllAccountUniversity } from '@/hooks/query/account/university'
-import { useFilterForUniverSityAccountStore } from '@/hooks/zustand/filter-for-university-account'
-import { UserGetDetail } from '@/models/api'
-import { useEffect, useRef, useState } from 'react'
-import AccountUniversityTable from './table'
-import { DebouncedInput } from '@/components/ui/input/debouced-input'
-import produce from 'immer'
 import { SearchIcon } from '@/components/ui/icon'
-import CreateUniversityAccountModal from './modal/create-university'
+import { DebouncedInput } from '@/components/ui/input/debouced-input'
+import { TableSkeleton } from '@/components/ui/skeleton'
+import { useGetAllBusiness } from '@/hooks/query/business'
+import { useFilterForBusinessStore } from '@/hooks/zustand/filter-for-business'
+import { BusinessDetail } from '@/models/api'
+import produce from 'immer'
+import { useEffect, useRef, useState } from 'react'
+import BusinessTable from './table'
+import CreateBusinessModal from './modal/create-business'
 
-const UniversityAccount = () => {
+const BusinessWrapper = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
-  const [isShowModalCreateWithExcel, setIsShowModalCreateWithExcel] =
-    useState(false)
-  const [changeActive, setChangeActive] = useState(false)
-  const [totalAccount, setTotalAccount] = useState(0)
+  const [totalBusiness, setTotalBusiness] = useState(0)
 
-  const [universityAccountChoose, setUniversityAccountChoose] =
-    useState<UserGetDetail[]>()
-  const [isShowModalUpdateAction, setIsShowModalUpdateAction] = useState(false)
-  const filterUniversityAccount = useFilterForUniverSityAccountStore()
+  const [BusinessChoose, setBusinessChoose] = useState<BusinessDetail[]>()
+  const filterBusiness = useFilterForBusinessStore()
   // const templateLink = useGetTemplateLink()
-  const allAccountUniversity = useGetAllAccountUniversity()
+  const allBusiness = useGetAllBusiness()
   const tableRef = useRef<any>()
   useEffect(() => {
-    if (allAccountUniversity.status === 'success')
-      setTotalAccount(allAccountUniversity.data.total)
-  }, [allAccountUniversity])
+    if (allBusiness.status === 'success')
+      setTotalBusiness(allBusiness.data.total)
+  }, [allBusiness])
   return (
     <>
       <div className="">
@@ -37,11 +32,11 @@ const UniversityAccount = () => {
             <div className="ml-2">
               <DebouncedInput
                 placeholder={'Tìm kiếm'}
-                value={filterUniversityAccount.filter.name}
+                value={filterBusiness.filter.name}
                 className="lg:w-96 "
                 onChange={(value) => {
-                  filterUniversityAccount.update(
-                    produce(filterUniversityAccount.filter, (draftState) => {
+                  filterBusiness.update(
+                    produce(filterBusiness.filter, (draftState) => {
                       draftState.name = value.toString()
                       draftState.page = 0
                     })
@@ -52,20 +47,6 @@ const UniversityAccount = () => {
             </div>
           </div>
           <div className="flex gap-2 py-1">
-            {' '}
-            {/* <Button
-              onClick={() => {
-                tableRef.current.clearChooseItems()
-                setIsShowModalCreateWithExcel(true)
-              }}
-              intent={'grey'}
-              size="small"
-              // className="hidden md:flex gap-2 items-center"
-              className="hidden"
-            >
-              <ExcelUploadIcon />
-              <span>{t('user.update_excel_short')}</span>
-            </Button> */}
             <Button
               onClick={() => {
                 tableRef.current.clearChooseItems()
@@ -98,7 +79,6 @@ const UniversityAccount = () => {
             <Button
               onClick={() => {
                 tableRef.current.clearChooseItems()
-                setIsShowModalCreateWithExcel(true)
               }}
               intent={'primary'}
               size="small"
@@ -147,23 +127,22 @@ const UniversityAccount = () => {
             </Button>
           </div>
         </div>
-        {allAccountUniversity.status === 'error' && <PageError />}
-        {allAccountUniversity.status === 'loading' && <TableSkeleton />}
-        {allAccountUniversity.status === 'success' && (
-          <AccountUniversityTable
+        {allBusiness.status === 'error' && <PageError />}
+        {allBusiness.status === 'loading' && <TableSkeleton />}
+        {allBusiness.status === 'success' && (
+          <BusinessTable
             ref={tableRef}
-            getAllAccountUniversityData={allAccountUniversity.data}
-            setUniversityAccountChoose={setUniversityAccountChoose}
-            isPreviousData={allAccountUniversity.isPreviousData}
+            getAllBusinessData={allBusiness.data}
+            setBusinessChoose={setBusinessChoose}
+            isPreviousData={allBusiness.isPreviousData}
           />
         )}
       </div>
-      <CreateUniversityAccountModal
+      <CreateBusinessModal
         isOpen={isShowModalCreate}
         closeModal={() => setIsShowModalCreate(false)}
       />
     </>
   )
 }
-
-export default UniversityAccount
+export default BusinessWrapper

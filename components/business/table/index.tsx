@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button/button'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { TableView } from '@/components/ui/table'
 import { useChooseMulti } from '@/components/ui/table/hooks'
-import { GetAllUsersResponse, UserGetDetail } from '@/models/api'
 import {
   ColumnFiltersState,
   SortingState,
@@ -20,22 +19,20 @@ import React, {
 } from 'react'
 // import UpdateUserModal from '../modal/update-user'
 import { queryClient } from '@/pages/_app'
-import { AccountUniversityKeys } from '@/hooks/query/account/university'
-import { useFilterForUniverSityAccountStore } from '@/hooks/zustand/filter-for-university-account'
-import dayjs from 'dayjs'
-import { DATE_FORMAT_VIEW } from '@/components/common/constant'
+import { BusinessKeys } from '@/hooks/query/business'
+import { useFilterForBusinessStore } from '@/hooks/zustand/filter-for-business'
+import { GetAllBusinessResponse, BusinessDetail } from '@/models/api'
+import Link from 'next/link'
 
-interface UniversityAccountsProps {
-  getAllAccountUniversityData: GetAllUsersResponse
-  setUniversityAccountChoose: (universityaccount: UserGetDetail[]) => void
+interface BusinesssProps {
+  getAllBusinessData: GetAllBusinessResponse
+  setBusinessChoose: (Business: BusinessDetail[]) => void
   isPreviousData: boolean
 }
 
-const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
-  const filterUser = useFilterForUniverSityAccountStore()
-  const [data, setData] = useState(() => [
-    ...props.getAllAccountUniversityData.data,
-  ])
+const BusinessTable = (props: BusinesssProps, ref: any) => {
+  const filterUser = useFilterForBusinessStore()
+  const [data, setData] = useState(() => [...props.getAllBusinessData.data])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUser.filter.sort.map((val: any) => ({
       id: val.name,
@@ -47,7 +44,7 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<UserGetDetail>()
+  const [userChoose, setUserChoose] = useState<BusinessDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -55,7 +52,7 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<UserGetDetail>({ data: data })
+  } = useChooseMulti<BusinessDetail>({ data: data })
   useEffect(() => {
     filterUser.update(
       produce(filterUser.filter, (draftState: any) => {
@@ -69,11 +66,11 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
     )
   }, [sorting])
   useEffect(() => {
-    props.setUniversityAccountChoose(itemChoose)
+    props.setBusinessChoose(itemChoose)
   }, [itemChoose])
   useEffect(() => {
     if (isShowModalUpdate) {
-      props.setUniversityAccountChoose([])
+      props.setBusinessChoose([])
       clearChooseItems()
     }
   }, [isShowModalUpdate])
@@ -81,11 +78,11 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
     return { clearChooseItems }
   })
   useEffect(() => {
-    setData([...props.getAllAccountUniversityData.data])
-    setDataChoose(props.getAllAccountUniversityData.data)
+    setData([...props.getAllBusinessData.data])
+    setDataChoose(props.getAllBusinessData.data)
     clearChooseItems()
-  }, [props.getAllAccountUniversityData])
-  const columnHelper = createColumnHelper<UserGetDetail>()
+  }, [props.getAllBusinessData])
+  const columnHelper = createColumnHelper<BusinessDetail>()
 
   const columns = [
     columnHelper.display({
@@ -128,28 +125,36 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
       enableColumnFilter: true,
       meta: 'w-stt',
     }),
-    columnHelper.accessor('fullname', {
-      header: 'Tên tài khoản',
+    columnHelper.accessor('name', {
+      header: 'Tên doanh nghiệp',
       enableColumnFilter: true,
       meta: 'w-name',
     }),
-    columnHelper.accessor('email', {
-      header: 'Email',
+    columnHelper.accessor('code', {
+      header: 'Code',
       enableColumnFilter: true,
       meta: 'w-name pl-10',
     }),
-    columnHelper.accessor('university', {
-      header: 'Trường',
+    columnHelper.accessor('location', {
+      header: 'Địa chỉ',
       enableColumnFilter: true,
-      meta: 'w-tenant pl-10 ',
+      meta: 'w-description pl-10',
     }),
-    columnHelper.accessor('created_time', {
-      header: 'Ngày tạo',
+    columnHelper.accessor('website', {
+      header: 'Website',
       cell: (info) => {
-        return <p>{dayjs(info.getValue()).format(DATE_FORMAT_VIEW)}</p>
+        return (
+          <Link
+            href={`${info.getValue()}`}
+            className="text-primary-base"
+            target="_blank"
+          >
+            {info.getValue()}
+          </Link>
+        )
       },
       enableColumnFilter: true,
-      meta: 'w-tenant pl-10 ',
+      meta: 'w-description pl-10',
     }),
     columnHelper.display({
       id: 'action',
@@ -213,19 +218,15 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
               })
             )
           }}
-          pageCurrent={props.getAllAccountUniversityData.page + 1}
-          totalPage={props.getAllAccountUniversityData.total_page}
+          pageCurrent={props.getAllBusinessData.page + 1}
+          totalPage={props.getAllBusinessData.total_page}
           label={
-            props.getAllAccountUniversityData.total > 0 ? (
+            props.getAllBusinessData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getAllAccountUniversityData.page *
-                  filterUser.filter.limit +
-                  1}
-                -
-                {props.getAllAccountUniversityData.page *
-                  filterUser.filter.limit +
+                {props.getAllBusinessData.page * filterUser.filter.limit + 1}-
+                {props.getAllBusinessData.page * filterUser.filter.limit +
                   data.length}{' '}
-                trên tổng {props.getAllAccountUniversityData.total}
+                trên tổng {props.getAllBusinessData.total}
               </div>
             ) : (
               <></>
@@ -240,7 +241,7 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
           closeModal={() => {
             setIsShowModalUpdate(false)
             setUserChoose(undefined)
-            queryClient.removeQueries(AccountUniversityKeys.getUserById(userChoose.id))
+            queryClient.removeQueries(BusinessKeys.getUserById(userChoose.id))
           }}
           user={userChoose}
         />
@@ -249,4 +250,4 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
   )
 }
 
-export default forwardRef(AccountUniversityTable)
+export default forwardRef(BusinessTable)

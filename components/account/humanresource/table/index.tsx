@@ -20,21 +20,20 @@ import React, {
 } from 'react'
 // import UpdateUserModal from '../modal/update-user'
 import { queryClient } from '@/pages/_app'
-import { AccountUniversityKeys } from '@/hooks/query/account/university'
-import { useFilterForUniverSityAccountStore } from '@/hooks/zustand/filter-for-university-account'
+import { useFilterForHumanresourceAccountStore } from '@/hooks/zustand/filter-for-humanresource-account'
 import dayjs from 'dayjs'
 import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 
-interface UniversityAccountsProps {
-  getAllAccountUniversityData: GetAllUsersResponse
-  setUniversityAccountChoose: (universityaccount: UserGetDetail[]) => void
+interface UsersProps {
+  getAllAccountHumanresourceData: GetAllUsersResponse
+  setHumanresourceAccountChoose: (humanresourceaccount: UserGetDetail[]) => void
   isPreviousData: boolean
 }
 
-const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
-  const filterUser = useFilterForUniverSityAccountStore()
+const AccountHumanresourceTable = (props: UsersProps, ref: any) => {
+  const filterUser = useFilterForHumanresourceAccountStore()
   const [data, setData] = useState(() => [
-    ...props.getAllAccountUniversityData.data,
+    ...props.getAllAccountHumanresourceData.data,
   ])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUser.filter.sort.map((val: any) => ({
@@ -69,11 +68,11 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
     )
   }, [sorting])
   useEffect(() => {
-    props.setUniversityAccountChoose(itemChoose)
+    props.setHumanresourceAccountChoose(itemChoose)
   }, [itemChoose])
   useEffect(() => {
     if (isShowModalUpdate) {
-      props.setUniversityAccountChoose([])
+      props.setHumanresourceAccountChoose([])
       clearChooseItems()
     }
   }, [isShowModalUpdate])
@@ -81,10 +80,10 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
     return { clearChooseItems }
   })
   useEffect(() => {
-    setData([...props.getAllAccountUniversityData.data])
-    setDataChoose(props.getAllAccountUniversityData.data)
+    setData([...props.getAllAccountHumanresourceData.data])
+    setDataChoose(props.getAllAccountHumanresourceData.data)
     clearChooseItems()
-  }, [props.getAllAccountUniversityData])
+  }, [props.getAllAccountHumanresourceData])
   const columnHelper = createColumnHelper<UserGetDetail>()
 
   const columns = [
@@ -138,8 +137,8 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
       enableColumnFilter: true,
       meta: 'w-name pl-10',
     }),
-    columnHelper.accessor('university', {
-      header: 'Trường',
+    columnHelper.accessor('business', {
+      header: 'Doanh nghiệp',
       enableColumnFilter: true,
       meta: 'w-tenant pl-10 ',
     }),
@@ -213,19 +212,19 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
               })
             )
           }}
-          pageCurrent={props.getAllAccountUniversityData.page + 1}
-          totalPage={props.getAllAccountUniversityData.total_page}
+          pageCurrent={props.getAllAccountHumanresourceData.page + 1}
+          totalPage={props.getAllAccountHumanresourceData.total_page}
           label={
-            props.getAllAccountUniversityData.total > 0 ? (
+            props.getAllAccountHumanresourceData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getAllAccountUniversityData.page *
+                {props.getAllAccountHumanresourceData.page *
                   filterUser.filter.limit +
                   1}
                 -
-                {props.getAllAccountUniversityData.page *
+                {props.getAllAccountHumanresourceData.page *
                   filterUser.filter.limit +
                   data.length}{' '}
-                trên tổng {props.getAllAccountUniversityData.total}
+                trên tổng {props.getAllAccountHumanresourceData.total}
               </div>
             ) : (
               <></>
@@ -240,7 +239,7 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
           closeModal={() => {
             setIsShowModalUpdate(false)
             setUserChoose(undefined)
-            queryClient.removeQueries(AccountUniversityKeys.getUserById(userChoose.id))
+            queryClient.removeQueries(AccountHumanresourceKeys.getUserById(userChoose.id))
           }}
           user={userChoose}
         />
@@ -249,4 +248,4 @@ const AccountUniversityTable = (props: UniversityAccountsProps, ref: any) => {
   )
 }
 
-export default forwardRef(AccountUniversityTable)
+export default forwardRef(AccountHumanresourceTable)

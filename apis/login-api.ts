@@ -1,12 +1,12 @@
-import { CheckEmailRequest, CheckEmailResponse, LoginRequest, UserDetail } from "@/models/api/login-api"
+import {  LoginRequest, UserDetail } from "@/models/api/login-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
 
 const loginApi = {
-  ckeckEmail(data: CheckEmailRequest): Promise<CheckEmailResponse> {
-    const url = '/auth/check/'
-    return axiosClient.post(url, data)
-  },
+  // ckeckEmail(data: CheckEmailRequest): Promise<CheckEmailResponse> {
+  //   const url = '/auth/check/'
+  //   return axiosClient.post(url, data)
+  // },
   login(data: LoginRequest): Promise<UserDetail> {
     const url = '/auth/login/'
     return axiosClient.post(url, {
