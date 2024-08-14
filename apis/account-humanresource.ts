@@ -9,7 +9,7 @@ const accountHumanresource = {
     filter: HumanresourceAccountFilterRequest,
     isSA?: boolean
   ): Promise<GetAllUsersResponse> {
-    const url = '/users/?role_user=HR'
+    const url = 'auth/users/?role_user=HR'
 
     let query = getQuery(filter.query, filter.name, isSA === true ? [
       'fullname',
@@ -44,7 +44,7 @@ const accountHumanresource = {
     })
   },
   createHumanresource(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
-    const url = '/users'
+    const url = 'auth/users'
     const config = {
       headers: {
         token: accessToken,

@@ -8,7 +8,7 @@ const BusinessApi = {
     accessToken: string,
     filter: BusinessFilterRequest,
   ): Promise<GetAllBusinessResponse> {
-    const url = 'http://localhost:5001/api/v1/business'
+    const url = '/tenant/business'
     let query = getQuery(filter.query, filter.name, [
       'name',
       'code'
@@ -36,7 +36,7 @@ const BusinessApi = {
   },
 
   createBusiness(accessToken: string, data: UpdateBusinessRequest): Promise<BusinessDetail> {
-    const url = 'http://localhost:5001/api/v1/business'
+    const url = '/tenant/business'
     const config = {
       headers: {
         token: accessToken,
