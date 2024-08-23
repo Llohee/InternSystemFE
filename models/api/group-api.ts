@@ -27,8 +27,8 @@ export interface GroupDetail {
 }
 export interface UpdateGroupRequest {
   name?: string
-  lecturer: UserGetDetail
-  students: UserGetDetail[]
+  lecturer: string
+  students: string[]
   is_active?: boolean
   created_time: string
 }
