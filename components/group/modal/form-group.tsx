@@ -21,7 +21,7 @@ import { ErrorResponse } from '@/models/api/common'
 import { Combobox, ComboboxInput } from '@headlessui/react'
 import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormGroup = (props: {
@@ -38,6 +38,7 @@ export const FormGroup = (props: {
     formState: { errors },
     watch,
   } = props.form
+
   return (
     <>
       <form
@@ -90,6 +91,11 @@ export const FormGroup = (props: {
                   person.email.toLowerCase().includes(search.toLowerCase())
                 )
               })
+              const handleTrackValueChange = (
+                selectedUser: UserGetDetail | null
+              ) => {
+                onChangeTrackValue(selectedUser ? selectedUser.id : null)
+              }
               return (
                 <div className="col col-span-full flex flex-col gap-2">
                   <label
@@ -99,13 +105,10 @@ export const FormGroup = (props: {
                   </label>
                   <Combobox
                     value={
-                      filterUser?.find((user) => trackValue?.id === user.id) ??
-                      null
+                      filterUser?.find((user) => trackValue === user.id) ?? null
                     }
-                    // value={undefined}
-                    onChange={onChangeTrackValue}
+                    onChange={handleTrackValueChange}
                     {...rest}
-                    // nullable
                   >
                     {({ value }) => (
                       <>
@@ -140,8 +143,6 @@ export const FormGroup = (props: {
                               )}
                             </ComboboxButtonWrapper>
                           </div>
-                          {/* {transformedUsers?.length !== 1 && (
-                      <> */}
                           <CustomComboboxOptions className="bottom-full">
                             {getallLecture.isFetching || !filterUser ? (
                               <ComboboxText>Đang tải giảng viên</ComboboxText>
@@ -161,7 +162,7 @@ export const FormGroup = (props: {
                             <UserDetailSideDisp
                               value={[value as UserGetDetail]}
                               onClear={() => {
-                                onChangeTrackValue(undefined)
+                                onChangeTrackValue(null)
                               }}
                             />
                           )}
@@ -180,6 +181,7 @@ export const FormGroup = (props: {
               )
             }}
           />
+
           <Controller
             control={props.form.control}
             name="students"
@@ -201,6 +203,16 @@ export const FormGroup = (props: {
                   person.email.toLowerCase().includes(search.toLowerCase())
                 )
               })
+
+              const handleTrackValueChange = (
+                selectedUsers: UserGetDetail[] | ChangeEvent<Element>
+              ) => {
+                if (Array.isArray(selectedUsers)) {
+                  const selectedIds = selectedUsers.map((user) => user.id)
+                  onChangeTrackValue(selectedIds)
+                }
+              }
+
               return (
                 <div className="col col-span-full flex flex-col gap-2">
                   <label
@@ -211,13 +223,12 @@ export const FormGroup = (props: {
                   <Combobox
                     value={filterUser?.filter(
                       (user) =>
-                        trackValue?.some((track) => track.id === user.id) ??
+                        trackValue?.some((trackId) => trackId === user.id) ??
                         false
                     )}
-                    onChange={(value) => onChangeTrackValue(value)}
+                    onChange={handleTrackValueChange}
                     {...rest}
                     multiple
-                    // nullable
                   >
                     {({ value }) => (
                       <>
@@ -252,8 +263,6 @@ export const FormGroup = (props: {
                               )}
                             </ComboboxButtonWrapper>
                           </div>
-                          {/* {transformedUsers?.length !== 1 && (
-                      <> */}
                           <CustomComboboxOptions className="bottom-full">
                             {getallLecture.isFetching || !filterUser ? (
                               <ComboboxText>Đang tải sinh viên</ComboboxText>
@@ -268,11 +277,11 @@ export const FormGroup = (props: {
                                 </ComboboxOption>
                               ))
                             )}
-                          </CustomComboboxOptions>  
+                          </CustomComboboxOptions>
                           {value && value.length > 0 && (
                             <UserDetailSideDisp
                               value={value}
-                              onChangeTrackValue={onChangeTrackValue}
+                              onChangeTrackValue={handleTrackValueChange}
                             />
                           )}
                         </div>
@@ -291,6 +300,7 @@ export const FormGroup = (props: {
               )
             }}
           />
+
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
               {(props.mutation.error as AxiosError<ErrorResponse>)?.response
