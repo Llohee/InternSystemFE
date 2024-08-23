@@ -3,9 +3,9 @@ import { useRoleIsSuperAdmin } from "@/components/auth/hooks"
 import { useEffect } from "react"
 import produce from "immer"
 import { useQuery } from "@tanstack/react-query"
-import UniversityApi from "@/apis/university"
 import { useGetAccessToken } from "../auth"
 import { useFilterForUniversityStore } from "@/hooks/zustand/filter-for-university"
+import UniversityApi from "@/apis/university-api"
 
 export const UniversityKeys = {
   all: ['getAllUniversity'] as const,

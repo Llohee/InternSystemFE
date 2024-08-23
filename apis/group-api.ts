@@ -1,23 +1,17 @@
-import { GetAllBusinessResponse, BusinessDetail, BusinessFilterRequest, UpdateBusinessRequest } from "@/models/api"
+import { GetAllGroupResponse, GroupDetail, GroupFilterRequest, UpdateGroupRequest } from "@/models/api"
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
 
-const BusinessApi = {
-  getAllBusiness(
+const GroupApi = {
+  getAllGroup(
     accessToken: string,
-    filter: BusinessFilterRequest,
-  ): Promise<GetAllBusinessResponse> {
-    const url = 'http://localhost:5001/api/v1/business'
+    filter: GroupFilterRequest,
+  ): Promise<GetAllGroupResponse> {
+    const url = '/auth/groups'
     let query = getQuery(filter.query, filter.name, [
-      'name',
-      'code'
+      'name'
     ])
-    if (query && filter.code) {
-      query = `and(${query},eq(code,"${filter.code}"))`
-    } else if (filter.code) {
-      query = `eq(code, '${filter.code}')`
-    }
     let sort = filter.sort
       .map((val: any) => `${val.name}=${val.type ? '-1' : '1'}`)
       .join(';')
@@ -34,9 +28,8 @@ const BusinessApi = {
       },
     })
   },
-
-  createBusiness(accessToken: string, data: UpdateBusinessRequest): Promise<BusinessDetail> {
-    const url = 'http://localhost:5001/api/v1/business'
+  createGroup(accessToken: string, data: UpdateGroupRequest): Promise<GroupDetail> {
+    const url = '/auth/groups'
     const config = {
       headers: {
         token: accessToken,
@@ -44,7 +37,7 @@ const BusinessApi = {
       },
     }
     return axiosClient.post(url, trymObject(data), config)
-  }
+  },
 }
 
-export default BusinessApi
+export default GroupApi

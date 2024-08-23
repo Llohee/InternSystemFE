@@ -3,13 +3,13 @@ import { getQuery } from "./common-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
 
-const accountHumanresource = {
+const accountHumanresourceApi = {
   getAllAccountHumanresource(
     accessToken: string,
     filter: HumanresourceAccountFilterRequest,
     isSA?: boolean
   ): Promise<GetAllUsersResponse> {
-    const url = '/users/?role_user=HR'
+    const url = 'auth/users/'
 
     let query = getQuery(filter.query, filter.name, isSA === true ? [
       'fullname',
@@ -35,16 +35,17 @@ const accountHumanresource = {
         'Access-Control-Allow-Origin': '*',
       },
       params: {
+        role_user: "HR",
         size: filter.limit,
         page: filter.page,
         query,
         sort,
-        
+
       },
     })
   },
   createHumanresource(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
-    const url = '/users'
+    const url = 'auth/users'
     const config = {
       headers: {
         token: accessToken,
@@ -55,4 +56,4 @@ const accountHumanresource = {
   }
 }
 
-export default accountHumanresource
+export default accountHumanresourceApi
