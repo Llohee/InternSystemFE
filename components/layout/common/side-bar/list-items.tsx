@@ -30,7 +30,7 @@ export const home: SideBarItemType = {
     </svg>
   ),
   text: 'Trang chủ',
-  onlyFor: ['SA'],
+  onlyFor: ['SA', 'AU'],
 }
 export const university: SideBarItemType = {
   link: '/university',
@@ -118,12 +118,28 @@ const University: SideBarSubItemType = {
   text: 'Trường học',
   onlyFor: ['SA'],
 }
-const Humanresource = {
+const Humanresource: SideBarSubItemType = {
   link: '/account-humanresource',
   text: 'Doanh nghiệp',
+  onlyFor: ['SA'],
+}
+const Lecturer: SideBarSubItemType = {
+  link: '/account-lecturer',
+  text: 'Giảng viên',
+  onlyFor: ['AU'],
+}
+const Student: SideBarSubItemType = {
+  link: '/account-student',
+  text: 'Sinh viên',
+  onlyFor: ['AU'],
+}
+const Group: SideBarSubItemType = {
+  link: '/group',
+  text: 'Nhóm',
+  onlyFor: ['AU'],
 }
 
-export const Account = {
+export const Account : SideBarItemType = {
   link: '',
   icon: (
     <svg
@@ -153,7 +169,7 @@ export const Account = {
       />
     </svg>
   ),
-  text: 'Quản lý tài khoản',
-  subSideBarItem: [University, Humanresource],
+  text: 'Quản lý người dùng',
+  subSideBarItem: [University, Humanresource, Lecturer, Student, Group],
   onlyFor: ['SA', 'AU', 'HR'],
 }

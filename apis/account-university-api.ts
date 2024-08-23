@@ -9,7 +9,7 @@ const accountUniversityApi = {
     filter: UniversityAccountFilterRequest,
     isSA?: boolean
   ): Promise<GetAllUsersResponse> {
-    const url = 'auth/users/?role_user=AU'
+    const url = 'auth/users/'
 
     let query = getQuery(filter.query, filter.name, isSA === true ? [
       'fullname',
@@ -35,6 +35,7 @@ const accountUniversityApi = {
         'Access-Control-Allow-Origin': '*',
       },
       params: {
+        role_user: "AU",
         size: filter.limit,
         page: filter.page,
         query,
@@ -42,7 +43,6 @@ const accountUniversityApi = {
       },
     })
   },
-
   createUniversity(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
     const url = 'auth/users'
     const config = {

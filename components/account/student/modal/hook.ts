@@ -1,6 +1,6 @@
-import accountUniversityApi from '@/apis/account-university-api'
-import { AccountUniversityKeys } from '@/hooks/query/account/university'
-import { useGetAccessToken } from '@/hooks/query/auth'
+import accountStudentApi from '@/apis/account-student-api'
+import { AccountStudentKeys } from '@/hooks/query/account/student'
+import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
 import {
   emailRegex,
   passwordRegex,
@@ -13,10 +13,12 @@ import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useUniversityAccountCreate = (closeModal: () => void) => {
+export const useStudentAccountCreate = (closeModal: () => void) => {
+  const useGetDetail = useGetUserDetail()
   const formCreate = useForm<UpdateUserRequest>()
-  formCreate.register('type', { value: 'UNIVERSITY' })
-  formCreate.register('role', { value: 'AU' })
+  formCreate.register('type', { value: 'STUDENT' })
+  formCreate.register('role', { value: 'ST' })
+  formCreate.register('university', { value: useGetDetail.data.university })
   formCreate.register('phone', {
     pattern: {
       value: phoneRegex,
@@ -44,10 +46,7 @@ export const useUniversityAccountCreate = (closeModal: () => void) => {
       message: 'a',
     },
   })
-  formCreate.register('university', {
-    required: 'Trường học là bắt buộc',
-  })
-  const mutation = useUniversityAccountCreateMutation(formCreate.reset, closeModal)
+  const mutation = useStudentAccountCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdateUserRequest> = async (data) => {
     mutation.mutate(data)
   }
@@ -60,7 +59,7 @@ export const useUniversityAccountCreate = (closeModal: () => void) => {
   }
 }
 
-export function useUniversityAccountCreateMutation(
+export function useStudentAccountCreateMutation(
   reset: UseFormReset<UpdateUserRequest>,
   closeModal: () => void
 ) {
@@ -68,7 +67,7 @@ export function useUniversityAccountCreateMutation(
   return useMutation<any, AxiosError, UpdateUserRequest, any>(
     (createUserBody) =>
       toast.promise(
-        accountUniversityApi.createUniversity(getAccessToken.data!.access_token.token, createUserBody),
+        accountStudentApi.createStudent(getAccessToken.data!.access_token.token, createUserBody),
         {
           loading: 'Đang tạo mới người dùng',
           success: 'Tạo mới người dùng thành công',
@@ -80,7 +79,7 @@ export function useUniversityAccountCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(AccountUniversityKeys.all)
+        queryClient.invalidateQueries(AccountStudentKeys.all)
         reset()
         closeModal()
       },
@@ -140,7 +139,7 @@ export function useUniversityAccountCreateMutation(
 //   return useMutation<any, AxiosError, UpdateUserRequest, any>(
 //     (updateUserBody) =>
 //       toast.promise(
-//         accountUniversityApi.updateUser(
+//         accountStudentApi.updateUser(
 //           getAccessToken.data!.accessToken,
 //           user.id,
 //           updateUserBody
@@ -156,7 +155,7 @@ export function useUniversityAccountCreateMutation(
 //       ),
 //     {
 //       onSuccess: (data) => {
-//         queryClient.invalidateQueries(AccountUniversityKeys.all)
+//         queryClient.invalidateQueries(AccountStudentKeys.all)
 //         // reset()
 //         closeModal()
 //       },

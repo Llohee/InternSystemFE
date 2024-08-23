@@ -1,4 +1,4 @@
-import accountHumanresourceApi from '@/apis/account-humanresource'
+import accountHumanresourceApi from '@/apis/account-humanresource-api'
 import { AccountHumanresourceKeys } from '@/hooks/query/account/humanresource'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import {

@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import ActionButtons from './action-buttons'
 import { Account, home, business, university } from './list-items'
 
-const sidebarAllItems: any[] = [home, university, business, Account]
+const sidebarAllItems: SideBarItemType[] = [home, university, business, Account]
 const SidebarLayout = (props: {
   sidebarExpanded: boolean
   setSidebarExpanded: (b: boolean) => void
@@ -18,56 +18,43 @@ const SidebarLayout = (props: {
   const userDetail = useGetUserDetail()
   const [sidebaritems, setSidebarItems] =
     useState<SideBarItemType[]>(sidebarAllItems)
-  // useEffect(() => {
-  //   setSidebarItems(
-  //     produce(sidebarAllItems, (draftState) => {
-  //       draftState = sidebarItemsCanView(draftState)
-  //       console.log(draftState)
-  //       draftState = draftState.map((e) => transObject(e))
-  //       return draftState
-  //     })
-  //   )
-  // }, [])
-  function checkPermission(sidebarItem: SideBarItemType | SideBarSubItemType) {
+  useEffect(() => {
+    const newSidebarItems = produce(sidebarAllItems, (draftState) => {
+      const filteredItems = sidebarItemsCanView(draftState)
+      return filteredItems.map((item) => transObject(item))
+    })
+    setSidebarItems(newSidebarItems)
+  }, [userDetail.data.role])
+  function checkPermission(
+    sidebarItem: SideBarItemType | SideBarSubItemType
+  ): boolean {
     const layoutUser = userDetail.data.role
-    let check: boolean = true
-    if (
-      sidebarItem.link === '' &&
-      'subSideBarItem' in sidebarItem &&
-      (!sidebarItem.subSideBarItem || sidebarItem.subSideBarItem?.length === 0)
-    ) {
-      return false
+    if (sidebarItem.onlyFor) {
+      return sidebarItem.onlyFor.some((e) => e === layoutUser)
     }
-
-    if (sidebarItem.onlyFor)
-      check = sidebarItem.onlyFor.some((e) => e === layoutUser)
-    else check = true
+    return true
   }
 
   function sidebarItemsCanView(data: SideBarItemType[]): SideBarItemType[] {
-    //hidden sidebar item
-    let items = data ?? []
-    //hidden sidebar subitem
-    items =
-      items
-        .map((sideBarItem) => {
-          let newItem = { ...sideBarItem }
-          newItem.subSideBarItem = newItem.subSideBarItem?.filter((item) =>
-            checkPermission(item)
-          )
-          return newItem
-        })
-        .filter((e) => checkPermission(e)) ?? []
-
-    return (
-      items.map((e) => ({
-        ...e,
-        subSideBarItem:
-          e.subSideBarItem?.map((e) => transObject(e)) ?? undefined,
-        text: e.text,
-      })) ?? []
-    )
+    return data
+      .map((sideBarItem) => {
+        const newItem = { ...sideBarItem }
+        if (newItem.subSideBarItem) {
+          newItem.subSideBarItem =
+            newItem.subSideBarItem.filter(checkPermission)
+        }
+        return checkPermission(newItem) ? newItem : null
+      })
+      .filter(Boolean) as SideBarItemType[]
   }
+
+  useEffect(() => {
+    if (userDetail.data && userDetail.data.role) {
+      const filteredItems = sidebarItemsCanView(sidebarAllItems)
+      setSidebarItems(filteredItems)
+    }
+  }, [userDetail.data.role])
+
   function transObject(data: SideBarItemType): SideBarItemType {
     if (data.subSideBarItem)
       return {

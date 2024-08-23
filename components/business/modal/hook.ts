@@ -1,4 +1,4 @@
-import BusinessApi from '@/apis/business'
+import BusinessApi from '@/apis/business-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import { BusinessKeys } from '@/hooks/query/business'
 import { ErrorResponse, UpdateBusinessRequest } from '@/models/api'
