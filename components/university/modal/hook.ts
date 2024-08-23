@@ -1,4 +1,4 @@
-import UniversityApi from '@/apis/university'
+import UniversityApi from '@/apis/university-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import { UniversityKeys } from '@/hooks/query/university'
 import { ErrorResponse, UpdateUniversityRequest } from '@/models/api'

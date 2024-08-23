@@ -3,9 +3,9 @@ import { useRoleIsSuperAdmin } from "@/components/auth/hooks"
 import { useEffect } from "react"
 import produce from "immer"
 import { useQuery } from "@tanstack/react-query"
-import BusinessApi from "@/apis/business"
 import { useGetAccessToken } from "../auth"
 import { useFilterForBusinessStore } from "@/hooks/zustand/filter-for-business"
+import BusinessApi from "@/apis/business-api"
 
 export const BusinessKeys = {
   all: ['getAllBusiness'] as const,

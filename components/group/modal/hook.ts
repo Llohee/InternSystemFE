@@ -1,77 +1,38 @@
-import accountUniversityApi from '@/apis/account-university-api'
-import { AccountUniversityKeys } from '@/hooks/query/account/university'
+import GroupApi from '@/apis/group-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
-import {
-  emailRegex,
-  passwordRegex,
-  phoneRegex
-} from '@/hooks/regex'
-import { ErrorResponse, UpdateUserRequest } from '@/models/api'
+import { GroupKeys } from '@/hooks/query/group'
+import { ErrorResponse, UpdateGroupRequest } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useUniversityAccountCreate = (closeModal: () => void) => {
-  const formCreate = useForm<UpdateUserRequest>()
-  formCreate.register('type', { value: 'UNIVERSITY' })
-  formCreate.register('role', { value: 'AU' })
-  formCreate.register('phone', {
-    pattern: {
-      value: phoneRegex,
-      message: 'Không đúng định dạng số điện thoại',
-    },
-  })
-  formCreate.register('email', {
-    required: 'Email là bắt buộc',
-    pattern: {
-      value: emailRegex,
-      message: 'Không đúng định dạng email',
-    },
-  })
-  formCreate.register('password', {
-    pattern: {
-      value: passwordRegex,
-      message: 'Không đúng định dạng mật khẩu',
-    },
-  })
-  formCreate.register('fullname', {
-    required: 'Tên trường là bắt buộc',
-    maxLength: { value: 100, message: 'a' },
-    pattern: {
-      value: /.{3,}/,
-      message: 'a',
-    },
-  })
-  formCreate.register('university', {
-    required: 'Trường học là bắt buộc',
-  })
-  const mutation = useUniversityAccountCreateMutation(formCreate.reset, closeModal)
-  const handleFormSubmit: SubmitHandler<UpdateUserRequest> = async (data) => {
+export const useGroupCreate = (closeModal: () => void) => {
+  const formCreate = useForm<UpdateGroupRequest>()
+  const mutation = useGroupCreateMutation(formCreate.reset, closeModal)
+  const handleFormSubmit: SubmitHandler<UpdateGroupRequest> = async (data) => {
     mutation.mutate(data)
   }
-
   return {
-    // Form
     formCreate,
     handleFormSubmit,
     mutation,
   }
 }
 
-export function useUniversityAccountCreateMutation(
-  reset: UseFormReset<UpdateUserRequest>,
+export function useGroupCreateMutation(
+  reset: UseFormReset<UpdateGroupRequest>,
   closeModal: () => void
 ) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateUserRequest, any>(
-    (createUserBody) =>
+  return useMutation<any, AxiosError, UpdateGroupRequest, any>(
+    (createGroupBody) =>
       toast.promise(
-        accountUniversityApi.createUniversity(getAccessToken.data!.access_token.token, createUserBody),
+        GroupApi.createGroup(getAccessToken.data!.access_token.token, createGroupBody),
         {
-          loading: 'Đang tạo mới người dùng',
-          success: 'Tạo mới người dùng thành công',
+          loading: 'Đang tạo mới trường học',
+          success: 'Tạo mới trường học thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,
@@ -80,7 +41,7 @@ export function useUniversityAccountCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(AccountUniversityKeys.all)
+        queryClient.invalidateQueries(GroupKeys.all)
         reset()
         closeModal()
       },
@@ -140,7 +101,7 @@ export function useUniversityAccountCreateMutation(
 //   return useMutation<any, AxiosError, UpdateUserRequest, any>(
 //     (updateUserBody) =>
 //       toast.promise(
-//         accountUniversityApi.updateUser(
+//         GroupApi.updateUser(
 //           getAccessToken.data!.accessToken,
 //           user.id,
 //           updateUserBody
@@ -156,7 +117,7 @@ export function useUniversityAccountCreateMutation(
 //       ),
 //     {
 //       onSuccess: (data) => {
-//         queryClient.invalidateQueries(AccountUniversityKeys.all)
+//         queryClient.invalidateQueries(GroupKeys.all)
 //         // reset()
 //         closeModal()
 //       },

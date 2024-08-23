@@ -5,7 +5,7 @@ import { useRoleIsSuperAdmin } from "@/components/auth/hooks"
 import { useEffect } from "react"
 import produce from "immer"
 import { useQuery } from "@tanstack/react-query"
-import accountUniversityApi from "@/apis/account-university"
+import accountUniversityApi from "@/apis/account-university-api"
 
 export const AccountUniversityKeys = {
   all: ['getAllAccountUniversity'] as const,

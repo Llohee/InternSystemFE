@@ -21,7 +21,19 @@ export function MainLayout({ children, title, nonePadding }: LayoutProps) {
       setTitlePage(titleElement?.textContent ?? title)
     } else setTitlePage(title)
   }, [titleElement, title])
-
+  // const handleTitleChange = () => {
+  //   const newTitle = document.querySelector('title')?.textContent
+  //   if (title === '@title' && newTitle && newTitle != '@title') {
+  //     setTitlePage(newTitle)
+  //   } else if (title != titlePage) setTitlePage(title)
+  // }
+  // useEffect(() => {
+  //   handleTitleChange()
+  //   document.addEventListener('DOMSubtreeModified', handleTitleChange)
+  //   return () => {
+  //     document.removeEventListener('DOMSubtreeModified', handleTitleChange)
+  //   }
+  // }, [title])
   function convertTitlePageFromKey(keyString: string) {
     var startIndex = keyString.indexOf('@key(')
     var endIndex = keyString.lastIndexOf(')')

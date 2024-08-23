@@ -172,7 +172,7 @@ export const InputSelect = <T extends FieldValues>({
         onBlur={props.onBlur}
         closeMenuOnSelect={props.closeMenuOnSelect}
         menuPlacement={props.menuPlacement || 'auto'}
-        noOptionsMessage={() => props.messageEmtyValue ?? t('layout.empty')}
+        noOptionsMessage={() => props.messageEmtyValue ?? 'Không có dữ liệu'}
         isSearchable
         onInputChange={(value) => {
           if (props.onSearch) props.onSearch(value)

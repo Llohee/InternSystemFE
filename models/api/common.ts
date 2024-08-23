@@ -11,4 +11,4 @@ export interface TypeQuery {
   value: string | boolean | string[] | undefined
   type: 'like' | 'eq' | 'eqID'
 }
-export type roleUser = 'SA' | 'AU' | 'LT' | 'ST' | 'HR'
+export type roleUser = 'SA' | 'AU' | 'LT' | 'ST' | 'HR' | ''

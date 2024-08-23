@@ -17,32 +17,32 @@ export const UserMenu = (props: {
   listItem?: MenuItem[]
 }) => {
   const listMenuItems: MenuItem[] = [
-    // {
-    //   title: 'Thông tin',
-    //   link: '/profile',
-    //   icon: (
-    //     <svg
-    //       width="24"
-    //       height="24"
-    //       viewBox="0 0 24 24"
-    //       fill="none"
-    //       xmlns="http://www.w3.org/2000/svg"
-    //     >
-    //       <path
-    //         d="M17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7Z"
-    //         fill="#00204D"
-    //         fill-opacity="0.6"
-    //       />
-    //       <path
-    //         d="M3.66699 19.222C3.66699 17.177 6.37533 13.667 12.0003 13.667C17.6253 13.667 20.3337 17.177 20.3337 19.222V20.3337C20.3337 20.7757 20.1581 21.1996 19.8455 21.5122C19.5329 21.8247 19.109 22.0003 18.667 22.0003H5.33366C4.89163 22.0003 4.46771 21.8247 4.15515 21.5122C3.84259 21.1996 3.66699 20.7757 3.66699 20.3337V19.222Z"
-    //         fill="#00204D"
-    //         fill-opacity="0.6"
-    //       />
-    //     </svg>
-    //   ),
-    //   name: props.userDetail.fullname,
-    //   email: props.userDetail.email,
-    // },
+    {
+      title: 'Thông tin',
+      link: '/profile',
+      icon: (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7Z"
+            fill="#00204D"
+            fill-opacity="0.6"
+          />
+          <path
+            d="M3.66699 19.222C3.66699 17.177 6.37533 13.667 12.0003 13.667C17.6253 13.667 20.3337 17.177 20.3337 19.222V20.3337C20.3337 20.7757 20.1581 21.1996 19.8455 21.5122C19.5329 21.8247 19.109 22.0003 18.667 22.0003H5.33366C4.89163 22.0003 4.46771 21.8247 4.15515 21.5122C3.84259 21.1996 3.66699 20.7757 3.66699 20.3337V19.222Z"
+            fill="#00204D"
+            fill-opacity="0.6"
+          />
+        </svg>
+      ),
+      name: props.userDetail.fullname,
+      email: props.userDetail.email,
+    },
     // {
     //   title: 'Thay đổi mật khẩu',
     //   link: '/update-password',

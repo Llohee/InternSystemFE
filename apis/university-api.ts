@@ -8,7 +8,7 @@ const UniversityApi = {
     accessToken: string,
     filter: UniversityFilterRequest,
   ): Promise<GetAllUniversityResponse> {
-    const url = 'http://localhost:5001/api/v1/university'
+    const url = '/tenant/university'
     let query = getQuery(filter.query, filter.name, [
       'name',
       'code'
@@ -35,7 +35,7 @@ const UniversityApi = {
     })
   },
   createUniversity(accessToken: string, data: UpdateUniversityRequest): Promise<UniversityDetail> {
-    const url = 'http://localhost:5001/api/v1/university'
+    const url = '/tenant/university'
     const config = {
       headers: {
         token: accessToken,
@@ -45,7 +45,7 @@ const UniversityApi = {
     return axiosClient.post(url, trymObject(data), config)
   },
   getConfigUniversity(accessToken: string): Promise<GetAllUniversityResponse> {
-    const url = 'http://localhost:5001/api/v1/university'
+    const url = '/tenant/university'
     return axiosClient.get(url, {
       headers: {
         token: accessToken,
