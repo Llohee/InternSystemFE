@@ -13,11 +13,6 @@ const BusinessApi = {
       'name',
       'code'
     ])
-    if (query && filter.code) {
-      query = `and(${query},eq(code,"${filter.code}"))`
-    } else if (filter.code) {
-      query = `eq(code, '${filter.code}')`
-    }
     let sort = filter.sort
       .map((val: any) => `${val.name}=${val.type ? '-1' : '1'}`)
       .join(';')

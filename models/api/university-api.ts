@@ -2,7 +2,6 @@ import { TypeQuery, TypeSort } from "./common"
 
 export interface UniversityFilterRequest {
   name: string
-  code: string
   limit: number
   page: number
   query: TypeQuery[]
