@@ -10,7 +10,6 @@ interface FilterForBusinessState {
 export const useFilterForBusinessStore = create<FilterForBusinessState>((set) => ({
   filter: {
     name: '',
-    code: '',
     query: [],
     limit: 10,
     page: 0,
@@ -23,7 +22,6 @@ export const useFilterForBusinessStore = create<FilterForBusinessState>((set) =>
     set({
       filter: {
         name: '',
-        code: '',
         query: [],
         limit: 10,
         page: 0,

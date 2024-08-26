@@ -39,7 +39,6 @@ export function usegetConfigBusiness() {
     () => BusinessApi.getAllBusiness(getAccessToken.data!.access_token.token, {
       limit: -1,
       name: '',
-      code: '',
       page: 0,
       sort: [{ name: 'name', type: false }],
       query: []

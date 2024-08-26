@@ -100,12 +100,12 @@ const SidebarLayout = (props: {
         >
           <>
             <div className="flex w-full h-full gap-3 items-center justify-center">
-              <Link
+              {/* <Link
                 href={'/dashboard'}
                 className="grow flex gap-3 items-center justify-center"
               >
                 Trang chủ
-              </Link>
+              </Link> */}
               <div>
                 {!sidebarExpanded && (
                   <button
@@ -134,12 +134,12 @@ const SidebarLayout = (props: {
         <SideBar
           header={
             <div className="flex w-full gap-3 items-center justify-center">
-              <Link
+              {/* <Link
                 href={'/dashboard'}
                 className="grow flex gap-3 items-center justify-center"
               >
                 {!sidebarExpanded ? <></> : <>Trang chủ</>}
-              </Link>
+              </Link> */}
               <div>
                 {!sidebarExpanded && (
                   <button

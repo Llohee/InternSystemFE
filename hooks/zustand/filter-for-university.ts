@@ -10,7 +10,6 @@ interface FilterForUniversityState {
 export const useFilterForUniversityStore = create<FilterForUniversityState>((set) => ({
   filter: {
     name: '',
-    code: '',
     query: [],
     limit: 10,
     page: 0,
@@ -23,7 +22,6 @@ export const useFilterForUniversityStore = create<FilterForUniversityState>((set
     set({
       filter: {
         name: '',
-        code: '',
         query: [],
         limit: 10,
         page: 0,
