@@ -10,7 +10,8 @@ const GroupApi = {
   ): Promise<GetAllGroupResponse> {
     const url = '/auth/groups'
     let query = getQuery(filter.query, filter.name, [
-      'name'
+      'name',
+      'lecturer'
     ])
     let sort = filter.sort
       .map((val: any) => `${val.name}=${val.type ? '-1' : '1'}`)

@@ -19,19 +19,10 @@ import { ErrorResponse } from '@/models/api/common'
 import CustomToast from '@/components/ui/custom-toast/custom-toast'
 import toast from 'react-hot-toast'
 
-// const inter = Inter({
-//   subsets: ['latin', 'vietnamese'],
-// })
-
-// const nunitoSans = Nunito_Sans({
-//   subsets: ['latin', 'vietnamese'],
-//   variable: '--font-nunito-sans',
-// })
-// const nunitoSans = localFont({
-//   src: '../public/font/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf',
-//   variable: '--font-nunito-sans',
-// })
-
+const inter = localFont({
+  src: '../public/font/Tapiocaness-Regular.otf',
+  // variable: '--font-nunito-sans',
+})
 export interface LayoutProps {
   children: ReactNode
   className?: string
@@ -110,6 +101,11 @@ export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
     <QueryClientProvider client={queryClient}>
       <CustomToast />
       <NonSSRWrapper>
+        {/* <style jsx global>{`
+          html {
+            font-family: ${inter.style.fontFamily};
+          }
+        `}</style> */}
         <AuthProvider isPublic={Auth === PublicAuth}>
           <Auth>
             <Layout title={title} nonePadding={nonePadding ?? false}>

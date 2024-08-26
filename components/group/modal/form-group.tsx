@@ -72,7 +72,7 @@ export const FormGroup = (props: {
           </div>
           <Controller
             control={props.form.control}
-            name="lecturer"
+            name="lecturer_id"
             render={({
               field: {
                 ref,
@@ -122,7 +122,7 @@ export const FormGroup = (props: {
                                   <ComboboxInput
                                     ref={ref}
                                     className={inputStyles({
-                                      intent: errors.lecturer
+                                      intent: errors.lecturer_id
                                         ? 'error'
                                         : 'default',
                                     })}
@@ -167,9 +167,9 @@ export const FormGroup = (props: {
                             />
                           )}
                         </div>
-                        {errors.lecturer?.message ? (
+                        {errors.lecturer_id?.message ? (
                           <span className={'text-label-5 text-error-base'}>
-                            {errors.lecturer?.message}
+                            {errors.lecturer_id?.message}
                           </span>
                         ) : (
                           ''
@@ -242,7 +242,7 @@ export const FormGroup = (props: {
                                   <ComboboxInput
                                     ref={ref}
                                     className={inputStyles({
-                                      intent: errors.lecturer
+                                      intent: errors.lecturer_id
                                         ? 'error'
                                         : 'default',
                                     })}

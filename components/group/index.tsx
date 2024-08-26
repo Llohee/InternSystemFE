@@ -21,8 +21,7 @@ const GroupWrapper = () => {
   const allGroup = useGetAllGroup()
   const tableRef = useRef<any>()
   useEffect(() => {
-    if (allGroup.status === 'success')
-      setTotalGroup(allGroup.data.total)
+    if (allGroup.status === 'success') setTotalGroup(allGroup.data.total)
   }, [allGroup])
   return (
     <>
