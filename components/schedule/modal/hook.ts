@@ -1,17 +1,17 @@
-import GroupApi from '@/apis/group-api'
+import ScheduleApi from '@/apis/schedule-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
-import { GroupKeys } from '@/hooks/query/group'
-import { ErrorResponse, UpdateGroupRequest } from '@/models/api'
+import { ScheduleKeys } from '@/hooks/query/schedule'
+import { ErrorResponse, UpdateScheduleRequest } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useGroupCreate = (closeModal: () => void) => {
-  const formCreate = useForm<UpdateGroupRequest>()
-  const mutation = useGroupCreateMutation(formCreate.reset, closeModal)
-  const handleFormSubmit: SubmitHandler<UpdateGroupRequest> = async (data) => {
+export const useScheduleCreate = (closeModal: () => void) => {
+  const formCreate = useForm<UpdateScheduleRequest>()
+  const mutation = useScheduleCreateMutation(formCreate.reset, closeModal)
+  const handleFormSubmit: SubmitHandler<UpdateScheduleRequest> = async (data) => {
     mutation.mutate(data)
   }
   return {
@@ -21,18 +21,18 @@ export const useGroupCreate = (closeModal: () => void) => {
   }
 }
 
-export function useGroupCreateMutation(
-  reset: UseFormReset<UpdateGroupRequest>,
+export function useScheduleCreateMutation(
+  reset: UseFormReset<UpdateScheduleRequest>,
   closeModal: () => void
 ) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateGroupRequest, any>(
-    (createGroupBody) =>
+  return useMutation<any, AxiosError, UpdateScheduleRequest, any>(
+    (createScheduleBody) =>
       toast.promise(
-        GroupApi.createGroup(getAccessToken.data!.access_token.token, createGroupBody),
+        ScheduleApi.createSchedule(getAccessToken.data!.access_token.token, createScheduleBody),
         {
-          loading: 'Đang tạo mới nhóm',
-          success: 'Tạo mới nhóm thành công',
+          loading: 'Đang tạo mới mốc thời gian',
+          success: 'Tạo mới mốc thời gian thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,
@@ -41,7 +41,7 @@ export function useGroupCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(GroupKeys.all)
+        queryClient.invalidateQueries(ScheduleKeys.all)
         reset()
         closeModal()
       },
@@ -101,7 +101,7 @@ export function useGroupCreateMutation(
 //   return useMutation<any, AxiosError, UpdateUserRequest, any>(
 //     (updateUserBody) =>
 //       toast.promise(
-//         GroupApi.updateUser(
+//         ScheduleApi.updateUser(
 //           getAccessToken.data!.accessToken,
 //           user.id,
 //           updateUserBody
@@ -117,7 +117,7 @@ export function useGroupCreateMutation(
 //       ),
 //     {
 //       onSuccess: (data) => {
-//         queryClient.invalidateQueries(GroupKeys.all)
+//         queryClient.invalidateQueries(ScheduleKeys.all)
 //         // reset()
 //         closeModal()
 //       },

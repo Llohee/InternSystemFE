@@ -8,4 +8,5 @@ export * from './lecturer-account-api'
 export * from './university-api'
 export * from './business-api'
 export * from './group-api'
+export * from './schedule-api'
 

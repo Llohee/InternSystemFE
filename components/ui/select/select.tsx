@@ -164,9 +164,7 @@ export const InputSelect = <T extends FieldValues>({
         //     : props.placeholder ??
         //       t('input.placeholder.select', { label: '...' })
         // }
-        placeholder={
-          props.placeholder ?? t('input.placeholder.select', { label: '...' })
-        }
+        placeholder={props.placeholder ?? 'Lựa chọn...'}
         filterOption={filterOption}
         maxMenuHeight={props.maxMenuHeight ? props.maxMenuHeight : 150}
         onBlur={props.onBlur}
