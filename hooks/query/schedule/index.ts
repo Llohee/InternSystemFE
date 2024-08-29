@@ -10,6 +10,13 @@ export const ScheduleKeys = {
   all: ['getAllSchedule'] as const,
   getAllSchedule: (filter: ScheduleFilterRequest) =>
     [...ScheduleKeys.all, filter, 'getAllSchedule'] as const,
+  getScheduleById: (id: string) =>
+    [
+      ...ScheduleKeys.all,
+      'getAllSchedule',
+      'getScheduleById',
+      id,
+    ] as const,
 }
 
 export function useGetAllSchedule() {
@@ -27,5 +34,15 @@ export function useGetAllSchedule() {
     () =>
       ScheduleApi.getAllSchedule(getAccessToken.data!.access_token.token, filterSchedule.filter),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+export function useGetSchedulebyId(id: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ScheduleKeys.getScheduleById(id),
+    () =>
+      ScheduleApi.getDetailSchedule(getAccessToken.data!.access_token.token, id),
+    { enabled: !getAccessToken.isFetching }
   )
 }

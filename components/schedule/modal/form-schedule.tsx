@@ -24,6 +24,13 @@ export const FormSchedule = (props: {
 }) => {
   const { register, handleSubmit } = props.form
   const getLengthListMilestones = () => {
+    if (props.isEdit) {
+      let length =
+        props.scheduleDetail?.milestones.filter(
+          (item: any) => item !== undefined
+        ).length ?? 0
+      return length
+    }
     let length =
       (props.form.watch('milestones')?.filter((item: any) => item !== undefined)
         .length ?? 0) + 1
@@ -45,11 +52,13 @@ export const FormSchedule = (props: {
               placeholder={'Nhập tên mốc thời gian'}
               message={props.form.formState.errors.name?.message ?? ''}
               disabled={props.isEdit}
+              defautValue={props.scheduleDetail?.name}
               required
             />
             <Controller
               control={props.form.control}
               name="is_active"
+              defaultValue={props.scheduleDetail?.is_active ?? false}
               render={({ field: { value, onChange } }) => (
                 <SwitchButton
                   enabled={value ?? false}
@@ -62,17 +71,24 @@ export const FormSchedule = (props: {
               )}
             />
           </div>
-          <div>
+          <div className="">
+            <div className="text-label-3 text-typography-label pb-2">
+              <label className="col-span-5">
+                Cấu hình mốc
+                <span className="text-error-base pl-1">*</span>
+              </label>
+            </div>
             {[...Array(getLengthListMilestones())].map((_, index) => (
               <div key={index} className="w-full">
                 <SelectMilestones
                   index={index}
                   useForm={props.form}
-                  default={(props.form.watch('milestones') ?? [])[index]}
+                  default={(props.scheduleDetail?.milestones ?? [])[index]}
                   // type={props.type}
                   isReset={props.isReset}
                   scheduleDetail={props.scheduleDetail}
                   getLengthListMilestones={getLengthListMilestones}
+                  isEdit={props.isEdit}
                 />
               </div>
             ))}
@@ -90,15 +106,17 @@ export const FormSchedule = (props: {
             intent={'grey'}
             onClick={props.closeModal}
           >
-            Hủy
+            {props.isEdit ? 'Thoát' : 'Hủy'}
           </Button>
-          <Button
-            posting={props.mutation.isLoading}
-            intent={props.isEdit ? 'primary' : 'primary'}
-            type={'submit'}
-          >
-            {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
-          </Button>
+          {!props.isEdit && (
+            <Button
+              posting={props.mutation.isLoading}
+              intent={props.isEdit ? 'primary' : 'primary'}
+              type={'submit'}
+            >
+              {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
+            </Button>
+          )}
         </ContainerFormFooter>
       </form>
       <DevTool control={props.form.control} />

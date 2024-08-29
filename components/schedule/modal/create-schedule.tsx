@@ -29,7 +29,7 @@ const CreateScheduleModal = (props: CreateSchedule) => {
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Tạo mới trường học
+              Tạo mới mốc thời gian
             </div>
             <Button
               iconOnly

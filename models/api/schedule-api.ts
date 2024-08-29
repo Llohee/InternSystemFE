@@ -50,3 +50,6 @@ export interface UpdateScheduleRequest {
   milestones_demo?: { [key: string]: string }
   is_active: boolean
 }
+export interface UpdateActiveSchedule {
+  id: string
+}

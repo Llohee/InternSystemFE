@@ -1,112 +1,112 @@
-import { emailRegex, phoneRegex, removeSpecialCharacter } from "@/hooks/regex";
-import { VariantProps, cva } from "class-variance-authority";
-import { useState } from "react";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { emailRegex, phoneRegex, removeSpecialCharacter } from '@/hooks/regex'
+import { VariantProps, cva } from 'class-variance-authority'
+import { useState } from 'react'
+import { FieldValues, Path, UseFormRegister } from 'react-hook-form'
 
 export const inputStyles = cva(
-  "relative appearance-none py-2 px-3 focus:outline-none leading-tight peer text-body-3 w-full gap-2 text-typography-label rounded-lg transition-all border focus-within:border-primary-base  checked:text-grey-1 h-[38px] placeholder-typography-placeholder",
+  'relative appearance-none py-2 px-3 focus:outline-none leading-tight peer text-body-3 w-full gap-2 text-typography-label rounded-lg transition-all border !focus-within:border-primary-base  checked:text-grey-1 h-[38px] placeholder-typography-placeholder',
   {
     variants: {
       intent: {
-        default: "border-border-1",
-        error: "border-error-base",
-        success: "border-success-base",
+        default: '!border-border-1',
+        error: 'border-error-base',
+        success: 'border-success-base',
       },
       disabled: {
-        true: "cursor-not-allowed !text-typography-disabled placeholder-typography-disabled !bg-grey-disabled",
-        false: "cursor-auto",
+        true: 'cursor-not-allowed !text-typography-disabled !bg-grey-disabled',
+        false: 'cursor-auto',
       },
       size: {
-        small: "!px-4 !py-1 h-6",
-        medium: "!px-4 !py-2 h-[38px]",
-        large: "!px-4 !py-4 h-12",
+        small: '!px-4 !py-1 h-6',
+        medium: '!px-4 !py-2 h-[38px]',
+        large: '!px-4 !py-4 h-12',
       },
       labelLocation: {
-        top: "",
-        left: "",
-        inside: "",
-        right: "",
+        top: '',
+        left: '',
+        inside: '',
+        right: '',
       },
     },
     defaultVariants: {
-      intent: "default",
+      intent: 'default',
       disabled: false,
-      size: "medium",
+      size: 'medium',
     },
   }
-);
-export const messageStyles = cva("text-subtitle-4", {
+)
+export const messageStyles = cva('text-subtitle-4', {
   variants: {
     intent: {
-      default: "text-primary-base",
-      info: "text-primary-base",
-      success: "text-success-base",
-      error: "text-error-base",
+      default: 'text-primary-base',
+      info: 'text-primary-base',
+      success: 'text-success-base',
+      error: 'text-error-base',
     },
   },
   defaultVariants: {
-    intent: "default",
+    intent: 'default',
   },
-});
+})
 
 interface InputProps<T extends FieldValues>
   extends VariantProps<typeof inputStyles> {
-  name: Path<T>;
-  intent?: "default" | "error" | "success";
-  register: UseFormRegister<T>;
-  label?: React.ReactNode;
+  name: Path<T>
+  intent?: 'default' | 'error' | 'success'
+  register: UseFormRegister<T>
+  label?: React.ReactNode
   /** Type for input*/
   type?:
-    | "text"
-    | "number"
-    | "search"
-    | "password"
-    | "textArea"
-    | "datetime-local"
-    | "checkbox"
-    | "hidden"
-    | "radio"
-    | "date";
+    | 'text'
+    | 'number'
+    | 'search'
+    | 'password'
+    | 'textArea'
+    | 'datetime-local'
+    | 'checkbox'
+    | 'hidden'
+    | 'radio'
+    | 'date'
 
-  id?: string;
-  placeholder?: string;
-  defautValue?: string;
+  id?: string
+  placeholder?: string
+  defautValue?: string
   /** Custom TailwindCSS style */
-  className?: string;
-  classNameLabel?: string;
-  message?: string;
-  disabled?: boolean;
-  showPlaceholderDisabled?: boolean;
+  className?: string
+  classNameLabel?: string
+  message?: string
+  disabled?: boolean
+  showPlaceholderDisabled?: boolean
   /** When type = 'textArea' you can set rows of textArea */
-  lineTextArea?: number;
-  required?: boolean;
-  icon?: React.ReactNode;
-  autoFocus?: boolean;
-  onChange?: (event: any) => void;
-  onInput?: (event: any) => void;
-  check?: boolean;
-  maxLength?: number;
-  notRule?: boolean;
-  autoComplete?: string;
+  lineTextArea?: number
+  required?: boolean
+  icon?: React.ReactNode
+  autoFocus?: boolean
+  onChange?: (event: any) => void
+  onInput?: (event: any) => void
+  check?: boolean
+  maxLength?: number
+  notRule?: boolean
+  autoComplete?: string
   inputmode?:
-    | "text"
-    | "search"
-    | "email"
-    | "none"
-    | "tel"
-    | "url"
-    | "numeric"
-    | "decimal"
-    | undefined;
-  pattern?: string;
-  max?: number;
-  min?: number;
+    | 'text'
+    | 'search'
+    | 'email'
+    | 'none'
+    | 'tel'
+    | 'url'
+    | 'numeric'
+    | 'decimal'
+    | undefined
+  pattern?: string
+  max?: number
+  min?: number
 }
 
 export function Input<T extends FieldValues>({
-  intent = "default",
-  type = "text",
-  size = "medium",
+  intent = 'default',
+  type = 'text',
+  size = 'medium',
   required = false,
   ...props
 }: InputProps<T>) {
@@ -126,22 +126,22 @@ export function Input<T extends FieldValues>({
     pattern,
     max,
     min,
-  } = props;
-  const { onChange, onBlur, ref } = register(name);
+  } = props
+  const { onChange, onBlur, ref } = register(name)
   const maxL = props.maxLength
     ? props.maxLength
-    : name === "phone"
+    : name === 'phone'
     ? 10
-    : name === "department"
+    : name === 'department'
     ? 50
-    : name === "description"
+    : name === 'description'
     ? 250
-    : name === "password"
+    : name === 'password'
     ? 20
-    : type === "password"
+    : type === 'password'
     ? 20
-    : 50;
-  const [isShowPassword, setIsShowPassword] = useState(false);
+    : 50
+  const [isShowPassword, setIsShowPassword] = useState(false)
   if (!props.notRule)
     register(name, {
       required:
@@ -154,69 +154,69 @@ export function Input<T extends FieldValues>({
         value: maxL,
         message: `Trường này cho phép tối đa 50 ký tự`,
       },
-    });
+    })
   else
     register(name, {
-      required:
-        required === true
+      validate: (value) =>
+        required === true && !value?.trim()
           ? label
             ? `${label} là bắt buộc`
             : `Trường này là bắt buộc`
-          : required,
-    });
+          : undefined,
+    })
   if (
     !props.notRule &&
-    name != "email" &&
-    type != "password" &&
-    type != "datetime-local" &&
-    name != "description" &&
-    name != "phone" &&
-    name != "contract_value" &&
-    name != "project_value"
+    name != 'email' &&
+    type != 'password' &&
+    type != 'datetime-local' &&
+    name != 'description' &&
+    name != 'phone' &&
+    name != 'contract_value' &&
+    name != 'project_value'
   )
     register(name, {
       pattern: {
         value: /^[\p{L}\p{N}_.\-@ ]*$/gmu,
         message: `Không nhập ký tự đặc biệt`,
       },
-    });
-  if (!props.notRule && name === "phone") {
+    })
+  if (!props.notRule && name === 'phone') {
     register(name, {
       pattern: {
         value: phoneRegex,
         message: `Nhập chưa đúng định dạng số điện thoại`,
       },
-    });
+    })
   }
-  if (!props.notRule && name === "email") {
+  if (!props.notRule && name === 'email') {
     register(name, {
       pattern: {
         value: emailRegex,
         message: `Nhập chưa đúng định dạng email`,
       },
-    });
+    })
   }
   return (
     <>
       <div
         className={`flex flex-1 ${
-          props.labelLocation === "left"
-            ? "gap-2 items-center"
-            : "flex-col gap-2"
+          props.labelLocation === 'left'
+            ? 'gap-2 items-center'
+            : 'flex-col gap-2'
         }  ${
-          props.labelLocation === "right"
-            ? "!flex-row-reverse w-fit items-center gap-2"
-            : ""
+          props.labelLocation === 'right'
+            ? '!flex-row-reverse w-fit items-center gap-2'
+            : ''
         } 
         
         `}
       >
-        {label && props.labelLocation != "inside" && (
+        {label && props.labelLocation != 'inside' && (
           <label
             className={`flex gap-1 text-label-3 text-typography-label ${
-              props.classNameLabel ?? ""
+              props.classNameLabel ?? ''
             }`}
-            htmlFor={id ?? ""}
+            htmlFor={id ?? ''}
           >
             {label}
             {required === true && (
@@ -228,7 +228,7 @@ export function Input<T extends FieldValues>({
           <div className="relative">
             <div className="relative flex items-center gap-2 z-0 ">
               {props.icon ?? <></>}
-              {type !== "textArea" ? (
+              {type !== 'textArea' ? (
                 <>
                   <input
                     {...{
@@ -244,80 +244,80 @@ export function Input<T extends FieldValues>({
                       min,
                     }}
                     inputMode={inputmode}
-                    autoComplete={autoComplete ?? "off"}
+                    autoComplete={autoComplete ?? 'off'}
                     spellCheck="false"
                     {...register(name)}
                     type={
-                      type !== "password"
+                      type !== 'password'
                         ? type
                         : isShowPassword
-                        ? "text"
-                        : "password"
+                        ? 'text'
+                        : 'password'
                     }
                     onChange={(e) => {
-                      let value = e.currentTarget.value;
+                      let value = e.currentTarget.value
 
                       if (props.notRule === true) {
-                        onChange(e);
+                        onChange(e)
                       } else {
-                        if (type === "number" && max && Number(value) > max) {
-                          value = max.toString();
+                        if (type === 'number' && max && Number(value) > max) {
+                          value = max.toString()
                         }
-                        if (type === "number" && min && Number(value) < min)
-                          value = min.toString();
+                        if (type === 'number' && min && Number(value) < min)
+                          value = min.toString()
                         if (
-                          name != "email" &&
-                          name != "description" &&
-                          type != "password" &&
-                          type != "datetime-local" &&
-                          type != "date"
+                          name != 'email' &&
+                          name != 'description' &&
+                          type != 'password' &&
+                          type != 'datetime-local' &&
+                          type != 'date'
                         )
-                          value = removeSpecialCharacter(value);
-                        value = value.substring(0, maxL);
+                          value = removeSpecialCharacter(value)
+                        value = value.substring(0, maxL)
 
-                        e.currentTarget.value = value;
-                        props.onChange?.(e);
-                        onChange(e);
+                        e.currentTarget.value = value
+                        props.onChange?.(e)
+                        onChange(e)
                       }
                     }}
                     autoFocus={autoFocus}
                     disabled={props.disabled ?? false}
                     className={
-                      type !== "radio"
-                        ? type !== "checkbox"
+                      type !== 'radio'
+                        ? type !== 'checkbox'
                           ? inputStyles({
                               intent: intent,
                               disabled: props.disabled,
                               className: props.className,
                               // size: size,
                             })
-                          : "w-4 h-4 rounded  checked:bg-primary-base border-border-1"
-                        : "w-4 h-4 rounded  checked:bg-primary-base border-border-1"
+                          : 'w-4 h-4 rounded  checked:bg-primary-base border-border-1'
+                        : 'w-4 h-4 rounded  checked:bg-primary-base border-border-1'
                     }
                     placeholder={
-                      props.labelLocation === "inside"
-                        ? " "
+                      props.labelLocation === 'inside'
+                        ? ' '
                         : props.disabled
                         ? props.showPlaceholderDisabled
                           ? placeholder
-                          : " "
-                        : placeholder ?? " "
+                          : ' '
+                        : placeholder ?? ' '
                     }
                     defaultValue={defautValue}
                     checked={
-                      type == "checkbox"
+                      type == 'checkbox'
                         ? check
-                        : type == "radio"
+                        : type == 'radio'
                         ? check
                         : false
                     }
-                    aria-describedby={props.message ? "message" : undefined}
-                    aria-invalid={intent === "error" ? "true" : undefined}
+                    aria-describedby={props.message ? 'message' : undefined}
+                    aria-invalid={intent === 'error' ? 'true' : undefined}
                   />
-                  {type === "password" && (
+                  {type === 'password' && (
                     <span
                       onClick={() => {
-                        setIsShowPassword(!isShowPassword);
+                        setIsShowPassword(!isShowPassword)
                       }}
                       className="absolute right-2 cursor-pointer select-none"
                     >
@@ -360,35 +360,35 @@ export function Input<T extends FieldValues>({
                     { disabled: props.disabled }
                   )}`}
                   placeholder={
-                    props.labelLocation === "inside"
-                      ? " "
+                    props.labelLocation === 'inside'
+                      ? ' '
                       : props.disabled
                       ? props.showPlaceholderDisabled
                         ? placeholder
-                        : " "
-                      : placeholder ?? " "
+                        : ' '
+                      : placeholder ?? ' '
                   }
                   autoFocus={autoFocus}
                   onInput={(e) => {
-                    if (onInput) onInput(e);
+                    if (onInput) onInput(e)
                     if (!props.notRule) {
-                      let value = e.currentTarget.value;
-                      if (name == "description") {
-                        value = value.substring(0, maxL);
+                      let value = e.currentTarget.value
+                      if (name == 'description') {
+                        value = value.substring(0, maxL)
                       }
 
-                      e.currentTarget.value = value;
+                      e.currentTarget.value = value
                     }
                   }}
-                  aria-describedby={props.message ? "message" : undefined}
+                  aria-describedby={props.message ? 'message' : undefined}
                 ></textarea>
               )}
-              {props.labelLocation === "inside" && (
+              {props.labelLocation === 'inside' && (
                 <label
                   className={`absolute text-label z-10 text-info-pressed duration-200 transform -translate-y-6 peer-focus:!bg-white peer-focus:!top-3 ml-3 scale-75 top-auto mx-auto peer-focus:mb-2 peer-focus:text-info-pressed origin-[0] peer-focus:text-subtitle peer-placeholder-shown:scale-100 peer-placeholder-shown:mt-0 peer-placeholder-shown:text-typography-subtitle peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                    type === "textArea" && "left-0"
-                  } ${props.classNameLabel ?? ""} ${type === "checkbox" && ""}`}
-                  htmlFor={id ?? ""}
+                    type === 'textArea' && 'left-0'
+                  } ${props.classNameLabel ?? ''} ${type === 'checkbox' && ''}`}
+                  htmlFor={id ?? ''}
                 >
                   {label ?? placeholder}
                 </label>
@@ -408,5 +408,5 @@ export function Input<T extends FieldValues>({
         </div>
       </div>
     </>
-  );
+  )
 }
