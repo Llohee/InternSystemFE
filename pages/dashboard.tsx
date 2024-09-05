@@ -1,13 +1,17 @@
-// import { AllUserAuth } from '@/components/auth/page-auth'
-import HomeWrapper from '@/components/home'
+import { AllUserAuth } from '@/components/auth/page-auth'
+import DashboardWrapper from '@/components/dashboard'
 import { MainLayout } from '@/components/layout'
 import { NextPageWithAuthLayout } from '@/pages/_app'
 
-const HomePage: NextPageWithAuthLayout = () => {
-  return <HomeWrapper />
+const DashboardPage: NextPageWithAuthLayout = () => {
+  return (
+    <>
+      <DashboardWrapper />
+    </>
+  )
 }
-HomePage.Layout = MainLayout
-// HomePage.Auth = AllUserAuth
-// HomePage.title = 'Trang chủ'
+DashboardPage.Layout = MainLayout
+DashboardPage.Auth = AllUserAuth
+DashboardPage.title = 'Trang chủ'
 
-export default HomePage
+export default DashboardPage

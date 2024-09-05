@@ -1,136 +1,111 @@
-// import { LOCK_MODULES, LOCK_TENANT_VALUE } from '@/components/common/constant'
-import { SideBar } from "@/components/ui/side-bar/side-bar";
-// import { useGetUserDetail } from '@/hooks/query/auth'
-// import { getPermissionAtPath } from '@/models/api'
-import { SideBarItemType, SideBarSubItemType } from "@/models/ui/sidebar";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-// import logo from "public/images/Logo-compress-white.svg";
-// import logoFullWhite from "public/images/Logo-full-white.svg";
-import { useEffect, useState } from "react";
-import ActionButtons from "./action-buttons";
-import { produce } from "immer";
+import { SideBar } from '@/components/ui/side-bar/side-bar'
+import { useGetUserDetail } from '@/hooks/query/auth'
+import { SideBarItemType, SideBarSubItemType } from '@/models/ui/sidebar'
+import produce from 'immer'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import ActionButtons from './action-buttons'
+import { Account, home, business, university, Schedule } from './list-items'
 
-const sidebarAllItems: SideBarItemType[] = [];
+const sidebarAllItems: SideBarItemType[] = [home, university, business, Account, Schedule]
 const SidebarLayout = (props: {
-  sidebarExpanded: boolean;
-  setSidebarExpanded: (b: boolean) => void;
+  sidebarExpanded: boolean
+  setSidebarExpanded: (b: boolean) => void
 }) => {
-  const router = useRouter();
-  const { sidebarExpanded, setSidebarExpanded } = props;
-  // const userDetail = useGetUserDetail()
-  const [sidebaritems, setSidebarItems] = useState<SideBarItemType[]>([]);
+  const router = useRouter()
+  const { sidebarExpanded, setSidebarExpanded } = props
+  const userDetail = useGetUserDetail()
+  const [sidebaritems, setSidebarItems] =
+    useState<SideBarItemType[]>(sidebarAllItems)
+  useEffect(() => {
+    const newSidebarItems = produce(sidebarAllItems, (draftState) => {
+      const filteredItems = sidebarItemsCanView(draftState)
+      return filteredItems.map((item) => transObject(item))
+    })
+    setSidebarItems(newSidebarItems)
+  }, [userDetail.data.role])
+  function checkPermission(
+    sidebarItem: SideBarItemType | SideBarSubItemType
+  ): boolean {
+    const layoutUser = userDetail.data.role
+    if (sidebarItem.onlyFor) {
+      return sidebarItem.onlyFor.some((e) => e === layoutUser)
+    }
+    return true
+  }
 
-  // useEffect(() => {
-  //   setSidebarItems(
-  //     produce(sidebarAllItems, (draftState) => {
-  //       draftState = sidebarItemsCanView(draftState);
-  //       draftState = draftState.map((e) => transObject(e));
-  //       return draftState;
-  //     })
-  //   );
-  // }, []);
-  // function checkPermission(sidebarItem: SideBarItemType | SideBarSubItemType) {
-  //   const layoutUser = userDetail.data.layout;
-  //   const permissionsUser = userDetail.data.permission;
-  //   let check: boolean = true;
-  //   if (
-  //     sidebarItem.link === "" &&
-  //     "subSideBarItem" in sidebarItem &&
-  //     (!sidebarItem.subSideBarItem || sidebarItem.subSideBarItem?.length === 0)
-  //   ) {
-  //     return false;
-  //   }
+  function sidebarItemsCanView(data: SideBarItemType[]): SideBarItemType[] {
+    return data
+      .map((sideBarItem) => {
+        const newItem = { ...sideBarItem }
+        if (newItem.subSideBarItem) {
+          newItem.subSideBarItem =
+            newItem.subSideBarItem.filter(checkPermission)
+        }
+        return checkPermission(newItem) ? newItem : null
+      })
+      .filter(Boolean) as SideBarItemType[]
+  }
 
-  //   if (sidebarItem.onlyFor)
-  //     check = sidebarItem.onlyFor.some((e) => e === layoutUser);
-  //   else check = true;
-  //   if (check) {
-  //     if (!sidebarItem.permissions) return true;
-  //     else
-  //       check = sidebarItem.permissions.some((permission) =>
-  //         getPermissionAtPath(permissionsUser, permission)
-  //       );
+  useEffect(() => {
+    if (userDetail.data && userDetail.data.role) {
+      const filteredItems = sidebarItemsCanView(sidebarAllItems)
+      setSidebarItems(filteredItems)
+    }
+  }, [userDetail.data.role])
 
-  //     return check;
-  //   }
-  // }
+  function transObject(data: SideBarItemType): SideBarItemType {
+    if (data.subSideBarItem)
+      return {
+        ...data,
+        subSideBarItem: data.subSideBarItem.map((e) => transObject(e)),
+        text: data.text,
+      }
+    else return { ...data, text: data.text }
+  }
 
-  // function sidebarItemsCanView(data: SideBarItemType[]): SideBarItemType[] {
-  //   //hidden sidebar item
-  //   let items = data ?? [];
-  //   //hidden sidebar subitem
-  //   items =
-  //     items
-  //       .map((sideBarItem) => {
-  //         let newItem = { ...sideBarItem };
-  //         newItem.subSideBarItem = newItem.subSideBarItem?.filter((item) =>
-  //           checkPermission(item)
-  //         );
-  //         return newItem;
-  //       })
-  //       .filter((e) => checkPermission(e)) ?? [];
+  const getChosseSideBarItem = (items: SideBarItemType[]) => {
+    let newArr: SideBarItemType[] = [...items]
+    items.forEach((val: any) => {
+      if (val.subSideBarItem) {
+        newArr = [...newArr, ...val.subSideBarItem]
+      }
+    })
 
-  //   return (
-  //     items.map((e) => ({
-  //       ...e,
-  //       subSideBarItem:
-  //         e.subSideBarItem?.map((e) => transObject(e)) ?? undefined,
-  //       text: t(e.text),
-  //     })) ?? []
-  //   );
-  // }
-  // function transObject(data: SideBarItemType): SideBarItemType {
-  //   if (data.subSideBarItem)
-  //     return {
-  //       ...data,
-  //       subSideBarItem: data.subSideBarItem.map((e) => transObject(e)),
-  //       text: t(data.text),
-  //     };
-  //   else return { ...data, text: t(data.text) };
-  // }
-
-  // const getChosseSideBarItem = (items: SideBarItemType[]) => {
-  //   let newArr: SideBarItemType[] = [...items];
-  //   items.forEach((val: any) => {
-  //     if (val.subSideBarItem) {
-  //       newArr = [...newArr, ...val.subSideBarItem];
-  //     }
-  //   });
-
-  //   return newArr.filter((val: any) => {
-  //     if (val.link === "") return false;
-  //     if (val.link === "/dashboard") {
-  //       return router.asPath === "/dashboard";
-  //     }
-  //     if (router.asPath.startsWith(val.link)) return true;
-  //   });
-  // };
-  // const flatten = (arr: SideBarItemType[]) => {
-  //   let a = arr.reduce((pre, cur) => {
-  //     return pre.concat(
-  //       Array.isArray(cur.subSideBarItem) ? flatten(cur.subSideBarItem) : cur
-  //     );
-  //   }, [] as SideBarItemType[]) as SideBarItemType[];
-  //   return a;
-  // };
+    return newArr.filter((val: any) => {
+      if (val.link === '') return false
+      if (val.link === '/dashboard') {
+        return router.asPath === '/dashboard'
+      }
+      if (router.asPath.startsWith(val.link)) return true
+    })
+  }
+  const flatten = (arr: SideBarItemType[]) => {
+    let a = arr.reduce((pre, cur) => {
+      return pre.concat(
+        Array.isArray(cur.subSideBarItem) ? flatten(cur.subSideBarItem) : cur
+      )
+    }, [] as SideBarItemType[]) as SideBarItemType[]
+    return a
+  }
 
   return (
     <div>
       <div className="relative">
         <div
           className={`w-screen h-12 lg:h-full ${
-            props.sidebarExpanded ? "lg:w-[275px]" : "lg:w-[75px] m-0"
+            props.sidebarExpanded ? 'lg:w-[275px]' : 'lg:w-[75px] m-0'
           } bg-brand border border-brand`}
         >
           <>
             <div className="flex w-full h-full gap-3 items-center justify-center">
-              <Link
-                href={"/dashboard"}
+              {/* <Link
+                href={'/dashboard'}
                 className="grow flex gap-3 items-center justify-center"
               >
-              </Link>
+                Trang chủ
+              </Link> */}
               <div>
                 {!sidebarExpanded && (
                   <button
@@ -159,7 +134,12 @@ const SidebarLayout = (props: {
         <SideBar
           header={
             <div className="flex w-full gap-3 items-center justify-center">
-              
+              {/* <Link
+                href={'/dashboard'}
+                className="grow flex gap-3 items-center justify-center"
+              >
+                {!sidebarExpanded ? <></> : <>Trang chủ</>}
+              </Link> */}
               <div>
                 {!sidebarExpanded && (
                   <button
@@ -186,19 +166,19 @@ const SidebarLayout = (props: {
           }
           isOpen={sidebarExpanded}
           openSideBar={() => {
-            setSidebarExpanded(true);
+            setSidebarExpanded(true)
           }}
           closeSideBar={() => {
-            setSidebarExpanded(false);
+            setSidebarExpanded(false)
           }}
           footer={<ActionButtons sidebarExpanded={sidebarExpanded} />}
           sidebaritems={sidebaritems}
-          // chosseSideBarItem={getChosseSideBarItem(sidebaritems)}
+          chosseSideBarItem={getChosseSideBarItem(sidebaritems)}
         />
       </div>
       <div className="block lg:hidden"></div>
     </div>
-  );
-};
+  )
+}
 
-export default SidebarLayout;
+export default SidebarLayout

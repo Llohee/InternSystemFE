@@ -479,8 +479,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'fpt-logo': "url('../public/images/FPTlogo.png')",
-        login: "url('../public/images/bg-login.jpg')",
+        login: "url('../public/images/loginbg.jpg')",
         'overlay-white-12':
           'linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.12) 100%)',
         'overlay-grey-8':
