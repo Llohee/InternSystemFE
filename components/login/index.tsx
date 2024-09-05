@@ -1,5 +1,10 @@
 import Link from 'next/link'
 import LoginNormalForm from './login-normal/login-normal-form'
+import { useMsal } from '@azure/msal-react'
+// import { loginRequest, msalConfig } from '@/msalConfig'
+import { useRouter } from 'next/router'
+import { msalConfig } from '@/components/auth/msalConfig'
+import { PublicClientApplication } from '@azure/msal-browser'
 
 export const LoginBackground = ({
   children,
@@ -25,9 +30,22 @@ export const LoginBackground = ({
 }
 
 const Login = () => {
+  const { instance } = useMsal()
+
+  const handleLogin = async () => {
+    const loginRequest = {
+      scopes: ['user.read'],
+    }
+    try {
+      await instance.loginPopup(loginRequest)
+    } catch (err) {
+      console.error('Error during login:', err)
+    }
+  }
   return (
     <LoginBackground>
       <LoginNormalForm />
+      <button onClick={handleLogin}>áefw</button>
     </LoginBackground>
   )
 }
