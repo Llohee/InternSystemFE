@@ -1,4 +1,10 @@
-import { Dialog, Transition } from '@headlessui/react'
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'
 import { Fragment, useId } from 'react'
 import { motion } from 'framer-motion'
 
@@ -24,10 +30,10 @@ export function Modal(props: ModalProps) {
       >
         <Dialog
           as="div"
-          className="relative z-[2000] "
+          className="relative z-[1000] "
           onClose={props.closeModal}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0"
@@ -37,7 +43,7 @@ export function Modal(props: ModalProps) {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-1 flex flex-col gap-3 items-center justify-center p-4 text-center">
             <button
@@ -59,7 +65,7 @@ export function Modal(props: ModalProps) {
                 />
               </svg>
             </button>
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-200"
               enterFrom="opacity-0 scale-95"
@@ -82,23 +88,23 @@ export function Modal(props: ModalProps) {
                 layoutId={layoutId}
                 transition={{ duration: 0.06 }}
               >
-                <Dialog.Panel>
+                <DialogPanel>
                   {props.title && (
-                    <Dialog.Title
+                    <DialogTitle
                       as="h3"
                       className={`w-full flex flex-shrink-0 items-center justify-between py-4 px-6 border-b border-border-2  bg-white z-50 text-heading-7 text-typography-title rounded-t-2xl ${
                         props.hideBorder ? '!border-none pb-1' : ''
                       }`}
                     >
                       {props.title}
-                    </Dialog.Title>
+                    </DialogTitle>
                   )}
                   <div className="w-full max-h-[calc(100vh-10rem)] text-typography-body overflow-auto">
                     {props.children}
                   </div>
-                </Dialog.Panel>
+                </DialogPanel>
               </motion.div>
-            </Transition.Child>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>
