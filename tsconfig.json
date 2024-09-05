@@ -25,9 +25,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "components/ui/modal/modal.tsx",
-    "models/api/tenant.-apits",
-    "components/service/modal/sub-service-l2/confirm-delete-service-l2.tsx"
+    "components/ui/modal/modal.tsx"
   ],
   "exclude": ["node_modules", ".next", ".vercel", "out"]
 }

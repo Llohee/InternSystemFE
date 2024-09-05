@@ -31,8 +31,8 @@ export function useGroupCreateMutation(
       toast.promise(
         GroupApi.createGroup(getAccessToken.data!.access_token.token, createGroupBody),
         {
-          loading: 'Đang tạo mới trường học',
-          success: 'Tạo mới trường học thành công',
+          loading: 'Đang tạo mới nhóm',
+          success: 'Tạo mới nhóm thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,

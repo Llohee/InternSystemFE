@@ -12,7 +12,16 @@ const nextConfig = {
   images: {
     domains: ['images.pexels.com'],
     unoptimized: true,
-  },
+  },  
+  transpilePackages: [
+    'antd',
+    '@ant-design',
+    'rc-util',
+    'rc-pagination',
+    'rc-picker',
+    'rc-notification',
+    'rc-tooltip',
+  ],
   // async redirects() {
   //   return [
   //     {

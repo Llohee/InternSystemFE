@@ -434,50 +434,6 @@ module.exports = {
         pulsed: 'pulsed 10s ease-in-out infinite',
         rotate180: 'rotate180 4s steps(1, end) infinite',
       },
-      keyframes: {
-        section6: {
-          '0%, 100%': { transform: 'scaleY(1.9) skewX(-40deg)' },
-          '50%': { transform: 'scaleY(1.3) skewX(0deg)' },
-        },
-        'section6-mobile': {
-          '0%, 100%': { transform: 'scaleY(1.9) skewX(-15deg)' },
-          '50%': { transform: 'scaleY(1.3) skewX(0deg)' },
-        },
-        pulsed: {
-          '0%': {
-            opacity: '0.5',
-            transform: 'scale(0.5)',
-          },
-          '7%': {
-            opacity: '1',
-            transform: 'scale(1)',
-          },
-          '40%': {
-            opacity: '1',
-            transform: 'scale(1)',
-          },
-          '60%': {
-            opacity: '1',
-            transform: 'scale(1)',
-          },
-          '80%': {
-            opacity: '1',
-            transform: 'scale(1)',
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'scale(1)',
-          },
-        },
-        rotate180: {
-          '0%': {
-            transform: 'rotateY(0deg)',
-          },
-          '50%': {
-            transform: 'rotateY(180deg)',
-          },
-        },
-      },
       backgroundImage: {
         login: "url('../public/images/loginbg.jpg')",
         'overlay-white-12':
