@@ -18,9 +18,6 @@ import NonSSRWrapper from '@/components/common/no-ssr-wrapper'
 import { ErrorResponse } from '@/models/api/common'
 import CustomToast from '@/components/ui/custom-toast/custom-toast'
 import toast from 'react-hot-toast'
-import { PublicClientApplication } from '@azure/msal-browser'
-import { msalConfig } from '@/components/auth/msalConfig'
-import { MsalProvider } from '@azure/msal-react'
 
 const inter = localFont({
   src: '../public/font/Tapiocaness-Regular.otf',
@@ -100,7 +97,6 @@ export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
   const Auth = Component.Auth ?? PublicAuth
   const title = Component.title
   const nonePadding = Component.nonePadding
-  const msalInstance = new PublicClientApplication(msalConfig)
   return (
     <QueryClientProvider client={queryClient}>
       <CustomToast />
@@ -110,17 +106,15 @@ export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
             font-family: ${inter.style.fontFamily};
             }
             `}</style> */}
-        <MsalProvider instance={msalInstance}>
-          <AuthProvider isPublic={Auth === PublicAuth}>
-            <Auth>
-              <Layout title={title} nonePadding={nonePadding ?? false}>
-                <main className={` h-full text-typography-body `}>
-                  <Component {...pageProps} />
-                </main>
-              </Layout>
-            </Auth>
-          </AuthProvider>
-        </MsalProvider>
+        <AuthProvider isPublic={Auth === PublicAuth}>
+          <Auth>
+            <Layout title={title} nonePadding={nonePadding ?? false}>
+              <main className={` h-full text-typography-body `}>
+                <Component {...pageProps} />
+              </main>
+            </Layout>
+          </Auth>
+        </AuthProvider>
       </NonSSRWrapper>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
