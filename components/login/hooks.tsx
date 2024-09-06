@@ -25,3 +25,17 @@ export const useLoginForm = () => {
     mutation,
   }
 }
+export const useLoginAzure = () => {
+  const onLoginSuccess = useLoginSuccess()
+  const mutationAzure = useMutation<UserDetail, AxiosError, any>(
+    (code) => {
+      return loginApi.loginWithAccessCode(code as string) 
+    },
+    {
+      onSuccess: onLoginSuccess,
+    }
+  )
+  return { 
+    mutationAzure
+  }
+}

@@ -1,5 +1,9 @@
 import Link from 'next/link'
 import LoginNormalForm from './login-normal/login-normal-form'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { Button } from '../ui/button/button'
+import { useLoginAzure } from './hooks'
 
 export const LoginBackground = ({
   children,
