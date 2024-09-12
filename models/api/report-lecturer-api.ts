@@ -1,26 +1,26 @@
 import { TypeQuery, TypeSort } from "./common"
 
-export interface ReportStudentFilterRequest {
+export interface ReportLecturerFilterRequest {
   name: string
   limit: number
   page: number
   query: TypeQuery[]
   sort: TypeSort[]
 }
-export interface GetAllReportStudentResponse {
+export interface GetAllReportLecturerResponse {
   page: number
   total: number
   total_page: number
-  data: ReportStudentDetail[]
+  data: ReportLecturerDetail[]
 }
-export interface ReportStudentDetail {
+export interface ReportLecturerDetail {
   id: string
   fullname: string
   code: string
   email: string
   phone: string
 }
-// export interface UpdateReportStudentRequest {
+// export interface UpdateReportLecturerRequest {
 //   code: string
 //   name?: string
 //   // website: string

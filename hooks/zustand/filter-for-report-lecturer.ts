@@ -1,13 +1,13 @@
-import { ReportStudentFilterRequest } from '@/models/api'
+import { ReportLecturerFilterRequest } from '@/models/api'
 import { create } from 'zustand'
 
-interface FilterForReportStudentState {
-  filter: ReportStudentFilterRequest
-  update: (Filter: ReportStudentFilterRequest) => void
+interface FilterForReportLecturerState {
+  filter: ReportLecturerFilterRequest
+  update: (Filter: ReportLecturerFilterRequest) => void
   reset: () => void
 }
 
-export const useFilterForReportStudentStore = create<FilterForReportStudentState>((set) => ({
+export const useFilterForReportLecturerStore = create<FilterForReportLecturerState>((set) => ({
   filter: {
     name: '',
     limit: 10,

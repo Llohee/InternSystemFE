@@ -1,12 +1,12 @@
-import { GetAllReportStudentResponse, ReportStudentFilterRequest } from "@/models/api"
+import { GetAllReportLecturerResponse, ReportLecturerFilterRequest } from "@/models/api"
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 
-const ReportStudentApi = {
-  getAllReportStudent(
+const ReportLecturerApi = {
+  getAllReportLecturer(
     accessToken: string,
-    filter: ReportStudentFilterRequest,
-  ): Promise<GetAllReportStudentResponse> {
+    filter: ReportLecturerFilterRequest,
+  ): Promise<GetAllReportLecturerResponse> {
     const url = '/auth/users/students'
     let query = getQuery(filter.query, filter.name, [
       'name',
@@ -30,4 +30,4 @@ const ReportStudentApi = {
   },
 }
 
-export default ReportStudentApi
+export default ReportLecturerApi

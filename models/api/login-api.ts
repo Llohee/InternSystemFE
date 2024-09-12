@@ -17,6 +17,11 @@ export type UserDetail = {
     expireAt: number
     token: string
   }
+  tenant: {
+    name: string
+    code: string
+    image_url: string
+  }
   refresh_token: string
 }
 export interface AccessTokenDecoded {

@@ -22,6 +22,7 @@ export interface BusinessDetail {
   email: string
   location: string
   website: string
+  image_url: any
 }
 export interface UpdateBusinessRequest {
   code: string
@@ -29,4 +30,5 @@ export interface UpdateBusinessRequest {
   website: string
   location?: string
   is_active?: boolean
+  image_url: any
 }

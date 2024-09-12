@@ -12,3 +12,8 @@ export interface TypeQuery {
   type: 'like' | 'eq' | 'eqID'
 }
 export type roleUser = 'SA' | 'AU' | 'LT' | 'ST' | 'HR' | ''
+export interface AttachmentDetail {
+  name: string
+  object: string
+  dowload_url: string
+}

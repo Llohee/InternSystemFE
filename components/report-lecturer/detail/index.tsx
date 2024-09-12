@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import ReportStudentListView from './list-view'
+import ReportLecturerListView from './list-view'
 
-const ReportStudentDetailWrapper = (props: { id: string }) => {
+const ReportLecturerDetailWrapper = (props: { id: string }) => {
   const [showList, setShowList] = useState(true)
 
   return (
@@ -16,8 +16,8 @@ const ReportStudentDetailWrapper = (props: { id: string }) => {
             showList ? 'w-[100%] lg:w-[24rem] xl:w-[22rem]' : 'w-[80%] md:w-fit'
           } overflow-hidden bg-grey-3 flex-nowrap max-w-[28rem]`}
         >
-          <ReportStudentListView
-            idStudent={props.id}
+          <ReportLecturerListView
+            idLecturer={props.id}
             showList={showList}
             setShowList={setShowList}
             {...props}
@@ -34,4 +34,4 @@ const ReportStudentDetailWrapper = (props: { id: string }) => {
     </>
   )
 }
-export default ReportStudentDetailWrapper
+export default ReportLecturerDetailWrapper

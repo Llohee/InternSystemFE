@@ -18,22 +18,22 @@ import React, {
   useState,
 } from 'react'
 import { DATE_FORMAT_VIEW } from '@/components/common/constant'
-import { useFilterForReportStudentStore } from '@/hooks/zustand/filter-for-report-student'
-import { GetAllReportStudentResponse, ReportStudentDetail } from '@/models/api'
+import { GetAllReportLecturerResponse, ReportLecturerDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import { Tooltip } from '@/components/ui/tooltip/tooltip'
 import Link from 'next/link'
+import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
 
-interface ReportStudentsProps {
-  getAllReportStudentData: GetAllReportStudentResponse
-  setReportStudentChoose: (ReportStudent: ReportStudentDetail[]) => void
+interface ReportLecturersProps {
+  getAllReportLecturerData: GetAllReportLecturerResponse
+  setReportLecturerChoose: (ReportLecturer: ReportLecturerDetail[]) => void
   isPreviousData: boolean
 }
 
-const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
-  const filterUser = useFilterForReportStudentStore()
+const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
+  const filterUser = useFilterForReportLecturerStore()
   const [data, setData] = useState(() => [
-    ...props.getAllReportStudentData.data,
+    ...props.getAllReportLecturerData.data,
   ])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUser.filter.sort.map((val: any) => ({
@@ -45,7 +45,7 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
     []
   )
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<ReportStudentDetail>()
+  const [userChoose, setUserChoose] = useState<ReportLecturerDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -53,7 +53,7 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<ReportStudentDetail>({ data: data })
+  } = useChooseMulti<ReportLecturerDetail>({ data: data })
   useEffect(() => {
     filterUser.update(
       produce(filterUser.filter, (draftState: any) => {
@@ -67,11 +67,11 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
     )
   }, [sorting])
   useEffect(() => {
-    props.setReportStudentChoose(itemChoose)
+    props.setReportLecturerChoose(itemChoose)
   }, [itemChoose])
   useEffect(() => {
     if (isShowModalUpdate) {
-      props.setReportStudentChoose([])
+      props.setReportLecturerChoose([])
       clearChooseItems()
     }
   }, [isShowModalUpdate])
@@ -79,11 +79,11 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
     return { clearChooseItems }
   })
   useEffect(() => {
-    setData([...props.getAllReportStudentData.data])
-    setDataChoose(props.getAllReportStudentData.data)
+    setData([...props.getAllReportLecturerData.data])
+    setDataChoose(props.getAllReportLecturerData.data)
     clearChooseItems()
-  }, [props.getAllReportStudentData])
-  const columnHelper = createColumnHelper<ReportStudentDetail>()
+  }, [props.getAllReportLecturerData])
+  const columnHelper = createColumnHelper<ReportLecturerDetail>()
 
   const columns = [
     columnHelper.display({
@@ -116,7 +116,7 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
       header: 'Tên sinh viên',
       cell: (info) => (
         <Link
-          href={`student/${info.row.original.id}`}
+          href={`lecturer/${info.row.original.id}`}
           className="relative hover:text-primary-base truncate"
         >
           <div className="max-w-[210px] truncate">{info.getValue()}</div>
@@ -183,17 +183,17 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
               })
             )
           }}
-          pageCurrent={props.getAllReportStudentData.page + 1}
-          totalPage={props.getAllReportStudentData.total_page}
+          pageCurrent={props.getAllReportLecturerData.page + 1}
+          totalPage={props.getAllReportLecturerData.total_page}
           label={
-            props.getAllReportStudentData.total > 0 ? (
+            props.getAllReportLecturerData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getAllReportStudentData.page * filterUser.filter.limit +
+                {props.getAllReportLecturerData.page * filterUser.filter.limit +
                   1}
                 -
-                {props.getAllReportStudentData.page * filterUser.filter.limit +
+                {props.getAllReportLecturerData.page * filterUser.filter.limit +
                   data.length}{' '}
-                trên tổng {props.getAllReportStudentData.total}
+                trên tổng {props.getAllReportLecturerData.total}
               </div>
             ) : (
               <></>
@@ -206,4 +206,4 @@ const ReportStudentTable = (props: ReportStudentsProps, ref: any) => {
   )
 }
 
-export default forwardRef(ReportStudentTable)
+export default forwardRef(ReportLecturerTable)

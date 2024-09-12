@@ -37,16 +37,16 @@ export function SystemAdminWrapper({
   return <></>
 }
 
-// // Show when role it is not SA
-// export function NotSystemAdminWrapper({
-//   children,
-// }: {
-//   children: React.ReactNode
-// }) {
-//   const roleIsSuperAdmin = !useRoleIsSuperAdmin()
+// Show when role it is not SA
+export function NotSystemAdminWrapper({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const roleIsSuperAdmin = !useRoleIsSuperAdmin()
 
-//   if (roleIsSuperAdmin) return <>{children}</>
+  if (roleIsSuperAdmin) return <>{children}</>
 
-//   return <></>
-// }
+  return <></>
+}
 

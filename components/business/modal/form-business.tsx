@@ -5,7 +5,8 @@ import {
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { UpdateBusinessRequest } from '@/models/api'
+import { Uploader } from '@/components/ui/upload/upload'
+import { BusinessDetail, UpdateBusinessRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
@@ -13,6 +14,7 @@ import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 export const FormBusiness = (props: {
   form: UseFormReturn<UpdateBusinessRequest, any>
   handleFormSubmit: SubmitHandler<UpdateBusinessRequest>
+  BusinessDetail?: BusinessDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -77,6 +79,16 @@ export const FormBusiness = (props: {
             intent={props.form.formState.errors.name ? 'error' : 'default'}
             placeholder={'Nhập địa chỉ'}
             message={props.form.formState.errors.name?.message ?? ''}
+          />
+          <Uploader
+            defaultValue={props.BusinessDetail?.image_url}
+            attachment={props.BusinessDetail?.image_url}
+            className="col-span-full"
+            label="Ảnh đại diện"
+            module="business"
+            control={props.form.control}
+            name="image_url"
+            required={true}
           />
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
