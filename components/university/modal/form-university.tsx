@@ -5,14 +5,17 @@ import {
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { UpdateUniversityRequest } from '@/models/api'
+import { Uploader } from '@/components/ui/upload/upload'
+import { UniversityDetail, UpdateUniversityRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
+import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormUniversity = (props: {
   form: UseFormReturn<UpdateUniversityRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUniversityRequest>
+  UniversityDetail?: UniversityDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -60,6 +63,16 @@ export const FormUniversity = (props: {
             disabled={props.isEdit}
             required
           />
+          <Uploader
+            defaultValue={props.UniversityDetail?.image_url.map((v) => v.object)}
+            attachments={props.UniversityDetail?.image_url}
+            className="col-span-full"
+            label="Ảnh đại diện"
+            module="university"
+            control={props.form.control}
+            name="image_url"
+            required={true}
+          />
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
               {(props.mutation.error as AxiosError<ErrorResponse>)?.response
@@ -84,6 +97,7 @@ export const FormUniversity = (props: {
           </Button>
         </ContainerFormFooter>
       </form>
+      <DevTool control={props.form.control}/>
     </>
   )
 }

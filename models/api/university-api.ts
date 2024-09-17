@@ -19,14 +19,11 @@ export interface UniversityDetail {
   code: string
   created_time: string
   is_active: boolean
-  // email: string
-  // location: string
-  // website: string
+  image_url: any[]
 }
 export interface UpdateUniversityRequest {
   code: string
   name?: string
-  // website: string
-  // location?: string
+  image_url: any
   is_active?: boolean
 }

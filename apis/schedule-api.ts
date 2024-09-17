@@ -51,6 +51,15 @@ const ScheduleApi = {
       },
     })
   },
+  getDetailScheduleByLecturer(accessToken: string): Promise<ScheduleDetail> {
+    const url = '/schedule/schedule_lecturer'
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
   updateSchedule(
     accessToken: string,
     data: UpdateScheduleRequest,

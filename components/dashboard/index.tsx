@@ -1,16 +1,30 @@
 import Image from 'next/image'
 import waitingDev from '@/public/images/wating-dev.png'
+import {
+  NotStudentWrapper,
+  NotSystemAdminWrapper,
+  StudentWrapper,
+  SystemAdminWrapper,
+} from '../auth/auth-wrapper'
+import StudentHomePage from './student'
+import CodingPage from '../page-error/coding'
 
 const DashboardWrapper = () => {
   return (
-    <div className="grow w-full rounded-t-md ">
-      <div className="flex justify-center">
-        <div>
-          <Image src={waitingDev} alt="" className={'max-w-sm'}></Image>
-          <div className="text-center">Trang hiện đang phát triển...</div>
-        </div>
-      </div>
-    </div>
+    <>
+      <SystemAdminWrapper>
+        <CodingPage />
+      </SystemAdminWrapper>
+      
+      <NotSystemAdminWrapper>
+        <NotStudentWrapper>
+          <CodingPage />
+        </NotStudentWrapper>
+        <StudentWrapper>
+          <StudentHomePage />
+        </StudentWrapper>
+      </NotSystemAdminWrapper>
+    </>
   )
 }
 export default DashboardWrapper
