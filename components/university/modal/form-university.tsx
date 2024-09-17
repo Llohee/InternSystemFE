@@ -64,8 +64,8 @@ export const FormUniversity = (props: {
             required
           />
           <Uploader
-            defaultValue={props.UniversityDetail?.image_url}
-            attachment={props.UniversityDetail?.image_url}
+            defaultValue={props.UniversityDetail?.image_url.map((v) => v.object)}
+            attachments={props.UniversityDetail?.image_url}
             className="col-span-full"
             label="Ảnh đại diện"
             module="university"

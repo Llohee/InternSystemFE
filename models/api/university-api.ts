@@ -19,7 +19,7 @@ export interface UniversityDetail {
   code: string
   created_time: string
   is_active: boolean
-  image_url: any
+  image_url: any[]
 }
 export interface UpdateUniversityRequest {
   code: string
