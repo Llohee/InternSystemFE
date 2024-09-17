@@ -10,7 +10,9 @@ export interface UserGetDetail {
   created_time: string
   is_active: boolean
   roles: roleUser[]
+  status: string
   updated_time: string
+  code: string
   type: "STUDENT" | "BUSINESS" | "UNIVERSITY"
 }
 export interface GetAllUsersResponse {

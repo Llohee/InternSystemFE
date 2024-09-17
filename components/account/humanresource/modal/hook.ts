@@ -33,7 +33,7 @@ export const useHumanresourceAccountCreate = (closeModal: () => void) => {
   formCreate.register('password', {
     pattern: {
       value: passwordRegex,
-      message: 'Không đúng định dạng mật khẩu',
+      message: 'Ít nhất 8 kí tự bao gồm chữ hoa, chữ thường, số và kí tự đặc biệt',
     },
   })
   formCreate.register('fullname', {

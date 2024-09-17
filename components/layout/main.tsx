@@ -5,7 +5,7 @@ import { Header } from '../ui/header/header'
 import { siteTitle } from './common/header'
 import SidebarLayout from './common/side-bar'
 import MetaHeader from './meta-header'
-import { NotStudentWrapper } from '../auth/auth-wrapper'
+import { NotStudentWrapper, StudentWrapper } from '../auth/auth-wrapper'
 
 export function MainLayout({ children, title, nonePadding }: LayoutProps) {
   const maxWidthMedium = 1024
@@ -44,9 +44,35 @@ export function MainLayout({ children, title, nonePadding }: LayoutProps) {
   }
   return (
     <>
-      {/* <EndUserWrapper> */}
-
-      {/* </EndUserWrapper> */}
+      <StudentWrapper>
+        <div className="bg-white flex flex-col h-screen relative text-typography-body">
+          <MetaHeader />
+          <Head>
+            <title>{convertTitlePageFromKey(title ?? siteTitle)}</title>
+          </Head>
+          <div
+            id="body-overflow"
+            className="flex-1 lg:h-full lg:mt-0 h-body rounded-t-md overflow-x-hidden"
+          >
+            <div className="relative flex-1 flex flex-col h-screen md:min-h-screen bg-white">
+              <Header
+                title={
+                  titlePage ? convertTitlePageFromKey(titlePage) : undefined
+                }
+              />
+              <div
+                className={`relative grow ${
+                  nonePadding === true
+                    ? ''
+                    : titlePage && 'md:px-8 text-typography-body'
+                }`}
+              >
+                {children}
+              </div>
+            </div>
+          </div>
+        </div>
+      </StudentWrapper>
       <NotStudentWrapper>
         <div className="bg-white flex flex-col lg:flex-row h-screen text-typography-body">
           <MetaHeader />

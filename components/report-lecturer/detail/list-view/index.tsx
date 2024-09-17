@@ -5,20 +5,21 @@ import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { Pill } from '@/components/ui/pill'
 import { Tooltip } from '@/components/ui/tooltip/tooltip'
-import { useGetAllReportStudent } from '@/hooks/query/report-student'
-import { useFilterForReportStudentStore } from '@/hooks/zustand/filter-for-report-student'
+import { useGetAllReportLecturer } from '@/hooks/query/report-lecturer'
+import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
 import produce from 'immer'
 import Link from 'next/link'
+import { ReportListViewSkeleton } from '../skeleton'
 
-interface ReportStudentProps {
-  idStudent: string
+interface ReportLecturerProps {
+  idLecturer: string
   showList: boolean
   setShowList: (b: boolean) => void
 }
-const ReportStudentListView = (props: ReportStudentProps) => {
+const ReportLecturerListView = (props: ReportLecturerProps) => {
   const { showList, setShowList } = props
-  const allReportStudent = useGetAllReportStudent()
-  const filterReportStudent = useFilterForReportStudentStore()
+  const allReportLecturer = useGetAllReportLecturer()
+  const filterReportLecturer = useFilterForReportLecturerStore()
 
   return (
     <>
@@ -64,8 +65,8 @@ const ReportStudentListView = (props: ReportStudentProps) => {
             `ticket.filter.default.${
               defautFilterTicket.find(
                 (e) =>
-                  e === filterReportStudent.filter.defaultQuery ||
-                  (!Boolean(filterReportStudent.filter.defaultQuery) && e === 'all')
+                  e === filterReportLecturer.filter.defaultQuery ||
+                  (!Boolean(filterReportLecturer.filter.defaultQuery) && e === 'all')
               ) ?? 'all'
             }`
           )} */}
@@ -122,10 +123,10 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                   Tất cả sinh viên
                 </div>
                 <div className="relative">
-                  {filterReportStudent.filter.query &&
-                    filterReportStudent.filter.query.length > 0 && (
+                  {filterReportLecturer.filter.query &&
+                    filterReportLecturer.filter.query.length > 0 && (
                       <div className="absolute -top-2 -right-2 text-subtitle-5 bg-primary-base text-grey-1 w-fit p-0.5 rounded-full z-10">
-                        ({filterReportStudent.filter.query.length})
+                        ({filterReportLecturer.filter.query.length})
                       </div>
                     )}
                   {/* <Tooltip
@@ -163,10 +164,10 @@ const ReportStudentListView = (props: ReportStudentProps) => {
             <DebouncedInput
               placeholder={'Tìm kiếm học sinh'}
               className="!bg-primary-background/50 !border-0"
-              value={filterReportStudent.filter.name}
+              value={filterReportLecturer.filter.name}
               onChange={(value) => {
-                filterReportStudent.update(
-                  produce(filterReportStudent.filter, (draftState: any) => {
+                filterReportLecturer.update(
+                  produce(filterReportLecturer.filter, (draftState: any) => {
                     draftState.name = value.toString()
                   })
                 )
@@ -185,7 +186,7 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                         <Pill
                           intent={'primary'}
                           className={`${
-                            filterReportStudent.filter.sort[0]
+                            filterReportLecturer.filter.sort[0]
                               ? `text-white bg-primary-base`
                               : `text-typography-label bg-grey-2`
                           }`}
@@ -195,13 +196,13 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                             {t(
                               defautCOlTicketShow.find(
                                 (e) =>
-                                  e.id === filterReportStudent.filter.sort[0]?.name
+                                  e.id === filterReportLecturer.filter.sort[0]?.name
                               )
                                 ? `ticket.tickets.${
                                     defautCOlTicketShow.find(
                                       (e) =>
                                         e.id ===
-                                        filterReportStudent.filter.sort[0]?.name
+                                        filterReportLecturer.filter.sort[0]?.name
                                     )?.id
                                   }`
                                 : 'ticket.filter.default.title'
@@ -227,9 +228,9 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                       </Menu.Button>
                       <div
                         onClick={() => {
-                          filterReportStudent.update(
+                          filterReportLecturer.update(
                             produce(
-                              filterReportStudent.filter,
+                              filterReportLecturer.filter,
                               (draftState: TicketFilterRequest) => {
                                 if (draftState.sort[0])
                                   draftState.sort[0].type =
@@ -239,7 +240,7 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                           )
                         }}
                       >
-                        {filterReportStudent.filter.sort[0] ? (
+                        {filterReportLecturer.filter.sort[0] ? (
                           <svg
                             width="16"
                             height="17"
@@ -247,7 +248,7 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             className={`h-4 w-4 ${
-                              filterReportStudent.filter.sort[0].type
+                              filterReportLecturer.filter.sort[0].type
                                 ? 'rotate-180'
                                 : ''
                             }`}
@@ -280,9 +281,9 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                         <Menu.Item
                           as={'div'}
                           onClick={() =>
-                            filterReportStudent.update(
+                            filterReportLecturer.update(
                               produce(
-                                filterReportStudent.filter,
+                                filterReportLecturer.filter,
                                 (draftState: TicketFilterRequest) => {
                                   draftState.sort = []
                                 }
@@ -298,9 +299,9 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                             as={'div'}
                             key={index}
                             onClick={() =>
-                              filterReportStudent.update(
+                              filterReportLecturer.update(
                                 produce(
-                                  filterReportStudent.filter,
+                                  filterReportLecturer.filter,
                                   (draftState: TicketFilterRequest) => {
                                     draftState.sort = [
                                       { name: item.id, type: false },
@@ -310,7 +311,7 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                               )
                             }
                             className={` group w-full flex items-end px-2 text-right py-2 text-button-3 hover:bg-grey-3 text-typography-label ${
-                              item.id === filterReportStudent.filter.sort[0]?.name
+                              item.id === filterReportLecturer.filter.sort[0]?.name
                                 ? 'bg-grey-4'
                                 : ''
                             }  whitespace-nowrap cursor-pointer`}
@@ -327,33 +328,36 @@ const ReportStudentListView = (props: ReportStudentProps) => {
           </div>
           <div className="grow h-[calc(100vh_-_18rem)] md:h-[calc(100vh_-_12rem)] overflow-auto">
             <div className="h-full">
-              {allReportStudent.status === 'loading' && ''}
-              {allReportStudent.status === 'success' &&
-                allReportStudent.data.data.length <= 0 && (
+              {allReportLecturer.status === 'loading' && (
+                <ReportListViewSkeleton />
+              )}
+              {allReportLecturer.status === 'success' &&
+                allReportLecturer.data.data.length <= 0 && (
                   <div className="w-full h-full flex justify-center items-center">
                     Không có dữ liệu
                   </div>
                 )}
-              {allReportStudent.status === 'success' && (
+              {allReportLecturer.status === 'success' && (
                 <>
-                  {allReportStudent.data.data.map((studentId, index) => (
+                  {allReportLecturer.data.data.map((LecturerId, index) => (
                     <Link
-                      href={`/report/student/${studentId.id}`}
+                      href={`/report/lecturer/${LecturerId.id}`}
                       onClick={() => setShowList(true)}
                       key={index}
                       className={`group flex py-4 px-6 justify-start text-body-3 gap-2 hover:bg-primary-hover/10 ${
-                        props.idStudent === studentId.id && 'bg-primary-base/10'
+                        props.idLecturer === LecturerId.id &&
+                        'bg-primary-base/10'
                       }`}
                     >
                       <div className="py-2">
                         <Tooltip
                           tootipDetail={
-                            studentId.fullname ?? 'Sinh viên: Chưa xác định'
+                            LecturerId.fullname ?? 'Sinh viên: Chưa xác định'
                           }
                           placementTootip="auto-start"
                           dark
                         >
-                          <Avatar name={studentId.fullname ?? ''} />
+                          <Avatar name={LecturerId.fullname ?? ''} />
                         </Tooltip>
                       </div>
                       <div className="flex flex-col gap-3">
@@ -361,14 +365,14 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                           <Tooltip
                             tootipDetail={
                               <div className="line-clamp-2 w-52">
-                                {studentId.fullname}
+                                {LecturerId.fullname}
                               </div>
                             }
                             placementTootip="auto-start"
                           >
                             <div
                               className={`relative py-0.5 flex flex-wrap gap-1 overflow-hidden h-fit ${
-                                props.idStudent === studentId.id &&
+                                props.idLecturer === LecturerId.id &&
                                 'text-primary-base'
                               }`}
                             >
@@ -376,41 +380,41 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                                 intent="primary"
                                 className="shadow absolute top-0"
                               >
-                                {studentId?.code ?? ''}
+                                {LecturerId?.code ?? ''}
                               </Pill> */}
                               <div
                                 className="line-clamp-2"
                                 style={{
                                   textIndent: `${
-                                    studentId.code?.length < 6
-                                      ? studentId.code?.length * 4.25 + 58
-                                      : studentId.code?.length * 5 + 58
+                                    LecturerId.code?.length < 6
+                                      ? LecturerId.code?.length * 4.25 + 58
+                                      : LecturerId.code?.length * 5 + 58
                                   }px`,
                                 }}
                               >
-                                {studentId.fullname}
+                                {LecturerId.fullname}
                               </div>
                             </div>
                           </Tooltip>
                         </div>
                         {/* <div className="flex items-center gap-2 text-subtitle-4">
                           <span className="font-bold w-20">
-                            {studentId.status?.name ?? ''}
+                            {LecturerId.status?.name ?? ''}
                           </span>
                           <span className="w-1 h-1 aspect-square bg-black rounded-full"></span>
                           <div className="flex gap-2 items-cente justify-start">
                             <div className="flex gap-2 items-center w-full">
                               <div
                                 className={
-                                  studentId.sla?.response_assurance
+                                  LecturerId.sla?.response_assurance
                                     ?.is_overdue ||
-                                  studentId.sla?.resolving_assurance
+                                  LecturerId.sla?.resolving_assurance
                                     ?.is_overdue
                                     ? 'text-error-base'
                                     : ''
                                 }
                               >
-                                {dayjs(studentId.created_time).format(
+                                {dayjs(LecturerId.created_time).format(
                                   DATE_TIME_FORMAT_VIEW
                                 )}
                               </div>
@@ -420,13 +424,13 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                                   placementTootip="top"
                                   tootipDetail={
                                     <GetDataSLAFull
-                                      ticketID={studentId.id}
-                                      sla={studentId.sla}
+                                      ticketID={LecturerId.id}
+                                      sla={LecturerId.sla}
                                     />
                                   }
                                 >
                                   <div className="flex gap-1 ">
-                                    {studentId.sla?.response_assurance
+                                    {LecturerId.sla?.response_assurance
                                       ?.is_overdue && (
                                       <>
                                         <div className="text-subtitle-3 lg:flex lg:flex-wrap items-center gap-1 text-error-base">
@@ -447,7 +451,7 @@ const ReportStudentListView = (props: ReportStudentProps) => {
                                         </div>
                                       </>
                                     )}
-                                    {studentId.sla?.resolving_assurance
+                                    {LecturerId.sla?.resolving_assurance
                                       ?.is_overdue && (
                                       <>
                                         <div className="text-subtitle-3 hidden lg:flex lg:flex-wrap items-center gap-1 text-error-base ">
@@ -497,19 +501,22 @@ const ReportStudentListView = (props: ReportStudentProps) => {
               )}
             </div>
           </div>
-          {allReportStudent.status === 'success' && (
+          {allReportLecturer.status === 'success' && (
             <div className="w-full flex bg-grey-1 py-2 justify-center">
               <div>
                 <Pagination
                   changePage={(e) => {
-                    filterReportStudent.update(
-                      produce(filterReportStudent.filter, (draftState: any) => {
-                        draftState.page = e - 1
-                      })
+                    filterReportLecturer.update(
+                      produce(
+                        filterReportLecturer.filter,
+                        (draftState: any) => {
+                          draftState.page = e - 1
+                        }
+                      )
                     )
                   }}
-                  pageCurrent={allReportStudent.data.page + 1}
-                  totalPage={allReportStudent.data.total_page}
+                  pageCurrent={allReportLecturer.data.page + 1}
+                  totalPage={allReportLecturer.data.total_page}
                 />
               </div>
             </div>
@@ -519,4 +526,4 @@ const ReportStudentListView = (props: ReportStudentProps) => {
     </>
   )
 }
-export default ReportStudentListView
+export default ReportLecturerListView

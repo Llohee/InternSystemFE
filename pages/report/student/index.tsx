@@ -12,6 +12,6 @@ const ReportStudentPage: NextPageWithAuthLayout = () => {
 }
 ReportStudentPage.Layout = MainLayout
 ReportStudentPage.Auth = AllUserAuth
-ReportStudentPage.title = 'Quản lý và chấm điểm'
+ReportStudentPage.title = 'Báo cáo'
 
 export default ReportStudentPage

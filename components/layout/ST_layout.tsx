@@ -2,7 +2,7 @@
 import { LayoutProps } from '@/pages/_app'
 import MetaHeader from './meta-header'
 
-export function EULayout({ children }: LayoutProps) {
+export function STLayout({ children }: LayoutProps) {
   return (
     <div className="bg-grey-3 flex flex-col lg:flex-row h-screen ">
       <MetaHeader />
