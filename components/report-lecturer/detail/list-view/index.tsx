@@ -9,6 +9,7 @@ import { useGetAllReportLecturer } from '@/hooks/query/report-lecturer'
 import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
 import produce from 'immer'
 import Link from 'next/link'
+import { ReportListViewSkeleton } from '../skeleton'
 
 interface ReportLecturerProps {
   idLecturer: string
@@ -327,7 +328,9 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
           </div>
           <div className="grow h-[calc(100vh_-_18rem)] md:h-[calc(100vh_-_12rem)] overflow-auto">
             <div className="h-full">
-              {allReportLecturer.status === 'loading' && ''}
+              {allReportLecturer.status === 'loading' && (
+                <ReportListViewSkeleton />
+              )}
               {allReportLecturer.status === 'success' &&
                 allReportLecturer.data.data.length <= 0 && (
                   <div className="w-full h-full flex justify-center items-center">
@@ -342,7 +345,8 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                       onClick={() => setShowList(true)}
                       key={index}
                       className={`group flex py-4 px-6 justify-start text-body-3 gap-2 hover:bg-primary-hover/10 ${
-                        props.idLecturer === LecturerId.id && 'bg-primary-base/10'
+                        props.idLecturer === LecturerId.id &&
+                        'bg-primary-base/10'
                       }`}
                     >
                       <div className="py-2">
@@ -503,9 +507,12 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                 <Pagination
                   changePage={(e) => {
                     filterReportLecturer.update(
-                      produce(filterReportLecturer.filter, (draftState: any) => {
-                        draftState.page = e - 1
-                      })
+                      produce(
+                        filterReportLecturer.filter,
+                        (draftState: any) => {
+                          draftState.page = e - 1
+                        }
+                      )
                     )
                   }}
                   pageCurrent={allReportLecturer.data.page + 1}

@@ -61,6 +61,15 @@ const accountStudentApi = {
         role: 'ST'
       }
     })
+  },
+  getStudentById(accessToken: string, id: string): Promise<UserGetDetail> {
+    const url = `/auth/users/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
   }
 }
 

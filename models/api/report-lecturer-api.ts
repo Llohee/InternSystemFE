@@ -20,6 +20,42 @@ export interface ReportLecturerDetail {
   email: string
   phone: string
 }
+export interface GetAllReportResponse {
+  page: number
+  total: number
+  total_page: number
+  data: ReportDetail[]
+}
+export interface ReportDetail {
+  id: string
+  student: {
+    id: string
+    fullname: string
+    email: string
+  }
+  description: string
+  business: string
+  milestone: {
+    id: string
+    description: string
+    time: string
+  }
+  status: 'OVERDUE'
+  attachments: string[]
+  upload_time: string
+  expired_time: number
+  comment: string[]
+  activities: {
+    action: string
+    actor: {
+      id: string
+      fullname: string
+      email: string
+    }
+    time: string
+  }
+  score: number
+}
 // export interface UpdateReportLecturerRequest {
 //   code: string
 //   name?: string

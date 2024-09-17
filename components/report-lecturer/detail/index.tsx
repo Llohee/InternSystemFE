@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import ReportLecturerListView from './list-view'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import { AxiosError } from 'axios'
+import { ReportDetailSkeleton } from './skeleton'
+import { useGetAllReportbyStudentId } from '@/hooks/query/report-lecturer'
+import ReportView from './report-view'
+import { useGetScheduleByLecturer } from '@/hooks/query/schedule'
+import { useGetStudentById } from '@/hooks/query/account/student'
 
 const ReportLecturerDetailWrapper = (props: { id: string }) => {
   const [showList, setShowList] = useState(true)
-
   return (
     <>
       <div
@@ -23,14 +30,59 @@ const ReportLecturerDetailWrapper = (props: { id: string }) => {
             {...props}
           />
         </div>
-        {/* <div
+        <div
           className={`${
             showList ? '' : ''
           } grow w-full lg:relative md:!h-[calc(100vh_-_3rem)] overflow-auto`}
         >
-          <TicketViewWrapper {...props} isOpenSideListTicket={showList} />
-        </div> */}
+          <ReportLecturerViewWrapper
+            {...props}
+            isOpenSideListReport={showList}
+          />
+        </div>
       </div>
+    </>
+  )
+}
+const ReportLecturerViewWrapper = (props: {
+  id: string
+  isOpenSideListReport: boolean
+}) => {
+  const router = useRouter()
+  const scheduleLecturer = useGetScheduleByLecturer()
+  const studentByID = useGetStudentById(props.id)
+  if (scheduleLecturer.status === 'loading' || studentByID.status === 'loading')
+    return <ReportDetailSkeleton />
+  if (scheduleLecturer.status === 'error' || studentByID.status === 'error') {
+    const errorCode =
+      (scheduleLecturer.error as AxiosError).response?.status ||
+      (studentByID.error as AxiosError).response?.status
+    switch (errorCode) {
+      case 401:
+        router.replace('/401', router.asPath)
+        break
+      case 404:
+        router.replace('/404', router.asPath)
+        break
+      default:
+        router.replace('/error', router.asPath)
+        return <></>
+    }
+    return <></>
+  }
+
+  return (
+    <>
+      {/* <Head>
+        <title>{getTicketDetail.data.name}</title>
+      </Head> */}
+      <ReportView
+        // ticket={getTicketDetail.data}
+        // defaultTabTask={typeof props.taskID === 'string'}
+        studentById={studentByID.data}
+        scheduleLecturer={scheduleLecturer.data}
+        {...props}
+      />
     </>
   )
 }

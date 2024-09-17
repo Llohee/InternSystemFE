@@ -30,3 +30,26 @@ export const useFilterForReportLecturerStore = create<FilterForReportLecturerSta
     })
   },
 }))
+export const useFilterForReportStore = create<FilterForReportLecturerState>((set) => ({
+  filter: {
+    name: '',
+    limit: 10,
+    page: 0,
+    sort: [],
+    query: [],
+  },
+  update: (filter) => {
+    set({ filter: filter })
+  },
+  reset: () => {
+    set({
+      filter: {
+        name: '',
+        limit: 10,
+        page: 0,
+        sort: [],
+        query: [],
+      },
+    })
+  },
+}))
