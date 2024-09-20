@@ -7,6 +7,7 @@ import FormReport from './form-report'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
 import { useReportUpdate } from './hook'
 import ReportComment from '../comment'
+import { useReportCommentCreate } from '../comment/hook'
 
 const Updatereport = (props: {
   isOpen: boolean
@@ -20,22 +21,21 @@ const Updatereport = (props: {
   const closeModal = () => {
     setIsConfirmCloseModal(true)
   }
-  console.log(props.currentReportDetail)
   return (
     <>
       <Modal
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Thông tin chi tiết
+              Chi tiết báo cáo
             </div>
             <Button
               iconOnly
               ariaLabel="Reset form"
               btnStyle="no-background"
               onClick={() => {
-                // formCreate.reset()
-                // mutation.reset()
+                formUpdate.reset()
+                mutation.reset()
               }}
             >
               <svg
@@ -53,7 +53,6 @@ const Updatereport = (props: {
         isOpen={props.isOpen}
         closeModal={closeModal}
         size="large"
-        className="!max-w-large"
         hideBorder
         appear={false}
       >
@@ -80,7 +79,6 @@ const Updatereport = (props: {
                 <ReportComment
                   closeModal={props.closeModal}
                   ReportId={props.currentReportDetail?.id}
-                  getReportComments={props.currentReportDetail.comments}
                   module={'student-comment'}
                 />
               ),

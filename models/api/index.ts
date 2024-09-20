@@ -11,4 +11,6 @@ export * from './group-api'
 export * from './schedule-api'
 export * from './report-lecturer-api'
 export * from './status-api'
+export * from './comment-api'
+
 

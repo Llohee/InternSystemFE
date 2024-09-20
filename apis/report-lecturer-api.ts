@@ -2,6 +2,7 @@ import { CurentReportStudentDetail, GetAllReportLecturerResponse, GetAllReportRe
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
+import { GetAllReportComment, ReportCommentDetail } from "@/models/api/comment-api"
 
 const ReportLecturerApi = {
   getAllReportLecturer(
@@ -86,6 +87,19 @@ const ReportLecturerApi = {
     }
     return axiosClient.put(url, trymObject(data), config)
   },
+  getReportComments(
+    accessToken: string,
+    ReportId: string
+  ): Promise<ReportCommentDetail[]> {
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    const url = `/report/comment/${ReportId}`
+    return axiosClient.get(url, config)
+  },
   postReportComment(
     accessToken: string,
     ReportId: string,
@@ -99,7 +113,34 @@ const ReportLecturerApi = {
       },
     }
     const url = `/report/${ReportId}/${module}`
-    return axiosClient.post(url, { content, report_id: ReportId}, config)
+    return axiosClient.post(url, { content, report_id: ReportId }, config)
+  },
+  createScore(
+    accessToken: string,
+    ReportId: string,
+    score: number,
+  ): Promise<any> {
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    const url = `/report/${ReportId}/score`
+    return axiosClient.post(url, { score, report_id: ReportId }, config)
+  },
+  getReportbyId(
+    accessToken: string,
+    ReportId: string
+  ): Promise<ReportDetail> {
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    const url = `/report/${ReportId}`
+    return axiosClient.get(url, config)
   },
 }
 

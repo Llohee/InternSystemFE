@@ -1,43 +1,68 @@
 import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { Button } from '@/components/ui/button/button'
 import { Modal } from '@/components/ui/modal/modal'
-import { ReportDetail, ScheduleDetail } from '@/models/api'
-import { useEffect, useState } from 'react'
-import FormReport from './form-report'
+import { ModalLoading } from '@/components/ui/skeleton'
+import { useGetReportById } from '@/hooks/query/report-lecturer'
+import { ReportDetail } from '@/models/api'
+import { useState } from 'react'
+import FromScore from './form-score'
+import { useScoreUpdate } from './hook'
+import ReportComment from '@/components/report-student/create/comment'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
-import { userCeateReport } from './hook'
 
-const Createreport = (props: {
+const CreatescoreModal = (props: {
   isOpen: boolean
   closeModal: () => void
-  scheduleByStudent: ScheduleDetail
-  currentReportDetail?: ReportDetail
-  milestone_id: string
+  reportDetail: ReportDetail
 }) => {
-  const { handleFormSubmit, formCreate, mutation } = userCeateReport(
-    props.closeModal,
-    props.scheduleByStudent,
-    props.milestone_id
+  const getReportById = useGetReportById(props.reportDetail.id)
+  if (getReportById.status === 'loading')
+    return (
+      <ModalLoading
+        closeModal={props.closeModal}
+        isOpen={props.isOpen}
+        length={5}
+        size="large"
+      ></ModalLoading>
+    )
+  if (getReportById.status === 'error') return <></>
+  return (
+    <Createscore
+      isOpen={props.isOpen}
+      closeModal={props.closeModal}
+      report={getReportById.data}
+    />
   )
+}
+
+const Createscore = (props: {
+  isOpen: boolean
+  closeModal: () => void
+  report: ReportDetail
+}) => {
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
+
   const closeModal = () => {
     setIsConfirmCloseModal(true)
   }
+  const { handleFormSubmit, formUpdate, mutation } = useScoreUpdate(
+    props.closeModal
+  )
   return (
     <>
       <Modal
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Nộp báo cáo
+              Chi tiết báo cáo
             </div>
             <Button
               iconOnly
               ariaLabel="Reset form"
               btnStyle="no-background"
               onClick={() => {
-                formCreate.reset()
-                mutation.reset()
+                // formCreate.reset()
+                // mutation.reset()
               }}
             >
               <svg
@@ -59,21 +84,37 @@ const Createreport = (props: {
         hideBorder
         appear={false}
       >
-        <FormReport
-          form={formCreate}
-          handleFormSubmit={handleFormSubmit}
-          currentReportDetail={props.currentReportDetail}
-          closeModal={() => {
-            closeModal()
-          }}
-          mutation={mutation}
+        <ListTab
+          titles={[
+            {
+              title: 'Báo cáo',
+              node: (
+                <FromScore
+                  form={formUpdate}
+                  report={props.report}
+                  closeModal={() => closeModal()}
+                />
+              ),
+            },
+            {
+              title: 'Bình luận',
+              node: (
+                <ReportComment
+                  closeModal={props.closeModal}
+                  ReportId={props.report?.id}
+                  module={'lecturer-comment'}
+                />
+              ),
+            },
+          ]}
+          tabPadding={'px-6'}
         />
         <ConfirmCloseModal
           closeModal={(y) => {
             if (!y) setIsConfirmCloseModal(false)
             else {
               setIsConfirmCloseModal(false)
-              formCreate.reset()
+              formUpdate.reset()
               mutation.reset()
               props.closeModal()
             }
@@ -85,4 +126,4 @@ const Createreport = (props: {
   )
 }
 
-export default Createreport
+export default CreatescoreModal
