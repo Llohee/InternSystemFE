@@ -2,7 +2,7 @@ import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { Button } from '@/components/ui/button/button'
 import { Modal } from '@/components/ui/modal/modal'
 import { ReportDetail, ScheduleDetail } from '@/models/api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import FormReport from './form-report'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
 import { userCeateReport } from './hook'
@@ -23,7 +23,6 @@ const Createreport = (props: {
   const closeModal = () => {
     setIsConfirmCloseModal(true)
   }
-  // console.log(props.currentReportDetail)
   return (
     <>
       <Modal
@@ -74,8 +73,8 @@ const Createreport = (props: {
             if (!y) setIsConfirmCloseModal(false)
             else {
               setIsConfirmCloseModal(false)
-              // resetForm()
-              // mutation.reset()
+              formCreate.reset()
+              mutation.reset()
               props.closeModal()
             }
           }}
