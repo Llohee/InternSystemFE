@@ -2,6 +2,7 @@ import { StudentAccountFilterRequest, UpdateUserRequest, GetAllUsersResponse, Us
 import { getQuery } from "./common-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
+import { StringGradients } from "antd/es/progress/progress"
 
 const accountStudentApi = {
   getAllAccountStudent(
@@ -64,6 +65,15 @@ const accountStudentApi = {
   },
   getStudentById(accessToken: string, id: string): Promise<UserGetDetail> {
     const url = `/auth/users/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
+  getDetailStudent(accessToken: string): Promise<UserGetDetail> {
+    const url = `/auth/users/detail-student`
     return axiosClient.get(url, {
       headers: {
         token: accessToken,

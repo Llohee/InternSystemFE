@@ -7,12 +7,36 @@ export interface UserGetDetail {
   business: string
   email: string
   phone: string
-  created_time: string
   is_active: boolean
-  roles: roleUser[]
+  role: roleUser[]
+  created_time: string
+  activities: {
+    actor: string
+    action: string
+    time: string
+  }[]
+  id_number: string
+  faculty: string
+  institute: string
+  class: string
+  program_training: string
+  academic_year: string
+  group: {
+    id: string
+    name: string
+    students: {
+      fullname: string
+      email: string
+    }[]
+    created_time: string
+    lecturer_id: {
+      fullname: string
+      email: string
+      phone: string
+    }
+  }
   status: string
   updated_time: string
-  code: string
   type: "STUDENT" | "BUSINESS" | "UNIVERSITY"
 }
 export interface GetAllUsersResponse {

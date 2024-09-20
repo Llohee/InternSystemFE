@@ -37,6 +37,7 @@
     "react-poper": "^1.1.5",
     "react-popper": "^2.3.0",
     "react-popper-tooltip": "^4.4.2",
+    "react-quill": "^2.0.0",
     "react-select": "^5.8.0",
     "sass": "^1.77.8",
     "string-hash": "^1.1.3",

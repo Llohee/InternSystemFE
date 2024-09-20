@@ -13,7 +13,8 @@ export const AccountStudentKeys = {
     [...AccountStudentKeys.all, filter, 'getAllAccountStudent'] as const,
   getConfigSTWhithoutGroup: () =>
     [...AccountStudentKeys.all, 'getConfigSTWhithoutGroup'] as const,
-  getStudentById: (id: string) => [...AccountStudentKeys.all, id, 'getStudentById'] as const
+  getStudentById: (id: string) => [...AccountStudentKeys.all, id, 'getStudentById'] as const,
+  getDetailStudent: () => [...AccountStudentKeys.all, 'getDetailStudent'] as const
 }
 
 export function useGetAllAccountStudent() {
@@ -49,6 +50,15 @@ export function useGetStudentById(id: string) {
   return useQuery(
     AccountStudentKeys.getStudentById(id),
     () => accountStudentApi.getStudentById(getAccessToken.data!.access_token.token, id),
+    { enabled: !getAccessToken.isFetching }
+  )
+}
+export function useGetDetailStudent() {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    AccountStudentKeys.getDetailStudent(),
+    () => accountStudentApi.getDetailStudent(getAccessToken.data!.access_token.token),
     { enabled: !getAccessToken.isFetching }
   )
 }

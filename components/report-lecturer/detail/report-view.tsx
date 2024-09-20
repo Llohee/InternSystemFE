@@ -59,7 +59,7 @@ const ReportView = (props: {
                         node: <ReportWrapper studentId={props.id} />,
                       },
                       {
-                        title: 'Bình luận',
+                        title: 'Lịch sử',
                         node: <></>,
                       },
                     ]}
@@ -125,7 +125,7 @@ const DetailSideBar = (props: {
                 {props.studentById.fullname ?? 'Không tên'}
               </div>
               <div className="text-subtitle-4 whitespace-nowrap truncate">
-                {props.studentById.code ?? ''}
+                {props.studentById.id_number ?? ''}
               </div>
             </div>
           </div>
@@ -195,8 +195,8 @@ const ReportTileView = (props: {
           </svg>
           Quay lại
         </Button>
-        {props.studentById.code && (
-          <Pill intent="primary">{props.studentById.code ?? ''}</Pill>
+        {props.studentById.id_number && (
+          <Pill intent="primary">{props.studentById.id_number ?? ''}</Pill>
         )}
       </div>
       <div className="flex justify-center w-full relative">

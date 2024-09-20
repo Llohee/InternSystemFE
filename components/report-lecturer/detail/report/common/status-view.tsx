@@ -3,7 +3,7 @@ import { Tag } from '@/components/ui/tag'
 import { ColorStatus } from '@/models/api'
 export const reportStatusOptions: {
   label: string
-  value: 'OVERDUE' | 'LECTURER_CHECKED'
+  value: 'OVERDUE' | 'LECTURER_CHECKED' | 'ONTIME'
   color: string
 }[] = [
   {
@@ -16,9 +16,14 @@ export const reportStatusOptions: {
     value: 'LECTURER_CHECKED',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
   },
+  {
+    label: 'Đang chấm',
+    value: 'ONTIME',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
+  },
 ]
 export const ViewStatusReport = (props: {
-  status: 'OVERDUE' | 'LECTURER_CHECKED'
+  status: 'OVERDUE' | 'LECTURER_CHECKED' | 'ONTIME'
 }) => {
   const color = reportStatusOptions.find((e) => e.value === props.status)?.color
   return (
