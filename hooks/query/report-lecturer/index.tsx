@@ -1,4 +1,7 @@
-import { useFilterForReportLecturerStore, useFilterForReportStore } from '@/hooks/zustand/filter-for-report-lecturer'
+import {
+  useFilterForReportLecturerStore,
+  useFilterForReportStore,
+} from '@/hooks/zustand/filter-for-report-lecturer'
 import { useQuery } from '@tanstack/react-query'
 import produce from 'immer'
 import { useEffect } from 'react'
@@ -20,6 +23,14 @@ export const ReportLecturerKeys = {
       studentId,
       filter,
     ] as const,
+  getCurrentReport: () =>
+    [...ReportLecturerKeys.all, 'getCurrentReport'] as const,
+  getReportComments: (ReportId: string, currentPage: number) => [
+    ...ReportLecturerKeys.all,
+    'getReportComments',
+    ReportId,
+    currentPage,
+  ],
 }
 
 export function useGetAllReportLecturer() {
@@ -63,5 +74,18 @@ export function useGetAllReportbyStudentId(studentId: string) {
         filterReport.filter
       ),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+
+export function useGetCurrentReport() {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ReportLecturerKeys.getCurrentReport(),
+    () =>
+      ReportLecturerApi.getCurrentReport(
+        getAccessToken.data!.access_token.token
+      ),
+    { enabled: !getAccessToken.isFetching }
   )
 }

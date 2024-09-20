@@ -40,13 +40,13 @@ export interface ReportDetail {
     description: string
     time: string
   }
-  status: 'OVERDUE'
-  attachments: string[]
+  status: 'OVERDUE' | 'ONTIME'
+  attachments: any[]
   upload_time: string
   expired_time: number
-  comment: string[]
+  comments: string[]
   activities: {
-    action: string
+    action: 'CREATE'
     actor: {
       id: string
       fullname: string
@@ -56,10 +56,15 @@ export interface ReportDetail {
   }
   score: number
 }
-// export interface UpdateReportLecturerRequest {
-//   code: string
-//   name?: string
-//   // website: string
-//   // location?: string
-//   is_active?: boolean
-// }
+export interface CurentReportStudentDetail {
+  id: string
+  description: string
+  time: string
+  reports: ReportDetail[]
+}
+export interface UpdateReportRequest {
+  milestone_id: string
+  schedule_id: string
+  attachments: any[]
+  description: string
+}
