@@ -1,18 +1,23 @@
 import ReportLecturerApi from "@/apis/report-lecturer-api"
 import { useGetAccessToken } from "@/hooks/query/auth"
 import { ReportLecturerKeys } from "@/hooks/query/report-lecturer"
-import { CurentReportStudentDetail, ErrorResponse, ReportDetail, ScheduleDetail, UpdateReportRequest } from "@/models/api"
+import { ErrorResponse, ScheduleDetail, UpdateReportRequest } from "@/models/api"
 import { queryClient } from "@/pages/_app"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import { useEffect } from "react"
 import { SubmitHandler, useForm, UseFormReset } from "react-hook-form"
 import toast from "react-hot-toast"
 
-export const userCeateReport = (closeModal : () => void, scheduleDetail: ScheduleDetail, milestone_id: string) => {
+export const userCeateReport = (closeModal: () => void, scheduleDetail: ScheduleDetail, milestone_id: string) => {
   const formCreate = useForm<UpdateReportRequest>()
-  formCreate.register('schedule_id', { value : scheduleDetail.id})
-  formCreate.register('milestone_id', {value: milestone_id})
-  formCreate.register('attachments',{
+  formCreate.register('schedule_id', { value: scheduleDetail.id })
+  useEffect(() => {
+    if (milestone_id) {
+      formCreate.register('milestone_id', { value: milestone_id })
+    }
+  }, [milestone_id])
+  formCreate.register('attachments', {
     required: "Tệp đính kèm là bắt buộc"
   })
   const mutation = useCreateReportMutation(formCreate.reset, closeModal)
@@ -31,7 +36,7 @@ export const userCeateReport = (closeModal : () => void, scheduleDetail: Schedul
 export function useCreateReportMutation(
   reset: UseFormReset<UpdateReportRequest>,
   closeModal: () => void
-){
+) {
   const getAccessToken = useGetAccessToken()
   return useMutation<any, AxiosError, UpdateReportRequest, any>(
     (createUserBody) =>
@@ -49,7 +54,7 @@ export function useCreateReportMutation(
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(ReportLecturerKeys.all)
-        // reset()
+        reset()
         closeModal()
       },
     }

@@ -32,7 +32,7 @@ const FormReport = (props: {
               props.form.formState.errors.description ? 'error' : 'default'
             }
             placeholder={'Nhập ghi chú'}
-            defautValue={props.currentReportDetail?.description}
+            defautValue={props.isEdit ? props.currentReportDetail?.description : ""}
             message={props.form.formState.errors.description?.message ?? ''}
             disabled={props.isEdit}
             required

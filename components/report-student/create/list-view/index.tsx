@@ -23,8 +23,7 @@ const ReportStudentListView = (props: {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
   const [currentReport, setCurrentReport] = useState<ReportDetail | undefined>()
-  console.log(currentReport)
-  const [currentMilestone, setCurrentMilestone] = useState()
+  const [currentMilestone, setCurrentMilestone] = useState<string>()
   return (
     <>
       <div className="w-full max-h-table-task-ticket">
@@ -94,6 +93,7 @@ const ReportStudentListView = (props: {
                                 <Button
                                   onClick={() => {
                                     setIsShowModalCreate(true)
+                                    setCurrentMilestone(val.id)
                                   }}
                                   className="flex gap-2 items-center "
                                 >
@@ -115,12 +115,6 @@ const ReportStudentListView = (props: {
                                 </Button>
                               </div>
                             </div>
-                            <Createreport
-                              isOpen={isShowModalCreate}
-                              closeModal={() => setIsShowModalCreate(false)}
-                              scheduleByStudent={props.scheduleByStudent}
-                              milestone_id={val.id}
-                            />
                           </>
                         ) : (
                           (val.reports ?? []).map((report, index) => (
@@ -157,11 +151,6 @@ const ReportStudentListView = (props: {
                                   {report.description}
                                 </Tooltip>
                               </div>
-                              {/* <Updatereport
-                                isOpen={isShowModalUpdate}
-                                closeModal={() => setIsShowModalUpdate(false)}
-                                currentReportDetail={report}
-                              /> */}
                             </>
                           ))
                         )}
@@ -177,12 +166,14 @@ const ReportStudentListView = (props: {
                   currentReportDetail={currentReport}
                 />
               )}
-              {/* <Createreport
-                isOpen={isShowModalCreate}
-                closeModal={() => setIsShowModalCreate(false)}
-                scheduleByStudent={props.scheduleByStudent}
-                currentReportDetail={currentReport}
-              /> */}
+              {currentMilestone && (
+                <Createreport
+                  isOpen={isShowModalCreate}
+                  closeModal={() => setIsShowModalCreate(false)}
+                  scheduleByStudent={props.scheduleByStudent}
+                  milestone_id={currentMilestone}
+                />
+              )}
             </>
           ))}
         </div>
