@@ -12,7 +12,7 @@ import {
   DisclosurePanel,
 } from '@headlessui/react'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Createreport from '../modal/create-report'
 import Updatereport from '../modal/update-report'
 
@@ -22,8 +22,15 @@ const ReportStudentListView = (props: {
 }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [currentReport, setCurrentReport] = useState<ReportDetail | undefined>()
+  const [currentReport, setCurrentReport] = useState<ReportDetail | undefined>(
+    undefined
+  )
   const [currentMilestone, setCurrentMilestone] = useState<string>()
+  useEffect(() => {
+    if (currentReport) {
+      setIsShowModalUpdate(true)
+    }
+  }, [currentReport])
   return (
     <>
       <div className="w-full max-h-table-task-ticket">
@@ -120,12 +127,9 @@ const ReportStudentListView = (props: {
                           (val.reports ?? []).map((report, index) => (
                             <>
                               <div
-                                key={index}
+                                key={report.id}
                                 className="flex items-center gap-3 px-4 py-2 bg-grey-1 odd:bg-grey-3 cursor-pointer"
-                                onClick={() => {
-                                  setIsShowModalUpdate(true)
-                                  setCurrentReport(report)
-                                }}
+                                onClick={() => setCurrentReport(report)}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -162,14 +166,20 @@ const ReportStudentListView = (props: {
               {currentReport && (
                 <Updatereport
                   isOpen={isShowModalUpdate}
-                  closeModal={() => setIsShowModalUpdate(false)}
+                  closeModal={() => {
+                    setIsShowModalUpdate(false)
+                    setCurrentReport(undefined)
+                  }}
                   currentReportDetail={currentReport}
                 />
               )}
               {currentMilestone && (
                 <Createreport
                   isOpen={isShowModalCreate}
-                  closeModal={() => setIsShowModalCreate(false)}
+                  closeModal={() => {
+                    setIsShowModalCreate(false)
+                    setCurrentMilestone(undefined)
+                  }}
                   scheduleByStudent={props.scheduleByStudent}
                   milestone_id={currentMilestone}
                 />

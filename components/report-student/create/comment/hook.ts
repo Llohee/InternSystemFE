@@ -42,7 +42,7 @@ const usePostReportCommentMutation = (
     {
       onSuccess: (data) => {
         reset()
-        return queryClient.invalidateQueries(ReportLecturerKeys.all)
+        return queryClient.invalidateQueries(ReportLecturerKeys.getReportComments(ReportId))
       },
     }
   )
