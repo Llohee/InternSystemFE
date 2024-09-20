@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button/button'
 import {
   CustomComboboxButton,
   ComboboxButtonWrapper,
-  ComboboxOption,
+  CustomComboboxOption,
   CustomComboboxOptions,
   ComboboxText,
   UserDetailOptionDisp,
@@ -152,9 +152,9 @@ export const FormGroup = (props: {
                               </ComboboxText>
                             ) : (
                               filterUser.map((user) => (
-                                <ComboboxOption key={user.id} value={user}>
+                                <CustomComboboxOption key={user.id} value={user}>
                                   <UserDetailOptionDisp user={user} />
-                                </ComboboxOption>
+                                </CustomComboboxOption>
                               ))
                             )}
                           </CustomComboboxOptions>
@@ -272,9 +272,9 @@ export const FormGroup = (props: {
                               </ComboboxText>
                             ) : (
                               filterUser.map((user) => (
-                                <ComboboxOption key={user.id} value={user}>
+                                <CustomComboboxOption key={user.id} value={user}>
                                   <UserDetailOptionDisp user={user} />
-                                </ComboboxOption>
+                                </CustomComboboxOption>
                               ))
                             )}
                           </CustomComboboxOptions>

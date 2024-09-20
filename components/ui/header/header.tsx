@@ -64,7 +64,7 @@ export function Header(props: HeaderProps) {
   const logoutNavigate = useLogoutNavigate()
   if (userDetail.data.role == 'ST')
     return (
-      <div className="w-full top-0 sticky z-[8000]">
+      <div className="w-full top-0 sticky z-[1000]">
         <div className="bg-brand h-14 flex items-center justify-between md:px-8">
           <div className="flex gap-2 items-center px-3">
             <Image

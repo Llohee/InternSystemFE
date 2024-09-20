@@ -1,5 +1,5 @@
 import { UserGetDetail } from '@/models/api'
-import { Combobox, ComboboxButton, ComboboxOptions } from '@headlessui/react'
+import { Combobox, ComboboxButton, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { cx } from 'class-variance-authority'
 import React, { ChangeEvent } from 'react'
 import produce from 'immer'
@@ -45,15 +45,16 @@ export const CustomComboboxButton = React.forwardRef<
 ))
 
 export const CustomComboboxOptions = React.forwardRef<
-  React.ElementRef<typeof Combobox.Options>,
-  React.ComponentPropsWithoutRef<typeof Combobox.Options>
+  React.ElementRef<typeof ComboboxOptions>,
+  React.ComponentPropsWithoutRef<typeof ComboboxOptions>
 >(({ className, ...props }, ref) => (
   <ComboboxOptions
     ref={ref}
     className={cx(
-      'absolute z-40 my-3 max-h-56 w-full list-none overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+      'absolute z-40 my-3 max-h-16 w-full list-none overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
       className
     )}
+    // anchor="bottom"
     {...props}
   />
 ))
@@ -72,11 +73,11 @@ export const ComboboxText = React.forwardRef<
   />
 ))
 
-export const ComboboxOption = React.forwardRef<
-  React.ElementRef<typeof Combobox.Option>,
-  React.ComponentPropsWithoutRef<typeof Combobox.Option>
+export const CustomComboboxOption = React.forwardRef<
+  React.ElementRef<typeof ComboboxOption>,
+  React.ComponentPropsWithoutRef<typeof ComboboxOption>
 >(({ className, ...props }, ref) => (
-  <Combobox.Option
+  <ComboboxOption
     ref={ref}
     className={cx(
       'cursor-pointer select-none px-4 py-3 ui-active:bg-slate-100 ui-selected:bg-grey-2',
