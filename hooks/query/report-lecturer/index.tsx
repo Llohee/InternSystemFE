@@ -25,11 +25,15 @@ export const ReportLecturerKeys = {
     ] as const,
   getCurrentReport: () =>
     [...ReportLecturerKeys.all, 'getCurrentReport'] as const,
-  getReportComments: (ReportId: string, currentPage: number) => [
+  getReportComments: (ReportId: string) => [
     ...ReportLecturerKeys.all,
     'getReportComments',
     ReportId,
-    currentPage,
+  ],
+  getReportById: (ReportId: string) => [
+    ...ReportLecturerKeys.all,
+    'getReportById',
+    ReportId,
   ],
 }
 
@@ -87,5 +91,32 @@ export function useGetCurrentReport() {
         getAccessToken.data!.access_token.token
       ),
     { enabled: !getAccessToken.isFetching }
+  )
+}
+
+export function useGetReportComments(ReportId: string) {
+  const getAccessToken = useGetAccessToken()
+  return useQuery(
+    ReportLecturerKeys.getReportComments(ReportId),
+    () =>
+      ReportLecturerApi.getReportComments(
+        getAccessToken.data!.access_token.token,
+        ReportId
+      ),
+    { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+
+export function useGetReportById(ReportId: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ReportLecturerKeys.getReportById(ReportId),
+    () =>
+      ReportLecturerApi.getReportbyId(
+        getAccessToken.data!.access_token.token,
+        ReportId
+      ),
+    { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )
 }

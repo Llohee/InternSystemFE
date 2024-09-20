@@ -1,7 +1,10 @@
 import { DATE_TIME_FORMAT_VIEW } from '@/components/common/constant'
+import { humanizeDurationConfig } from '@/components/common/duration'
 import { Pagination } from '@/components/ui/pagination/pagination'
+import { Pill } from '@/components/ui/pill'
 import { TableView } from '@/components/ui/table'
 import { useChooseMulti } from '@/components/ui/table/hooks'
+import { Tooltip } from '@/components/ui/tooltip/tooltip'
 import { useFilterForReportStore } from '@/hooks/zustand/filter-for-report-lecturer'
 import { GetAllReportResponse, ReportDetail } from '@/models/api'
 import {
@@ -15,10 +18,9 @@ import dayjs from 'dayjs'
 import produce from 'immer'
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { ViewStatusReport } from '../common/status-view'
-import humanizeDuration from 'humanize-duration'
-import { humanizeDurationConfig } from '@/components/common/duration'
-import { Tooltip } from '@/components/ui/tooltip/tooltip'
-import { Pill } from '@/components/ui/pill'
+import CreatescoreModal from '../modal/create-score'
+import { queryClient } from '@/pages/_app'
+import { ReportLecturerKeys } from '@/hooks/query/report-lecturer'
 
 interface ReportProps {
   getAllReportData: GetAllReportResponse
@@ -26,6 +28,7 @@ interface ReportProps {
 }
 const ReportTable = (props: ReportProps, ref: any) => {
   const filterReport = useFilterForReportStore()
+  const [isShowModalCreateSore, setIsShowModalCreateScore] = useState(false)
   const [data, setData] = useState(() => [...props.getAllReportData.data])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>(
@@ -108,7 +111,16 @@ const ReportTable = (props: ReportProps, ref: any) => {
     columnHelper.accessor('milestone', {
       id: 'milestone',
       header: 'Mốc',
-      cell: (info) => <>{info.getValue()?.description}</>,
+      cell: (info) => (
+        <button
+          onClick={() => {
+            setIsShowModalCreateScore(true)
+            setReportChoose(info.row.original)
+          }}
+        >
+          {info.getValue()?.description}
+        </button>
+      ),
       enableColumnFilter: true,
       meta: 'w-stt pl-5',
     }),
@@ -245,6 +257,17 @@ const ReportTable = (props: ReportProps, ref: any) => {
           showGotoPageInput
         ></Pagination>
       </div>
+      {ReportChoose && (
+        <CreatescoreModal
+          isOpen={isShowModalCreateSore}
+          closeModal={() => {
+            setIsShowModalCreateScore(false)
+            queryClient.removeQueries(ReportLecturerKeys.getReportById(ReportChoose.id))
+            setReportChoose(undefined)
+          }}
+          reportDetail={ReportChoose}
+        />
+      )}
     </>
   )
 }
