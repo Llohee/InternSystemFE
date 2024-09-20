@@ -22,7 +22,8 @@ const ReportStudentListView = (props: {
 }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [currentReport, setCurrentReport] = useState<ReportDetail>()
+  const [currentReport, setCurrentReport] = useState<ReportDetail | undefined>()
+  console.log(currentReport)
   const [currentMilestone, setCurrentMilestone] = useState()
   return (
     <>
@@ -59,7 +60,13 @@ const ReportStudentListView = (props: {
                             </svg>
                             <div className="">
                               <p className="">{val.description}</p>
-                              <p className={`${dayjs().isAfter(dayjs(val.time)) ? 'text-error-base' : ''}`}>
+                              <p
+                                className={`${
+                                  dayjs().isAfter(dayjs(val.time))
+                                    ? 'text-error-base'
+                                    : ''
+                                }`}
+                              >
                                 Hạn nộp:{' '}
                                 {dayjs(val.time).format(DATE_TIME_FORMAT_VIEW)}
                               </p>
@@ -123,7 +130,7 @@ const ReportStudentListView = (props: {
                                 className="flex items-center gap-3 px-4 py-2 bg-grey-1 odd:bg-grey-3 cursor-pointer"
                                 onClick={() => {
                                   setIsShowModalUpdate(true)
-                                  // setCurrentReport(report)
+                                  setCurrentReport(report)
                                 }}
                               >
                                 <svg
@@ -150,11 +157,11 @@ const ReportStudentListView = (props: {
                                   {report.description}
                                 </Tooltip>
                               </div>
-                              <Updatereport
+                              {/* <Updatereport
                                 isOpen={isShowModalUpdate}
                                 closeModal={() => setIsShowModalUpdate(false)}
                                 currentReportDetail={report}
-                              />
+                              /> */}
                             </>
                           ))
                         )}
@@ -163,11 +170,13 @@ const ReportStudentListView = (props: {
                   </>
                 )}
               </Disclosure>
-              {/* <Updatereport
-                isOpen={isShowModalUpdate}
-                closeModal={() => setIsShowModalUpdate(false)}
-                currentReportDetail={currentReport}
-              /> */}
+              {currentReport && (
+                <Updatereport
+                  isOpen={isShowModalUpdate}
+                  closeModal={() => setIsShowModalUpdate(false)}
+                  currentReportDetail={currentReport}
+                />
+              )}
               {/* <Createreport
                 isOpen={isShowModalCreate}
                 closeModal={() => setIsShowModalCreate(false)}
