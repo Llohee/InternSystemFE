@@ -47,9 +47,15 @@ export interface GetAllUsersResponse {
 }
 export interface UpdateUserRequest {
   email: string
-  fullname: string
   password: string
+  id_number: string
+  fullname: string
   phone?: string
+  faculty: string
+  institute: string
+  class: string
+  major: string
+  academic_year: any
   university: string
   business: string
   roles: roleUser[]
