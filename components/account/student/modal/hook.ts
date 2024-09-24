@@ -14,11 +14,11 @@ import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 export const useStudentAccountCreate = (closeModal: () => void) => {
-  const useGetDetail = useGetUserDetail()
+  // const useGetDetail = useGetUserDetail()
   const formCreate = useForm<UpdateUserRequest>()
-  formCreate.register('type', { value: 'STUDENT' })
-  formCreate.register('role', { value: 'ST' })
-  formCreate.register('university', { value: useGetDetail.data.university })
+  // formCreate.register('type', { value: 'STUDENT' })
+  // formCreate.register('role', { value: 'ST' })
+  // formCreate.register('university', { value: useGetDetail.data.university })
   formCreate.register('phone', {
     pattern: {
       value: phoneRegex,

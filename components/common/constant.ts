@@ -1,5 +1,6 @@
 export const DATE_TIME_FORMAT_VIEW = 'DD/MM/YYYY HH:mm'
 export const DATE_FORMAT_VIEW = 'DD/MM/YYYY'
+export const YEAR_FORMAT_VIEW = 'YYYY'
 export const DATE_FORMAT_SHORT_VIEW = 'D/M'
 export const DATE_FORMAT_VIEW_PUT = 'YYYY-MM-DD'
 export const DATE_FORMAT_VIEW_SAVE = 'M/D/YYYY'
