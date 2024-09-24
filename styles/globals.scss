@@ -348,3 +348,15 @@ a {
 svg {
   flex-shrink: 0;
 }
+.ant-picker-suffix svg {
+  fill: #00204D66;
+}
+.ant-picker-separator svg{
+  fill: #00204D66;
+}
+.ant-picker-input input::placeholder {
+  color: #00204D66 !important;
+}
+.ant-picker-dropdown {
+  z-index: 2000;
+}

@@ -43,7 +43,7 @@ const accountStudentApi = {
     })
   },
   createStudent(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
-    const url = 'auth/users'
+    const url = 'auth/students'
     const config = {
       headers: {
         token: accessToken,
