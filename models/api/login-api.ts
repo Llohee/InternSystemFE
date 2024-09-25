@@ -10,7 +10,7 @@ export type UserDetail = {
   is_active: string
   role: string
   create_time: string
-  activities: string
+  // activities: string
   university?: string
   business?:string
   access_token: {

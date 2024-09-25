@@ -43,7 +43,7 @@ const ReportComment = (props: ReportCommentProps) => {
         className="flex gap-3 w-full border-b border-border-2 pb-2.5"
         onSubmit={createComment.handleSubmit(handleFormSubmit)}
       >
-        <Avatar name={getUserDetail.data.fullname} />
+        {/* <Avatar name={getUserDetail.data.fullname} /> */}
         <div className="grow flex flex-col gap-2">
           <Controller
             control={createComment.control}
@@ -125,12 +125,12 @@ const ReportComment = (props: ReportCommentProps) => {
                     <span className="text-title-5 text-typography-title">
                       {item.creator.fullname}
                     </span>
-                    <p className="text-caption-1 text-typography-subtitle">
+                    <p className="text-caption-3 text-typography-subtitle/50 pt-[1px]">
                       {dayjs(item.created_time).format(DATE_TIME_FORMAT_VIEW)}
                     </p>
                   </div>
                   <div
-                    className=" text-body-3 text-typography-body w-full"
+                    className="text-body-3 text-typography-body w-full"
                     dangerouslySetInnerHTML={{ __html: item.content ?? '' }}
                   />
                 </div>

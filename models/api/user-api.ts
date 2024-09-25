@@ -10,11 +10,11 @@ export interface UserGetDetail {
   is_active: boolean
   role: roleUser[]
   created_time: string
-  activities: {
-    actor: string
-    action: string
-    time: string
-  }[]
+  // activities: {
+  //   actor: string
+  //   action: string
+  //   time: string
+  // }[]
   id_number: string
   faculty: string
   institute: string

@@ -80,3 +80,15 @@ export const ModalLoading = (props: {
     </>
   )
 }
+export const SingleNotiSkeleton = () => {
+  return (
+    <div className="flex gap-3">
+      <div className="animate-pulse bg-grey-2 h-9 rounded-full aspect-square" />
+      <div className="grow flex flex-col gap-2">
+        <div className="animate-pulse bg-grey-2 rounded-lg h-4" />
+        <div className="animate-pulse bg-grey-2 rounded-lg h-4" />
+        <div className="animate-pulse bg-grey-2 rounded-lg h-4 w-[50%]" />
+      </div>
+    </div>
+  )
+}

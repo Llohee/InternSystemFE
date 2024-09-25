@@ -101,11 +101,6 @@ export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
     <QueryClientProvider client={queryClient}>
       <CustomToast />
       <NonSSRWrapper>
-        {/* <style jsx global>{`
-          html {
-            font-family: ${inter.style.fontFamily};
-            }
-            `}</style> */}
         <AuthProvider isPublic={Auth === PublicAuth}>
           <Auth>
             <Layout title={title} nonePadding={nonePadding ?? false}>
