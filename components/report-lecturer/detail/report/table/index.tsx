@@ -21,6 +21,9 @@ import { ViewStatusReport } from '../common/status-view'
 import CreatescoreModal from '../modal/create-score'
 import { queryClient } from '@/pages/_app'
 import { ReportLecturerKeys } from '@/hooks/query/report-lecturer'
+import { useParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import ReportPopup from '../modal/report-popup'
 
 interface ReportProps {
   getAllReportData: GetAllReportResponse
@@ -29,6 +32,7 @@ interface ReportProps {
 const ReportTable = (props: ReportProps, ref: any) => {
   const filterReport = useFilterForReportStore()
   const [isShowModalCreateSore, setIsShowModalCreateScore] = useState(false)
+  const [isShowReportPopup, setIsShowReportPopup] = useState(true)
   const [data, setData] = useState(() => [...props.getAllReportData.data])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>(
@@ -81,33 +85,33 @@ const ReportTable = (props: ReportProps, ref: any) => {
   }, [props.getAllReportData])
   const columnHelper = createColumnHelper<ReportDetail>()
   const columns = [
-    columnHelper.display({
-      id: 'choose',
-      header: () => (
-        <input
-          type={'checkbox'}
-          checked={chooseAllItems()}
-          onChange={(e) => {
-            toggleChooseAllItem(e.target.checked)
-          }}
-          className=""
-        />
-      ),
-      cell: (propsCell) => (
-        <input
-          type={'checkbox'}
-          checked={
-            itemChoose.find((val: any) => val === propsCell.row.original) !=
-            undefined
-          }
-          onChange={() => {
-            toggleChooseItem(propsCell.row.original)
-          }}
-        />
-      ),
-      enableColumnFilter: false,
-      meta: 'w-choose',
-    }),
+    // columnHelper.display({
+    //   id: 'choose',
+    //   header: () => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={chooseAllItems()}
+    //       onChange={(e) => {
+    //         toggleChooseAllItem(e.target.checked)
+    //       }}
+    //       className=""
+    //     />
+    //   ),
+    //   cell: (propsCell) => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={
+    //         itemChoose.find((val: any) => val === propsCell.row.original) !=
+    //         undefined
+    //       }
+    //       onChange={() => {
+    //         toggleChooseItem(propsCell.row.original)
+    //       }}
+    //     />
+    //   ),
+    //   enableColumnFilter: false,
+    //   meta: 'w-choose',
+    // }),
     columnHelper.accessor('milestone', {
       id: 'milestone',
       header: 'Mốc',
@@ -117,28 +121,35 @@ const ReportTable = (props: ReportProps, ref: any) => {
             setIsShowModalCreateScore(true)
             setReportChoose(info.row.original)
           }}
+          className="text-primary-base"
         >
           {info.getValue()?.description}
         </button>
       ),
       enableColumnFilter: true,
-      meta: 'w-stt pl-5',
+      meta: 'w-switch',
     }),
     columnHelper.accessor('milestone', {
       id: 'milestone',
       header: 'Hạn nộp báo cáo',
       cell: (info) => (
-        <>{dayjs(info.getValue().time).format(DATE_TIME_FORMAT_VIEW)}</>
+        <div
+          className={`${
+            dayjs().isAfter(info.getValue().time) ? 'text-error-base' : ''
+          }`}
+        >
+          {dayjs(info.getValue().time).format(DATE_TIME_FORMAT_VIEW)}
+        </div>
       ),
       enableColumnFilter: true,
-      meta: 'w-boolean pl-5',
+      meta: 'w-time',
     }),
     columnHelper.accessor('status', {
       id: 'status',
       header: 'Trạng thái',
       cell: (info) => <ViewStatusReport status={info.getValue()} />,
       enableColumnFilter: true,
-      meta: 'w-boolean pl-5',
+      meta: 'w-boolean',
     }),
     columnHelper.accessor('upload_time', {
       id: 'upload_time',
@@ -148,12 +159,12 @@ const ReportTable = (props: ReportProps, ref: any) => {
           <>
             {info.getValue()
               ? dayjs(info.getValue()).format(DATE_TIME_FORMAT_VIEW)
-              : 'Chưa nộp'}{' '}
+              : 'Chưa nộp'}
           </>
         )
       },
       enableColumnFilter: true,
-      meta: 'w-boolean pl-5',
+      meta: 'w-time',
     }),
     columnHelper.accessor('expired_time', {
       id: 'expired_time',
@@ -161,13 +172,15 @@ const ReportTable = (props: ReportProps, ref: any) => {
       cell: (info) => (
         <div className="flex flex-col">
           {info.getValue()
-            ? humanizeDurationConfig(info.getValue())
+            ? dayjs().isAfter(info.row.original.milestone.time)
+              ? humanizeDurationConfig(info.getValue())
+              : <Pill intent="success">Đúng hạn</Pill>
             : 'Chưa nộp'}
         </div>
       ),
       enableColumnFilter: true,
       sortDescFirst: false,
-      meta: 'w-boolean pl-5',
+      meta: 'w-tenant',
     }),
     columnHelper.accessor('description', {
       id: 'description',
@@ -188,23 +201,27 @@ const ReportTable = (props: ReportProps, ref: any) => {
       ),
       enableColumnFilter: true,
       sortDescFirst: false,
-      meta: 'w-status pl-5',
+      meta: 'w-description',
     }),
     columnHelper.accessor('score', {
       id: 'score',
       header: 'Điểm số',
       cell: (info) => (
         <div id="cell-enable-overflow" className="flex items-center gap-2">
-          {info.getValue() && info.getValue() > 3 ? (
-            <Pill intent="success">{info.getValue()}</Pill>
+          {info.getValue() ? (
+            info.getValue() > 3 ? (
+              <Pill intent="success">{info.getValue()}</Pill>
+            ) : (
+              <Pill intent="error">{info.getValue()}</Pill>
+            )
           ) : (
-            <Pill intent="error">{info.getValue()}</Pill>
+            <Pill intent="warning">Chưa có điểm</Pill>
           )}
         </div>
       ),
       enableColumnFilter: true,
       sortDescFirst: false,
-      meta: 'w-status pl-5',
+      meta: 'w-status',
     }),
   ]
   const table = useReactTable({
@@ -221,6 +238,9 @@ const ReportTable = (props: ReportProps, ref: any) => {
     pageCount: 0,
     debugTable: true,
   })
+  const router = useRouter()
+  const { post_id, student_id } = router.query
+
   // useEffect(() => {
   //   if (table.getState().columnFilters[0]?.id === 'fullName') {
   //     if (table.getState().sorting[0]?.id !== 'fullName') {
@@ -262,10 +282,20 @@ const ReportTable = (props: ReportProps, ref: any) => {
           isOpen={isShowModalCreateSore}
           closeModal={() => {
             setIsShowModalCreateScore(false)
-            queryClient.removeQueries(ReportLecturerKeys.getReportById(ReportChoose.id))
+            queryClient.removeQueries(
+              ReportLecturerKeys.getReportById(ReportChoose.id)
+            )
             setReportChoose(undefined)
           }}
-          reportDetail={ReportChoose}
+          report_id={ReportChoose.id}
+          defaultTabReport={false}
+        />
+      )}
+      {typeof post_id === 'string' && typeof student_id === 'string' && (
+        <ReportPopup
+          report_id={post_id}
+          student_id={student_id}
+          defaultTabReport={typeof post_id === 'string'}
         />
       )}
     </>

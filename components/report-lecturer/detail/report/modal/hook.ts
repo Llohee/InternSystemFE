@@ -42,7 +42,7 @@ const useScoreCreateMutation = (
     {
       onSuccess: (data) => {
         reset()
-        return queryClient.invalidateQueries(ReportLecturerKeys.getReportById(ReportId))
+        return queryClient.invalidateQueries(ReportLecturerKeys.all)
       },
     }
   )

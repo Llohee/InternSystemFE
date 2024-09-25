@@ -1,3 +1,4 @@
+import { ActivityDetail } from "./activities-api"
 import { TypeQuery, TypeSort } from "./common"
 
 export interface ReportLecturerFilterRequest {
@@ -45,15 +46,7 @@ export interface ReportDetail {
   upload_time: string
   expired_time: number
   comments: string[]
-  activities: {
-    action: 'CREATE'
-    actor: {
-      id: string
-      fullname: string
-      email: string
-    }
-    time: string
-  }
+  activities: ActivityDetail[]
   score: number
 }
 export interface CurentReportStudentDetail {

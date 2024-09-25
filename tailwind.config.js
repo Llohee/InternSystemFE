@@ -455,11 +455,11 @@ module.exports = {
         'name-short': '160px',
         actions: '80px',
         'ticket-id': '100px',
-        switch: '100px',
+        switch: '80px',
         boolean: '130px',
         permissiontype: '150px',
         status: '150px',
-        time: '340px',
+        time: '150px',
         sla: '210px',
       },
       height: {

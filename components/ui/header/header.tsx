@@ -12,6 +12,7 @@ import { useHeaderSelectedItem } from '@/hooks/zustand/header-item'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { useLogoutNavigate } from '@/hooks/useLogout'
 import { UserMenu } from './user-menu'
+import NotificationMenu from '@/components/notification'
 // import { Tag } from '../tag'
 interface HeaderProps {
   title?: string
@@ -68,15 +69,15 @@ export function Header(props: HeaderProps) {
         <div className="bg-brand h-14 flex items-center justify-between md:px-8">
           <div className="flex gap-2 items-center px-3">
             <Image
-              src={userDetail.data.tenant.image_url}
+              src={userDetail.data.tenant?.image_url}
               alt=""
               width={30}
               height={30}
             />
-            <p className="text-white text-title-5 md:text-title-3">{userDetail.data.tenant.name.toUpperCase()} ({userDetail.data.tenant.code})</p>
+            <p className="text-white text-title-5 md:text-title-3">{userDetail.data.tenant?.name.toUpperCase()} ({userDetail.data.tenant?.code})</p>
           </div>
           <div className="relative flex gap-2.5 md:gap-3 items-center">
-            {/* <NotificationMenu /> */}
+            <NotificationMenu />
             <div className="md:hidden">
               <UserMenu
                 userDetail={userDetail.data}
@@ -134,7 +135,7 @@ export function Header(props: HeaderProps) {
             ))}
         </div>
         <div className="relative flex gap-2.5 items-center">
-          {/* <NotificationMenu /> */}
+          <NotificationMenu />
           <div>
             <UserMenu
               userDetail={userDetail.data}
