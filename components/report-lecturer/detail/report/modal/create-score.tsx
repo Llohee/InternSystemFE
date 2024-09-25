@@ -13,9 +13,10 @@ import { ListTab } from '@/components/ui/list-tab/list-tab'
 const CreatescoreModal = (props: {
   isOpen: boolean
   closeModal: () => void
-  reportDetail: ReportDetail
+  report_id: string
+  defaultTabReport: boolean
 }) => {
-  const getReportById = useGetReportById(props.reportDetail.id)
+  const getReportById = useGetReportById(props.report_id)
   if (getReportById.status === 'loading')
     return (
       <ModalLoading
@@ -31,6 +32,7 @@ const CreatescoreModal = (props: {
       isOpen={props.isOpen}
       closeModal={props.closeModal}
       report={getReportById.data}
+      defaultTabReport={props.defaultTabReport}
     />
   )
 }
@@ -39,6 +41,7 @@ const Createscore = (props: {
   isOpen: boolean
   closeModal: () => void
   report: ReportDetail
+  defaultTabReport: boolean
 }) => {
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
 
@@ -47,6 +50,9 @@ const Createscore = (props: {
   }
   const { handleFormSubmit, formUpdate, mutation } = useScoreUpdate(
     props.closeModal
+  )
+  const [selectedTab, onChangeSelectedTab] = useState(
+    props.defaultTabReport ? 2 : 0
   )
   return (
     <>
@@ -85,6 +91,8 @@ const Createscore = (props: {
         appear={false}
       >
         <ListTab
+         selectedIndex={selectedTab}
+         onChange={onChangeSelectedTab}
           titles={[
             {
               title: 'Báo cáo',
