@@ -13,6 +13,7 @@ import {
   university,
   Schedule,
   Report,
+  Post,
 } from './list-items'
 
 const sidebarAllItems: SideBarItemType[] = [
@@ -22,6 +23,7 @@ const sidebarAllItems: SideBarItemType[] = [
   Account,
   Report,
   Schedule,
+  Post
 ]
 const SidebarLayout = (props: {
   sidebarExpanded: boolean

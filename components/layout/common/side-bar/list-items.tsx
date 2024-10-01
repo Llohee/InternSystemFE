@@ -206,7 +206,7 @@ export const Account: SideBarItemType = {
   ),
   text: 'Quản lý người dùng',
   subSideBarItem: [University, Humanresource, Lecturer, Student, Group],
-  onlyFor: ['SA', 'AU', 'HR'],
+  onlyFor: ['SA', 'AU'],
 }
 export const Report: SideBarItemType = {
   link: '/report/lecturer',
@@ -246,7 +246,7 @@ export const Report: SideBarItemType = {
       />
     </svg>
   ),
-  text: "Quản lý và chấm điểm",
+  text: 'Quản lý và chấm điểm',
   onlyFor: ['LT', 'HR'],
 }
 export const Schedule: SideBarItemType = {
@@ -283,4 +283,77 @@ export const Schedule: SideBarItemType = {
   ),
   text: 'Cấu hình mốc thời gian',
   onlyFor: ['LT'],
+}
+export const Post: SideBarItemType = {
+  link: '/post',
+  icon: (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2 2.90909C2 2.40701 2.40701 2 2.90909 2H9.27273C9.7748 2 10.1818 2.40701 10.1818 2.90909V9.27273C10.1818 9.7748 9.7748 10.1818 9.27273 10.1818H2.90909C2.40701 10.1818 2 9.7748 2 9.27273V2.90909ZM3.81818 3.81818V8.36364H8.36364V3.81818H3.81818Z"
+        fill="currentColor"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2 14.7273C2 14.2252 2.40701 13.8182 2.90909 13.8182H9.27273C9.7748 13.8182 10.1818 14.2252 10.1818 14.7273V21.0909C10.1818 21.593 9.7748 22 9.27273 22H2.90909C2.40701 22 2 21.593 2 21.0909V14.7273ZM3.81818 15.6364V20.1818H8.36364V15.6364H3.81818Z"
+        fill="currentColor"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.9091 3.81818C12.9091 3.3161 13.3161 2.90909 13.8182 2.90909H21.0909C21.593 2.90909 22 3.3161 22 3.81818C22 4.32026 21.593 4.72727 21.0909 4.72727H13.8182C13.3161 4.72727 12.9091 4.32026 12.9091 3.81818Z"
+        fill="currentColor"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.9091 8.36364C12.9091 7.86156 13.3161 7.45455 13.8182 7.45455H21.0909C21.593 7.45455 22 7.86156 22 8.36364C22 8.86571 21.593 9.27273 21.0909 9.27273H13.8182C13.3161 9.27273 12.9091 8.86571 12.9091 8.36364Z"
+        fill="currentColor"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.9091 15.6364C12.9091 15.1343 13.3161 14.7273 13.8182 14.7273H21.0909C21.593 14.7273 22 15.1343 22 15.6364C22 16.1384 21.593 16.5455 21.0909 16.5455H13.8182C13.3161 16.5455 12.9091 16.1384 12.9091 15.6364Z"
+        fill="currentColor"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.9091 20.1818C12.9091 19.6797 13.3161 19.2727 13.8182 19.2727H21.0909C21.593 19.2727 22 19.6797 22 20.1818C22 20.6839 21.593 21.0909 21.0909 21.0909H13.8182C13.3161 21.0909 12.9091 20.6839 12.9091 20.1818Z"
+        fill="currentColor"
+      />
+    </svg>
+  ),
+  iconFilled: (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.27273 10.1818H2.90909C2.66798 10.1818 2.43675 10.086 2.26627 9.91555C2.09578 9.74506 2 9.51383 2 9.27273V2.90909C2 2.66798 2.09578 2.43675 2.26627 2.26627C2.43675 2.09578 2.66798 2 2.90909 2H9.27273C9.51383 2 9.74506 2.09578 9.91555 2.26627C10.086 2.43675 10.1818 2.66798 10.1818 2.90909V9.27273C10.1818 9.51383 10.086 9.74506 9.91555 9.91555C9.74506 10.086 9.51383 10.1818 9.27273 10.1818Z"
+        fill="currentColor"
+      />
+      <path
+        d="M9.27273 22H2.90909C2.66798 22 2.43675 21.9042 2.26627 21.7337C2.09578 21.5632 2 21.332 2 21.0909V14.7273C2 14.4862 2.09578 14.2549 2.26627 14.0844C2.43675 13.914 2.66798 13.8182 2.90909 13.8182H9.27273C9.51383 13.8182 9.74506 13.914 9.91555 14.0844C10.086 14.2549 10.1818 14.4862 10.1818 14.7273V21.0909C10.1818 21.332 10.086 21.5632 9.91555 21.7337C9.74506 21.9042 9.51383 22 9.27273 22Z"
+        fill="currentColor"
+      />
+      <path d="M22 2.90909H12.9091V4.72727H22V2.90909Z" fill="currentColor" />
+      <path d="M22 7.45455H12.9091V9.27273H22V7.45455Z" fill="currentColor" />
+      <path d="M22 14.7273H12.9091V16.5455H22V14.7273Z" fill="currentColor" />
+      <path d="M22 19.2727H12.9091V21.0909H22V19.2727Z" fill="currentColor" />
+    </svg>
+  ),
+  text: 'Quản lý bài đăng',
+  onlyFor: ['HR'],
 }
