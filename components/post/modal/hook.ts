@@ -10,6 +10,8 @@ import toast from "react-hot-toast"
 
 export const usePostCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdatePostRequest>()
+  formCreate.register('negotiable_salary', { required: 'Mức lương là bắt buộc' })
+
   const mutation = usePostCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdatePostRequest> = async (data) => {
     mutation.mutate(data)

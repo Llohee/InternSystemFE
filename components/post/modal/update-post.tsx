@@ -15,28 +15,25 @@ interface PostProps {
 }
 const UpdatePosModal = (props: PostProps) => {
   const GetPostbyId = useGetPostbyId(props.postDetail.id)
-  if (GetPostbyId.status === 'error') return <></>
-  if (GetPostbyId.status === 'loading')
-    return (
-      <ModalLoading
-        length={6}
-        isOpen={props.isOpen}
-        closeModal={props.closeModal}
-      />
-    )
-  if (GetPostbyId.status === 'success')
-    return (
-      <UpdatePost
-        isOpen={props.isOpen}
-        closeModal={props.closeModal}
-        postDetail={GetPostbyId.data}
-      />
-    )
-  // const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
-  // const closeModal = () => {
-  //   setIsConfirmCloseModal(true)
-  // }
-  return <></>
+  return (
+    <>
+      {GetPostbyId.status === 'error' && <></>}
+      {GetPostbyId.status === 'loading' && (
+        <ModalLoading
+          length={6}
+          isOpen={props.isOpen}
+          closeModal={props.closeModal}
+        />
+      )}
+      {GetPostbyId.status === 'success' && (
+        <UpdatePost
+          isOpen={props.isOpen}
+          closeModal={props.closeModal}
+          postDetail={GetPostbyId.data}
+        />
+      )}
+    </>
+  )
 }
 
 const UpdatePost = (props: PostProps) => {

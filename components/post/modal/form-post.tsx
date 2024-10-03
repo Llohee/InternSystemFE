@@ -4,6 +4,8 @@ import {
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Editor } from '@/components/ui/editor/editor'
+import { GroupChooseBtn } from '@/components/ui/input/group-choose-btn'
+import { Input } from '@/components/ui/input/input'
 import { InputSelect } from '@/components/ui/select/select'
 import useGetConfig from '@/hooks/query/config'
 import { PostDetail, UpdatePostRequest } from '@/models/api'
@@ -31,6 +33,28 @@ const FormPost = (props: {
   function removeHtmlTags(input: string) {
     return input.replace(/<[^>]*>/g, '').trim()
   }
+  const [option, setOption] = useState(
+    props.postDetail?.negotiable_salary ?? true
+  )
+  const currencyOptions = [
+    {
+      label: 'VND',
+      value: 'VND',
+    },
+    {
+      label: 'USD',
+      value: 'USD',
+    },
+    {
+      label: 'EUR',
+      value: 'EUR',
+    },
+  ]
+  // useEffect(()=> {
+  //   if(option){
+
+  //   }
+  // }, [option])
   return (
     <>
       <form
@@ -167,6 +191,9 @@ const FormPost = (props: {
           <Controller
             control={props.form.control}
             name="description"
+            rules={{
+              required: "Chi tiết là bắt buộc"
+            }}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Editor
                 register={props.form.register}
@@ -183,6 +210,83 @@ const FormPost = (props: {
               />
             )}
           />
+          <GroupChooseBtn
+            name="negotiable_salary"
+            register={register}
+            listValue={[
+              {
+                label: 'Thỏa thuận',
+                value: true,
+              },
+              {
+                label: 'Cơ bản',
+                value: false,
+              },
+            ]}
+            label={'Mức lương'}
+            type="radio"
+            onChange={(value) => setOption(value === 'true')}
+            classNameList="flex gap-5"
+            classNameLabel="text-label-3 text-typography-label font-normal pl-1"
+            required
+          />
+          {option === false && (
+            <div className="grid grid-cols-11 gap-6">
+              <div className="col-span-4">
+                <Input<UpdatePostRequest>
+                  name="salary_min"
+                  register={props.form.register}
+                  label={'Lương tối thiểu'}
+                  placeholder="Min"
+                  type={'number'}
+                  required
+                />
+              </div>
+              <div className="col-span-4">
+                <Input<UpdatePostRequest>
+                  name="salary_max"
+                  register={props.form.register}
+                  label={'Lương tối đa'}
+                  placeholder="Max"
+                  type={'number'}
+                  required
+                />
+              </div>
+              {/* <div className="col-span-2"></div> */}
+              {/* <div className="col-span-3">
+                <Controller
+                  control={props.form.control}
+                  name="currency_unit"
+                  render={({ field: { value, onChange } }) => {
+                    const [urlConfig, setUrlConfig] = useState<string>('')
+                    const getConfig = useGetConfig(urlConfig, '', [])
+                    return (
+                      <>
+                        <InputSelect
+                          name={'position'}
+                          options={currencyOptions}
+                          value={
+                            currencyOptions?.find(
+                              (val: any) => value && val.value === value
+                            ) ?? null
+                          }
+                          onChange={(option) => {
+                            onChange(option.value ?? '')
+                          }}
+                          label={'Đơn vị tiền tệ'}
+                          isClearable
+                          register={props.form.register}
+                          required
+                          message={errors.position?.message ?? ''}
+                          intent={errors.position ? 'error' : 'default'}
+                        />
+                      </>
+                    )
+                  }}
+                />
+              </div> */}
+            </div>
+          )}
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button

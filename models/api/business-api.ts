@@ -32,3 +32,10 @@ export interface UpdateBusinessRequest {
   is_active?: boolean
   image_url: any
 }
+export interface RequestLinkUniversity {
+  university_id: string
+}
+
+export interface AcceptLinkUniversity {
+  university_id: string[]
+}
