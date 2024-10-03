@@ -47,7 +47,7 @@ const UniversityApi = {
         'Access-Control-Allow-Origin': '*',
       },
     })
-  }
+  },
 }
 
 export default UniversityApi
