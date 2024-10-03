@@ -29,7 +29,6 @@ export const FormGroup = (props: {
   handleFormSubmit: SubmitHandler<UpdateGroupRequest>
   mutation: any
   closeModal: () => void
-  resetForm?: () => void
   isEdit?: boolean
 }) => {
   const {

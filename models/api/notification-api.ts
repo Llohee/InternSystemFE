@@ -15,6 +15,9 @@ export interface SysNotification {
     type: 'REPORT' | 'REQUEST'
     student_id: string
     action: 'CREATE' | 'COMMENT' | 'UPDATE' | 'REQUEST'
+    code_university: string
+    university: string
+    universityName: string
   }
   is_redirect: boolean
   is_readed: boolean

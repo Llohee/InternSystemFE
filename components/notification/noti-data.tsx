@@ -45,7 +45,11 @@ const NotiData = (props: {
           {group.data.map((noti) =>
             noti.is_redirect ? (
               <MenuBarItemLink
-                href={noti.meta_data.type === 'REQUEST' ? `/report/lecturer/${noti.meta_data.student_id}?post_id=${noti.meta_data.post_id}&student_id=${noti.meta_data.student_id}` :  ``}
+                href={
+                  noti.meta_data.type === 'REQUEST'
+                    ? `/link?type=${noti.meta_data.type}&is_readed=${noti.is_readed}&university_id=${noti.meta_data.university}`
+                    : `/report/lecturer/${noti.meta_data.student_id}?post_id=${noti.meta_data.post_id}&student_id=${noti.meta_data.student_id}`
+                }
                 key={noti.notify_id}
                 onClick={() =>
                   readNotiMutation.mutate({
@@ -131,9 +135,7 @@ const NotificationMenuItem = (props: {
               props.updaterName ? (
                 <span className="whitespace-nowrap">{props.updaterName}</span>
               ) : (
-                <span className="whitespace-nowrap">
-                 Chưa xác định
-                </span>
+                <span className="whitespace-nowrap">Chưa xác định</span>
               )
             }
             placementTootip="bottom"

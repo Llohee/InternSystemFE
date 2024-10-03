@@ -13,19 +13,13 @@ export const ListTab = (props: {
   
   // Filter titles based on some condition involving tenant
   const [listTitles, setListTitles] = useState(() => 
-    props.titles.filter((item) => 
-      item && !String(item.title).includes(userDetail?.tenant.code ?? '')
-    )
-  )
-
+    props.titles.filter((item) => item)
+  );
+  
   useEffect(() => {
-    // When the props.titles or userDetail change, update the filtered titles
-    setListTitles(
-      props.titles.filter((item) => 
-        item && !String(item.title).includes(userDetail?.tenant.code ?? '')
-      )
-    )
-  }, [props.titles, userDetail])
+    // When props.titles changes, update the filtered titles
+    setListTitles(props.titles.filter((item) => item));
+  }, [props.titles]);
 
   // If there's only one title after filtering, return its node directly
   if (listTitles.length === 1) return <>{listTitles[0].node}</>

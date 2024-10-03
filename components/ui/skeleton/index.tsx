@@ -1,4 +1,4 @@
-import { Modal } from "../modal/modal"
+import { Modal } from '../modal/modal'
 
 export const TableSkeleton = (props: { numberRow?: number }) => {
   return (
@@ -88,6 +88,23 @@ export const SingleNotiSkeleton = () => {
         <div className="animate-pulse bg-grey-2 rounded-lg h-4" />
         <div className="animate-pulse bg-grey-2 rounded-lg h-4" />
         <div className="animate-pulse bg-grey-2 rounded-lg h-4 w-[50%]" />
+      </div>
+    </div>
+  )
+}
+
+export const SinglePostSkeleton = () => {
+  return (
+    <div className="flex gap-2 items-center w-[400px]">
+      <div className="animate-pulse bg-grey-2 h-20 w-[5px] rounded-l-md"></div>
+      <div className="animate-pulse bg-grey-2 h-16 aspect-square rounded-md" />
+      <div className="grow flex flex-col gap-2">
+        <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
+        <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
+        <div className="flex gap-2">
+          <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
+          <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
+        </div>
       </div>
     </div>
   )

@@ -1,4 +1,6 @@
 import { TypeQuery } from "@/models/api/common"
+import axios from "axios"
+import axiosClient from "./axios-client"
 
 export function getQuery(
   queryFilter: TypeQuery[],
@@ -52,3 +54,27 @@ export function getQuery(
   }  
   return query
 }
+
+const commonApi = {
+  getConfig(
+    accessToken: string,
+    url: string
+  ): Promise<{ data: { id: string; name: string }[] }> {
+    return axios.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+  },
+  getConfigPath<T>(accessToken: string, path: string): Promise<T> {
+    return axiosClient.get(path, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+  },
+}
+
+export default commonApi

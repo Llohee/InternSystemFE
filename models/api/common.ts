@@ -11,6 +11,10 @@ export interface TypeQuery {
   value: string | boolean | string[] | undefined
   type: 'like' | 'eq' | 'eqID'
 }
+export interface ConfigDetail {
+  id: string
+  name: string
+}
 export type roleUser = 'SA' | 'AU' | 'LT' | 'ST' | 'HR' | ''
 export interface AttachmentDetail {
   name: string

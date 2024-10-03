@@ -13,15 +13,19 @@ import {
   university,
   Schedule,
   Report,
+  Post,
+  LinkBUAU,
 } from './list-items'
 
 const sidebarAllItems: SideBarItemType[] = [
   home,
   university,
   business,
+  LinkBUAU,
   Account,
-  Report,
   Schedule,
+  Post,
+  Report,
 ]
 const SidebarLayout = (props: {
   sidebarExpanded: boolean

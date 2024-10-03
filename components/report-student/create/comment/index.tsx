@@ -84,7 +84,13 @@ const ReportComment = (props: ReportCommentProps) => {
         </div>
         <DevTool control={createComment.control} />
       </form>
-      <div className="flex flex-col gap-4 h-[calc(100vh-28.5rem)] overflow-auto">
+      <div
+        className="flex flex-col gap-4 h-[calc(100vh-28.5rem)] overflow-auto"
+        style={{
+          scrollBehavior: 'smooth',
+          transition: 'scrollBehavior 5s ease 3s',
+        }}
+      >
         {getReportComments.status === 'loading' && (
           <TableSkeleton numberRow={6} />
         )}
