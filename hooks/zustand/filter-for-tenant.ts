@@ -1,13 +1,13 @@
-import { UniversityFilterRequest } from '@/models/api'
+import { TenantFilterRequest } from '@/models/api'
 import { create } from 'zustand'
 
-interface FilterForUniversityState {
-  filter: UniversityFilterRequest
-  update: (Filter: UniversityFilterRequest) => void
+interface FilterForTenantState {
+  filter: TenantFilterRequest
+  update: (Filter: TenantFilterRequest) => void
   reset: () => void
 }
 
-export const useFilterForUniversityStore = create<FilterForUniversityState>((set) => ({
+export const useFilterForTenantStore = create<FilterForTenantState>((set) => ({
   filter: {
     name: '',
     query: [],

@@ -6,16 +6,13 @@ import {
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { SelectDateRangeInput } from '@/components/ui/select-date/select-date-range-input'
-import { InputSelect } from '@/components/ui/select/select'
-import { SwitchButton } from '@/components/ui/switch/switch'
-import { usegetConfigUniversity } from '@/hooks/query/university'
+// import { usegetConfigUniversity } from '@/hooks/query/tenant'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormStudentAccount = (props: {

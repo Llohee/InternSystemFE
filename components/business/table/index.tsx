@@ -18,20 +18,18 @@ import React, {
   useState,
 } from 'react'
 // import UpdateUserModal from '../modal/update-user'
-import { queryClient } from '@/pages/_app'
-import { BusinessKeys } from '@/hooks/query/business'
-import { useFilterForBusinessStore } from '@/hooks/zustand/filter-for-business'
-import { GetAllBusinessResponse, BusinessDetail } from '@/models/api'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { TenantDetail, GetAllTenantResponse } from '@/models/api'
 import Link from 'next/link'
 
 interface BusinesssProps {
-  getAllBusinessData: GetAllBusinessResponse
-  setBusinessChoose: (Business: BusinessDetail[]) => void
+  getAllBusinessData: GetAllTenantResponse
+  setBusinessChoose: (Business: TenantDetail[]) => void
   isPreviousData: boolean
 }
 
 const BusinessTable = (props: BusinesssProps, ref: any) => {
-  const filterUser = useFilterForBusinessStore()
+  const filterUser = useFilterForTenantStore()
   const [data, setData] = useState(() => [...props.getAllBusinessData.data])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUser.filter.sort.map((val: any) => ({
@@ -44,7 +42,7 @@ const BusinessTable = (props: BusinesssProps, ref: any) => {
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<BusinessDetail>()
+  const [userChoose, setUserChoose] = useState<TenantDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -52,7 +50,7 @@ const BusinessTable = (props: BusinesssProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<BusinessDetail>({ data: data })
+  } = useChooseMulti<TenantDetail>({ data: data })
   useEffect(() => {
     filterUser.update(
       produce(filterUser.filter, (draftState: any) => {
@@ -82,7 +80,7 @@ const BusinessTable = (props: BusinesssProps, ref: any) => {
     setDataChoose(props.getAllBusinessData.data)
     clearChooseItems()
   }, [props.getAllBusinessData])
-  const columnHelper = createColumnHelper<BusinessDetail>()
+  const columnHelper = createColumnHelper<TenantDetail>()
 
   const columns = [
     columnHelper.display({

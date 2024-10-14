@@ -3,22 +3,22 @@ import { Button } from '@/components/ui/button/button'
 import { SearchIcon } from '@/components/ui/icon'
 import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { TableSkeleton } from '@/components/ui/skeleton'
-import { useGetAllBusiness } from '@/hooks/query/business'
-import { useFilterForBusinessStore } from '@/hooks/zustand/filter-for-business'
-import { BusinessDetail } from '@/models/api'
+import { useGetAllTenant } from '@/hooks/query/tenant'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { TenantDetail } from '@/models/api'
 import produce from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import BusinessTable from './table'
 import CreateBusinessModal from './modal/create-business'
 
-const BusinessWrapper = () => {
+const BusinessWrapper = (props : {type: string}) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [totalBusiness, setTotalBusiness] = useState(0)
 
-  const [BusinessChoose, setBusinessChoose] = useState<BusinessDetail[]>()
-  const filterBusiness = useFilterForBusinessStore()
+  const [BusinessChoose, setBusinessChoose] = useState<TenantDetail[]>()
+  const filterBusiness = useFilterForTenantStore()
   // const templateLink = useGetTemplateLink()
-  const allBusiness = useGetAllBusiness()
+  const allBusiness = useGetAllTenant(props.type)
   const tableRef = useRef<any>()
   useEffect(() => {
     if (allBusiness.status === 'success')
@@ -141,6 +141,7 @@ const BusinessWrapper = () => {
       <CreateBusinessModal
         isOpen={isShowModalCreate}
         closeModal={() => setIsShowModalCreate(false)}
+        type={props.type}
       />
     </>
   )

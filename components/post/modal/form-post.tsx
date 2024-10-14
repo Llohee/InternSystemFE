@@ -5,11 +5,13 @@ import {
 } from '@/components/ui/container'
 import { Editor } from '@/components/ui/editor/editor'
 import { GroupChooseBtn } from '@/components/ui/input/group-choose-btn'
-import { Input } from '@/components/ui/input/input'
+import { Input, inputStyles } from '@/components/ui/input/input'
+import InputDate from '@/components/ui/input/input-date'
 import { InputSelect } from '@/components/ui/select/select'
 import useGetConfig from '@/hooks/query/config'
 import { PostDetail, UpdatePostRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
+import { DatePicker } from 'antd'
 import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -192,7 +194,7 @@ const FormPost = (props: {
             control={props.form.control}
             name="description"
             rules={{
-              required: "Chi tiết là bắt buộc"
+              required: 'Chi tiết là bắt buộc',
             }}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Editor
@@ -207,6 +209,50 @@ const FormPost = (props: {
                 intent={error ? 'error' : 'default'}
                 required
                 placeholder={'Mô tả'}
+              />
+            )}
+          />
+          <Controller
+            control={props.form.control}
+            name="request"
+            rules={{
+              required: 'Yêu cầu là bắt buộc',
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Editor
+                register={props.form.register}
+                name="request"
+                value={value}
+                onChange={(data) => {
+                  if (removeHtmlTags(data).length <= 0) onChange('')
+                  else onChange(data)
+                }}
+                label={'Yêu cầu'}
+                intent={error ? 'error' : 'default'}
+                required
+                placeholder={'Nhập yêu cầu'}
+              />
+            )}
+          />
+          <Controller
+            control={props.form.control}
+            name="interest"
+            rules={{
+              required: 'Yêu cầu là bắt buộc',
+            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Editor
+                register={props.form.register}
+                name="request"
+                value={value}
+                onChange={(data) => {
+                  if (removeHtmlTags(data).length <= 0) onChange('')
+                  else onChange(data)
+                }}
+                label={'Yêu cầu'}
+                intent={error ? 'error' : 'default'}
+                required
+                placeholder={'Nhập yêu cầu'}
               />
             )}
           />
@@ -287,6 +333,16 @@ const FormPost = (props: {
               </div> */}
             </div>
           )}
+          <InputDate<UpdatePostRequest>
+            name="expired_time"
+            control={props.form.control}
+            intent={
+              props.form.formState.errors.expired_time ? 'error' : 'default'
+            }
+            label={'Hạn ứng tuyển'}
+            message={props.form.formState.errors.expired_time?.message ?? ''}
+            required
+          />
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button

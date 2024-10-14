@@ -1,17 +1,17 @@
-import UniversityApi from '@/apis/university-api'
+import TenantApi from '@/apis/tenant-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
-import { UniversityKeys } from '@/hooks/query/university'
-import { ErrorResponse, UpdateUniversityRequest } from '@/models/api'
+import { TenantKeys } from '@/hooks/query/tenant'
+import { ErrorResponse, UpdateTenantRequest } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useUniversityCreate = (closeModal: () => void) => {
-  const formCreate = useForm<UpdateUniversityRequest>()
-  const mutation = useUniversityCreateMutation(formCreate.reset, closeModal)
-  const handleFormSubmit: SubmitHandler<UpdateUniversityRequest> = async (data) => {
+export const useUniversityCreate = (closeModal: () => void, type: string) => {
+  const formCreate = useForm<UpdateTenantRequest>()
+  const mutation = useUniversityCreateMutation(formCreate.reset, closeModal, type)
+  const handleFormSubmit: SubmitHandler<UpdateTenantRequest> = async (data) => {
     mutation.mutate(data)
   }
   return {
@@ -22,14 +22,15 @@ export const useUniversityCreate = (closeModal: () => void) => {
 }
 
 export function useUniversityCreateMutation(
-  reset: UseFormReset<UpdateUniversityRequest>,
-  closeModal: () => void
+  reset: UseFormReset<UpdateTenantRequest>,
+  closeModal: () => void,
+  type: string
 ) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateUniversityRequest, any>(
+  return useMutation<any, AxiosError, UpdateTenantRequest, any>(
     (createUniversityBody) =>
       toast.promise(
-        UniversityApi.createUniversity(getAccessToken.data!.access_token.token, createUniversityBody),
+        TenantApi.createTenant(getAccessToken.data!.access_token.token, createUniversityBody, type),
         {
           loading: 'Đang tạo mới trường học',
           success: 'Tạo mới trường học thành công',
@@ -41,7 +42,7 @@ export function useUniversityCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(UniversityKeys.all)
+        queryClient.invalidateQueries(TenantKeys.all)
         reset()
         closeModal()
       },
@@ -101,7 +102,7 @@ export function useUniversityCreateMutation(
 //   return useMutation<any, AxiosError, UpdateUserRequest, any>(
 //     (updateUserBody) =>
 //       toast.promise(
-//         UniversityApi.updateUser(
+//         TenantApi.updateUser(
 //           getAccessToken.data!.accessToken,
 //           user.id,
 //           updateUserBody
@@ -117,7 +118,7 @@ export function useUniversityCreateMutation(
 //       ),
 //     {
 //       onSuccess: (data) => {
-//         queryClient.invalidateQueries(UniversityKeys.all)
+//         queryClient.invalidateQueries(TenantKeys.all)
 //         // reset()
 //         closeModal()
 //       },

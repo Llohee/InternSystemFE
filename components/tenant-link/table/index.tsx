@@ -17,27 +17,23 @@ import React, {
   useImperativeHandle,
   useState,
 } from 'react'
-// import UpdateUserModal from '../modal/update-user'
-import { queryClient } from '@/pages/_app'
-import { UniversityKeys } from '@/hooks/query/university'
-import { useFilterForUniversityStore } from '@/hooks/zustand/filter-for-university'
-import { GetAllUniversityResponse, UniversityDetail } from '@/models/api'
-import Link from 'next/link'
 import { Tooltip } from '@/components/ui/tooltip/tooltip'
-import ConfirmRequestLink from '../modal/confirm-request-link'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { GetAllTenantResponse, TenantDetail } from '@/models/api'
 import { useRouter } from 'next/router'
 import AcceptRequestLink from '../modal/accept-request-link'
+import ConfirmRequestLink from '../modal/confirm-request-link'
 
 interface UniversitysProps {
-  getAllUniversityData: GetAllUniversityResponse
-  setUniversityChoose: (University: UniversityDetail[]) => void
+  getAllTenantData: GetAllTenantResponse
+  setTenantChoose: (University: TenantDetail[]) => void
   isPreviousData: boolean
   type: string
 }
 
 const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
-  const filterUniversity = useFilterForUniversityStore()
-  const [data, setData] = useState(() => [...props.getAllUniversityData.data])
+  const filterUniversity = useFilterForTenantStore()
+  const [data, setData] = useState(() => [...props.getAllTenantData.data])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUniversity.filter.sort.map((val: any) => ({
       id: val.name,
@@ -50,7 +46,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
   const [isShowModalConfirm, setIsShowModalConfirm] = useState(false)
   const [isShowModalAccept, setIsShowModalAccept] = useState(true)
-  const [universityChoose, setUniversityChoose] = useState<UniversityDetail>()
+  const [universityChoose, setUniversityChoose] = useState<TenantDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -58,7 +54,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<UniversityDetail>({ data: data })
+  } = useChooseMulti<TenantDetail>({ data: data })
   useEffect(() => {
     filterUniversity.update(
       produce(filterUniversity.filter, (draftState: any) => {
@@ -72,11 +68,11 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     )
   }, [sorting])
   useEffect(() => {
-    props.setUniversityChoose(itemChoose)
+    props.setTenantChoose(itemChoose)
   }, [itemChoose])
   useEffect(() => {
     if (isShowModalConfirm) {
-      props.setUniversityChoose([])
+      props.setTenantChoose([])
       clearChooseItems()
     }
   }, [isShowModalConfirm])
@@ -84,11 +80,11 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     return { clearChooseItems }
   })
   useEffect(() => {
-    setData([...props.getAllUniversityData.data])
-    setDataChoose(props.getAllUniversityData.data)
+    setData([...props.getAllTenantData.data])
+    setDataChoose(props.getAllTenantData.data)
     clearChooseItems()
-  }, [props.getAllUniversityData])
-  const columnHelper = createColumnHelper<UniversityDetail>()
+  }, [props.getAllTenantData])
+  const columnHelper = createColumnHelper<TenantDetail>()
 
   const columns = [
     columnHelper.display({
@@ -132,7 +128,9 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       meta: 'w-stt',
     }),
     columnHelper.accessor('name', {
+      id: 'name',
       header: 'Tên doanh nghiệp',
+      cell: (info) => <button>{info.getValue()}</button>,
       enableColumnFilter: true,
       meta: 'w-name',
     }),
@@ -265,19 +263,19 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
               })
             )
           }}
-          pageCurrent={props.getAllUniversityData.page + 1}
-          totalPage={props.getAllUniversityData.total_page}
+          pageCurrent={props.getAllTenantData.page + 1}
+          totalPage={props.getAllTenantData.total_page}
           label={
-            props.getAllUniversityData.total > 0 ? (
+            props.getAllTenantData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getAllUniversityData.page *
+                {props.getAllTenantData.page *
                   filterUniversity.filter.limit +
                   1}
                 -
-                {props.getAllUniversityData.page *
+                {props.getAllTenantData.page *
                   filterUniversity.filter.limit +
                   data.length}{' '}
-                trên tổng {props.getAllUniversityData.total}
+                trên tổng {props.getAllTenantData.total}
               </div>
             ) : (
               <></>
@@ -291,7 +289,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
         closeModal={() => {
           setIsShowModalConfirm(false)
         }}
-        universityDetail={universityChoose}
+        tenantDetail={universityChoose}
       />
       {typeof type === 'string' &&
         typeof is_readed === 'string' &&
