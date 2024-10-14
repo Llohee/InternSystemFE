@@ -11,7 +11,7 @@ import produce from 'immer'
 import { SearchIcon } from '@/components/ui/icon'
 import CreateUniversityAccountModal from './modal/create-university'
 
-const UniversityAccount = () => {
+const UniversityAccount = (props: { type: string }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [isShowModalCreateWithExcel, setIsShowModalCreateWithExcel] =
     useState(false)
@@ -161,6 +161,7 @@ const UniversityAccount = () => {
       <CreateUniversityAccountModal
         isOpen={isShowModalCreate}
         closeModal={() => setIsShowModalCreate(false)}
+        type={props.type}
       />
     </>
   )

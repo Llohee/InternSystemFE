@@ -1,17 +1,17 @@
-import BusinessApi from '@/apis/business-api'
+import TenantApi from '@/apis/tenant-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
-import { BusinessKeys } from '@/hooks/query/business'
-import { ErrorResponse, UpdateBusinessRequest } from '@/models/api'
+import { TenantKeys } from '@/hooks/query/tenant'
+import { ErrorResponse, UpdateTenantRequest } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useBusinessCreate = (closeModal: () => void) => {
-  const formCreate = useForm<UpdateBusinessRequest>()
-  const mutation = useBusinessCreateMutation(formCreate.reset, closeModal)
-  const handleFormSubmit: SubmitHandler<UpdateBusinessRequest> = async (data) => {
+export const useBusinessCreate = (closeModal: () => void, type: string) => {
+  const formCreate = useForm<UpdateTenantRequest>()
+  const mutation = useBusinessCreateMutation(formCreate.reset, closeModal, type)
+  const handleFormSubmit: SubmitHandler<UpdateTenantRequest> = async (data) => {
     mutation.mutate(data)
   }
   return {
@@ -22,14 +22,15 @@ export const useBusinessCreate = (closeModal: () => void) => {
 }
 
 export function useBusinessCreateMutation(
-  reset: UseFormReset<UpdateBusinessRequest>,
-  closeModal: () => void
+  reset: UseFormReset<UpdateTenantRequest>,
+  closeModal: () => void,
+  type: string
 ) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateBusinessRequest, any>(
+  return useMutation<any, AxiosError, UpdateTenantRequest, any>(
     (createBusinessBody) =>
       toast.promise(
-        BusinessApi.createBusiness(getAccessToken.data!.access_token.token, createBusinessBody),
+        TenantApi.createTenant(getAccessToken.data!.access_token.token, createBusinessBody, type),
         {
           loading: 'Đang tạo mới doanh nghiệp',
           success: 'Tạo mới doanh nghiệp thành công',
@@ -41,7 +42,7 @@ export function useBusinessCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(BusinessKeys.all)
+        queryClient.invalidateQueries(TenantKeys.all)
         reset()
         closeModal()
       },
@@ -101,7 +102,7 @@ export function useBusinessCreateMutation(
 //   return useMutation<any, AxiosError, UpdateUserRequest, any>(
 //     (updateUserBody) =>
 //       toast.promise(
-//         BusinessApi.updateUser(
+//         TenantApi.updateUser(
 //           getAccessToken.data!.accessToken,
 //           user.id,
 //           updateUserBody
@@ -117,7 +118,7 @@ export function useBusinessCreateMutation(
 //       ),
 //     {
 //       onSuccess: (data) => {
-//         queryClient.invalidateQueries(BusinessKeys.all)
+//         queryClient.invalidateQueries(TenantKeys.all)
 //         // reset()
 //         closeModal()
 //       },

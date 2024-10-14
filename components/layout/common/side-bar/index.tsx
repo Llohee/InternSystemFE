@@ -2,26 +2,23 @@ import { SideBar } from '@/components/ui/side-bar/side-bar'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { SideBarItemType, SideBarSubItemType } from '@/models/ui/sidebar'
 import produce from 'immer'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ActionButtons from './action-buttons'
 import {
   Account,
   home,
-  business,
-  university,
-  Schedule,
-  Report,
+  tenantlink,
   Post,
-  LinkBUAU,
+  Report,
+  Schedule,
+  tenant,
 } from './list-items'
 
 const sidebarAllItems: SideBarItemType[] = [
   home,
-  university,
-  business,
-  LinkBUAU,
+  tenant,
+  tenantlink,
   Account,
   Schedule,
   Post,

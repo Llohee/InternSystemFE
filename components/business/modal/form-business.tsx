@@ -6,15 +6,15 @@ import {
 import { Input } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import { Uploader } from '@/components/ui/upload/upload'
-import { BusinessDetail, UpdateBusinessRequest } from '@/models/api'
+import { TenantDetail, UpdateTenantRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormBusiness = (props: {
-  form: UseFormReturn<UpdateBusinessRequest, any>
-  handleFormSubmit: SubmitHandler<UpdateBusinessRequest>
-  BusinessDetail?: BusinessDetail
+  form: UseFormReturn<UpdateTenantRequest, any>
+  handleFormSubmit: SubmitHandler<UpdateTenantRequest>
+  BusinessDetail?: TenantDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -29,7 +29,7 @@ export const FormBusiness = (props: {
       >
         <ContainerFormBody>
           <div className="flex gap-3 items-center">
-            <Input<UpdateBusinessRequest>
+            <Input<UpdateTenantRequest>
               label={'Mã doanh nghiệp'}
               name="code"
               register={props.form.register}
@@ -52,7 +52,7 @@ export const FormBusiness = (props: {
               )}
             />
           </div>
-          <Input<UpdateBusinessRequest>
+          <Input<UpdateTenantRequest>
             label="Tên doanh nghiệp"
             name="name"
             register={register}
@@ -61,7 +61,7 @@ export const FormBusiness = (props: {
             message={props.form.formState.errors.name?.message ?? ''}
             required
           />
-          <Input<UpdateBusinessRequest>
+          <Input<UpdateTenantRequest>
             label="Website"
             type={'text'}
             name="website"
@@ -70,7 +70,7 @@ export const FormBusiness = (props: {
             placeholder={'Nhập Website'}
             message={props.form.formState.errors.name?.message ?? ''}
           />
-          <Input<UpdateBusinessRequest>
+          <Input<UpdateTenantRequest>
             label="Địa chỉ"
             name="location"
             type="textArea"

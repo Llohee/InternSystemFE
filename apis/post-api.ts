@@ -24,6 +24,8 @@ const PostApi = {
       params: {
         size: filter.limit,
         local: filter.local,
+        salary_min: filter.salary_min,
+        salary_max: filter.salary_max,
         profession: filter.profession,
         page: filter.page,
         ...query,
@@ -32,7 +34,7 @@ const PostApi = {
     })
   },
   getConfigPostLocal(accessToken: string): Promise<ConfigDetail[]> {
-    const url = '/local/'
+    const url = '/post/local/'
     return axiosClient.get(url, {
       headers: {
         token: accessToken,
@@ -41,7 +43,7 @@ const PostApi = {
     })
   },
   getConfigPostProfession(accessToken: string): Promise<ConfigDetail[]> {
-    const url = '/profession/'
+    const url = '/post/profession/'
     return axiosClient.get(url, {
       headers: {
         token: accessToken,

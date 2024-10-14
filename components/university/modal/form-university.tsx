@@ -6,16 +6,16 @@ import {
 import { Input } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import { Uploader } from '@/components/ui/upload/upload'
-import { UniversityDetail, UpdateUniversityRequest } from '@/models/api'
+import { TenantDetail, UpdateTenantRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormUniversity = (props: {
-  form: UseFormReturn<UpdateUniversityRequest, any>
-  handleFormSubmit: SubmitHandler<UpdateUniversityRequest>
-  UniversityDetail?: UniversityDetail
+  form: UseFormReturn<UpdateTenantRequest, any>
+  handleFormSubmit: SubmitHandler<UpdateTenantRequest>
+  UniversityDetail?: TenantDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -30,7 +30,7 @@ export const FormUniversity = (props: {
       >
         <ContainerFormBody>
           <div className="flex gap-3 items-center">
-            <Input<UpdateUniversityRequest>
+            <Input<UpdateTenantRequest>
               label={'Mã trường học'}
               name="code"
               register={props.form.register}
@@ -53,7 +53,7 @@ export const FormUniversity = (props: {
               )}
             />
           </div>
-          <Input<UpdateUniversityRequest>
+          <Input<UpdateTenantRequest>
             label="Tên trường học"
             name="name"
             register={register}
@@ -64,7 +64,9 @@ export const FormUniversity = (props: {
             required
           />
           <Uploader
-            defaultValue={props.UniversityDetail?.image_url.map((v) => v.object)}
+            defaultValue={props.UniversityDetail?.image_url.map(
+              (v) => v.object
+            )}
             attachments={props.UniversityDetail?.image_url}
             className="col-span-full"
             label="Ảnh đại diện"
@@ -97,7 +99,7 @@ export const FormUniversity = (props: {
           </Button>
         </ContainerFormFooter>
       </form>
-      <DevTool control={props.form.control}/>
+      <DevTool control={props.form.control} />
     </>
   )
 }

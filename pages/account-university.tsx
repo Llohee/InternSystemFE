@@ -6,7 +6,7 @@ import { NextPageWithAuthLayout } from '@/pages/_app'
 const UniversityAccountPage: NextPageWithAuthLayout = () => {
   return (
     <>
-      <UniversityAccount />
+      <UniversityAccount type={'university'} />
     </>
   )
 }

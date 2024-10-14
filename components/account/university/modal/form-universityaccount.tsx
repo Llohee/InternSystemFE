@@ -6,7 +6,7 @@ import {
 import { Input } from '@/components/ui/input/input'
 import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { usegetConfigUniversity } from '@/hooks/query/university'
+import { usegetConfigTenant } from '@/hooks/query/tenant'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
@@ -23,6 +23,7 @@ export const FormUniversityAccount = (props: {
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean
+  type: string
 }) => {
   const {
     register,
@@ -110,7 +111,7 @@ export const FormUniversityAccount = (props: {
             name="university"
             rules={{ required: 'Trường học là bắt buộc' }}
             render={({ field: { value, onChange } }) => {
-              const allUniversity = usegetConfigUniversity()
+              const allUniversity = usegetConfigTenant(props.type)
               const [options, setOptions] = useState<any[]>([])
               useEffect(() => {
                 if (allUniversity.data) {
@@ -133,15 +134,17 @@ export const FormUniversityAccount = (props: {
                   intent={
                     props.form.formState.errors.university ? 'error' : 'default'
                   }
-                  message={props.form.formState.errors.university?.message ?? ''}
+                  message={
+                    props.form.formState.errors.university?.message ?? ''
+                  }
                   isLoading={allUniversity.isLoading}
                   menuPlacement={'top'}
                   required
                 />
-              ) 
+              )
             }}
           />
-          
+
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
               {(props.mutation.error as AxiosError<ErrorResponse>)?.response

@@ -18,18 +18,18 @@ import React, {
   useState,
 } from 'react'
 import { DATE_FORMAT_VIEW } from '@/components/common/constant'
-import { useFilterForUniversityStore } from '@/hooks/zustand/filter-for-university'
-import { GetAllUniversityResponse, UniversityDetail } from '@/models/api'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { GetAllTenantResponse, TenantDetail } from '@/models/api'
 import dayjs from 'dayjs'
 
 interface UniversitysProps {
-  getAllUniversityData: GetAllUniversityResponse
-  setUniversityChoose: (university: UniversityDetail[]) => void
+  getAllUniversityData: GetAllTenantResponse
+  setUniversityChoose: (university: TenantDetail[]) => void
   isPreviousData: boolean
 }
 
 const UniversityTable = (props: UniversitysProps, ref: any) => {
-  const filterUser = useFilterForUniversityStore()
+  const filterUser = useFilterForTenantStore()
   const [data, setData] = useState(() => [...props.getAllUniversityData.data])
   const [sorting, setSorting] = useState<SortingState>([
     ...filterUser.filter.sort.map((val: any) => ({
@@ -42,7 +42,7 @@ const UniversityTable = (props: UniversitysProps, ref: any) => {
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<UniversityDetail>()
+  const [userChoose, setUserChoose] = useState<TenantDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -50,7 +50,7 @@ const UniversityTable = (props: UniversitysProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<UniversityDetail>({ data: data })
+  } = useChooseMulti<TenantDetail>({ data: data })
   useEffect(() => {
     filterUser.update(
       produce(filterUser.filter, (draftState: any) => {
@@ -80,7 +80,7 @@ const UniversityTable = (props: UniversitysProps, ref: any) => {
     setDataChoose(props.getAllUniversityData.data)
     clearChooseItems()
   }, [props.getAllUniversityData])
-  const columnHelper = createColumnHelper<UniversityDetail>()
+  const columnHelper = createColumnHelper<TenantDetail>()
 
   const columns = [
     columnHelper.display({
