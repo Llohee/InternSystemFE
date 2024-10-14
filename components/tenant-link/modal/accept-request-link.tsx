@@ -1,12 +1,12 @@
-import BusinessApi from '@/apis/business-api'
+import TenantApi from '@/apis/tenant-api'
 import { ConfirmModal } from '@/components/common/confirm'
-import { useGetAccessToken } from '@/hooks/query/auth'
-import { BusinessKeys } from '@/hooks/query/business'
+import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
+import { TenantKeys } from '@/hooks/query/tenant'
 import {
-  AcceptLinkUniversity,
+  AcceptLink,
   ErrorResponse,
-  RequestLinkUniversity,
-  UniversityDetail,
+  RequestLink,
+  TenantDetail,
   UpdateActiveSchedule,
 } from '@/models/api'
 import { queryClient } from '@/pages/_app'
@@ -21,6 +21,7 @@ const AcceptRequestLink = (props: {
   university_id: string
 }) => {
   const mutation = useRequestLinkMutation(props.closeModal)
+  const userDetail = useGetUserDetail()
   return (
     <>
       <ConfirmModal
@@ -29,9 +30,11 @@ const AcceptRequestLink = (props: {
         description={'Chấp nhận liên kết với doanh nghiệp'}
         type="Info"
         action={() => {
-          mutation.mutate({
-            university_id: [`${props.university_id}`],
-          })
+          mutation.mutate(
+            userDetail.data.role === 'AU'
+              ? { bussiness_id: [`${props.university_id}`] }
+              : { university_id: [`${props.university_id}`] }
+          )
           props.closeModal()
         }}
       />
@@ -40,10 +43,10 @@ const AcceptRequestLink = (props: {
 }
 const useRequestLinkMutation = (action: () => void) => {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, AcceptLinkUniversity, any>(
+  return useMutation<any, AxiosError, AcceptLink, any>(
     (body) =>
       toast.promise(
-        BusinessApi.acceptLinkBusiness(
+        TenantApi.acceptLink(
           getAccessToken.data!.access_token.token,
           body
         ),
@@ -59,7 +62,7 @@ const useRequestLinkMutation = (action: () => void) => {
     {
       onSuccess: (data, variables, context) => {
         action()
-        queryClient.invalidateQueries(BusinessKeys.all)
+        queryClient.invalidateQueries(TenantKeys.all)
       },
     }
   )

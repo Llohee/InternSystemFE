@@ -8,10 +8,12 @@ import { useBusinessCreate } from './hook'
 interface CreateBusiness {
   isOpen: boolean
   closeModal: () => void
+  type: string
 }
 const CreateBusinessModal = (props: CreateBusiness) => {
   const { handleFormSubmit, formCreate, mutation } = useBusinessCreate(
-    props.closeModal
+    props.closeModal,
+    props.type
   )
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
   const closeModal = () => {
@@ -23,7 +25,7 @@ const CreateBusinessModal = (props: CreateBusiness) => {
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Tạo mới trường học
+              Tạo mới doanh nghiệp
             </div>
             <Button
               iconOnly

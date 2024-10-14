@@ -4,6 +4,8 @@ import { ConfigDetail, TypeQuery, TypeSort } from "./common"
 export interface PostFilterRequest {
   local: string
   profession: string
+  salary_min?: number,
+  salary_max?: number,
   limit: number
   page: number
   query: TypeQuery[]
@@ -48,6 +50,8 @@ export interface PostDetail {
   slot: number
   activities: ActivityDetail[]
   profession: ConfigDetail
+  salary_min: number
+  salary_max: number
   negotiable_salary: boolean
   currency_unit: string
 }
@@ -64,5 +68,8 @@ export interface UpdatePostRequest {
   salary_min: number
   salary_max: number
   negotiable_salary: boolean
-  currency_unit: string
+  currency: string
+  request: string
+  interest: string
+  expired_time: number
 }

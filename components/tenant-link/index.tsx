@@ -1,26 +1,25 @@
-import { useFilterForUniversityStore } from '@/hooks/zustand/filter-for-university'
-import { UniversityDetail } from '@/models/api'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { TenantDetail } from '@/models/api'
 import { useEffect, useRef, useState } from 'react'
 import { DebouncedInput } from '../ui/input/debouced-input'
 import produce from 'immer'
-import { useGetAllUniversityLink } from '@/hooks/query/business'
+import { useGetAllTenantLink } from '@/hooks/query/tenant'
 import { SearchIcon } from '../ui/icon'
 import { Button } from '../ui/button/button'
 import PageError from '../page-error/error'
 import { TableSkeleton } from '../ui/skeleton'
-import UniversityLinkTable from './table'
+import TenantLinkTable from './table'
 
-const LinkWrapper = (props: { type: string }) => {
-  const [totalUniversity, setTotalUniversity] = useState(0)
-  const [UniversityChoose, setUniversityChoose] = useState<UniversityDetail[]>()
-  const filterUniversity = useFilterForUniversityStore()
+const TenantLinkWrapper = (props: { type: string }) => {
+  const [totalTenant, setTotalTenant] = useState(0)
+  const [TenantChoose, setTenantChoose] = useState<TenantDetail[]>()
+  const filterTenant = useFilterForTenantStore()
   // const templateLink = useGetTemplateLink()
-  const allUniversity = useGetAllUniversityLink(props.type)
+  const allTenant = useGetAllTenantLink(props.type)
   const tableRef = useRef<any>()
   useEffect(() => {
-    if (allUniversity.status === 'success')
-      setTotalUniversity(allUniversity.data.total)
-  }, [allUniversity])
+    if (allTenant.status === 'success') setTotalTenant(allTenant.data.total)
+  }, [allTenant])
   return (
     <>
       <div className="">
@@ -29,11 +28,11 @@ const LinkWrapper = (props: { type: string }) => {
             <div className="ml-2">
               <DebouncedInput
                 placeholder={'Tìm kiếm'}
-                value={filterUniversity.filter.name}
+                value={filterTenant.filter.name}
                 className="lg:w-96 "
                 onChange={(value) => {
-                  filterUniversity.update(
-                    produce(filterUniversity.filter, (draftState) => {
+                  filterTenant.update(
+                    produce(filterTenant.filter, (draftState) => {
                       draftState.name = value.toString()
                       draftState.page = 0
                     })
@@ -124,14 +123,14 @@ const LinkWrapper = (props: { type: string }) => {
             </Button> */}
           </div>
         </div>
-        {allUniversity.status === 'error' && <PageError />}
-        {allUniversity.status === 'loading' && <TableSkeleton />}
-        {allUniversity.status === 'success' && (
-          <UniversityLinkTable
+        {allTenant.status === 'error' && <PageError />}
+        {allTenant.status === 'loading' && <TableSkeleton />}
+        {allTenant.status === 'success' && (
+          <TenantLinkTable
             ref={tableRef}
-            getAllUniversityData={allUniversity.data}
-            setUniversityChoose={setUniversityChoose}
-            isPreviousData={allUniversity.isPreviousData}
+            getAllTenantData={allTenant.data}
+            setTenantChoose={setTenantChoose}
+            isPreviousData={allTenant.isPreviousData}
             type={props.type}
           />
         )}
@@ -140,4 +139,4 @@ const LinkWrapper = (props: { type: string }) => {
   )
 }
 
-export default LinkWrapper
+export default TenantLinkWrapper

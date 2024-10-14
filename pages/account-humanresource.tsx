@@ -6,7 +6,7 @@ import { NextPageWithAuthLayout } from '@/pages/_app'
 const HumanresourceAccountPage: NextPageWithAuthLayout = () => {
   return (
     <>
-      <HumanresourceAccount />
+      <HumanresourceAccount type={'business'} />
     </>
   )
 }

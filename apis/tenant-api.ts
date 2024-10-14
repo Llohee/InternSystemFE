@@ -1,14 +1,15 @@
-import { GetAllBusinessResponse, BusinessDetail, BusinessFilterRequest, UpdateBusinessRequest, UniversityFilterRequest, GetAllUniversityResponse, RequestLinkUniversity, AcceptLinkUniversity } from "@/models/api"
+import { AcceptLink, GetAllTenantResponse, RequestLink, TenantDetail, TenantFilterRequest, UpdateTenantRequest } from "@/models/api"
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
 
-const BusinessApi = {
-  getAllBusiness(
+const TenantApi = {
+  getAllTenant(
     accessToken: string,
-    filter: BusinessFilterRequest,
-  ): Promise<GetAllBusinessResponse> {
-    const url = '/tenant/business'
+    filter: TenantFilterRequest,
+    type: string
+  ): Promise<GetAllTenantResponse> {
+    const url = `/tenant/${type}`
     let query = getQuery(filter.query, filter.name, [
       'name',
       'code'
@@ -29,9 +30,8 @@ const BusinessApi = {
       },
     })
   },
-
-  createBusiness(accessToken: string, data: UpdateBusinessRequest): Promise<BusinessDetail> {
-    const url = '/tenant/business'
+  createTenant(accessToken: string, data: UpdateTenantRequest, type: string): Promise<TenantDetail> {
+    const url = `/tenant/${type}`
     const config = {
       headers: {
         token: accessToken,
@@ -40,12 +40,21 @@ const BusinessApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
-
-  getAllUniversityLink(
+  getConfigTenant(accessToken: string, type: string): Promise<GetAllTenantResponse> {
+    const url = `/tenant/${type}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+  },
+  
+  getAllTenantLink(
     accessToken: string,
-    filter: UniversityFilterRequest,
+    filter: TenantFilterRequest,
     type: string
-  ): Promise<GetAllUniversityResponse> {
+  ): Promise<GetAllTenantResponse> {
     const url = `/tenant/business/filter/link-university?type=${type}`
     let query = getQuery(filter.query, filter.name, [
       'name',
@@ -68,9 +77,9 @@ const BusinessApi = {
     })
   },
 
-  requestLinkUniversity(
+  requestLink(
     accessToken: string,
-    data: RequestLinkUniversity
+    data: RequestLink
   ): Promise<any> {
     const url = `/auth/users/notify/university-link`
     const config = {
@@ -81,9 +90,9 @@ const BusinessApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
-  acceptLinkBusiness(
+  acceptLink(
     accessToken: string,
-    data: AcceptLinkUniversity
+    data: AcceptLink
   ): Promise<any> {
     const url = `/tenant/business/linkuniversity`
     const config = {
@@ -96,4 +105,5 @@ const BusinessApi = {
   },
 }
 
-export default BusinessApi
+
+export default TenantApi

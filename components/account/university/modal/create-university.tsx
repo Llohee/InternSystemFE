@@ -8,6 +8,7 @@ import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 interface CreateUniversityAccount {
   isOpen: boolean
   closeModal: () => void
+  type: string
 }
 const CreateUniversityAccountModal = (props: CreateUniversityAccount) => {
   const { handleFormSubmit, formCreate, mutation } = useUniversityAccountCreate(
@@ -62,6 +63,7 @@ const CreateUniversityAccountModal = (props: CreateUniversityAccount) => {
               closeModal()
               // formCreate.reset()
             }}
+            type={props.type}
           />
         </div>{' '}
         <ConfirmCloseModal

@@ -8,6 +8,7 @@ import { useHumanresourceAccountCreate } from './hook'
 interface CreateUniversityAccount {
   isOpen: boolean
   closeModal: () => void
+  type: string
 }
 const CreateHumanresourceAccountModal = (props: CreateUniversityAccount) => {
   const { handleFormSubmit, formCreate, mutation } =
@@ -60,6 +61,7 @@ const CreateHumanresourceAccountModal = (props: CreateUniversityAccount) => {
             closeModal={() => {
               closeModal()
             }}
+            type={props.type}
           />
         </div>
         <ConfirmCloseModal

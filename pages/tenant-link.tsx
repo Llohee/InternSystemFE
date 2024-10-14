@@ -1,6 +1,6 @@
 import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
-import LinkWrapper from '@/components/link'
+import TenantLinkWrapper from '@/components/tenant-link'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
 import { NextPageWithAuthLayout } from '@/pages/_app'
 import { useRouter } from 'next/router'
@@ -24,11 +24,11 @@ const LinkPage: NextPageWithAuthLayout = () => {
         titles={[
           {
             title: 'Đã liên kết',
-            node: <LinkWrapper type="link" />,
+            node: <TenantLinkWrapper type="link" />,
           },
           {
             title: 'Chưa liên kết',
-            node: <LinkWrapper type="" />,
+            node: <TenantLinkWrapper type="" />,
           },
         ]}
       />

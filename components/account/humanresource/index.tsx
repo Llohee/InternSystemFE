@@ -11,7 +11,7 @@ import produce from 'immer'
 import { SearchIcon } from '@/components/ui/icon'
 import CreateHumanresourceAccountModal from './modal/create-humanresource'
 
-const HumanresourceAccount = () => {
+const HumanresourceAccount = (props: { type: string }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [isShowModalCreateWithExcel, setIsShowModalCreateWithExcel] =
     useState(false)
@@ -147,6 +147,7 @@ const HumanresourceAccount = () => {
       <CreateHumanresourceAccountModal
         isOpen={isShowModalCreate}
         closeModal={() => setIsShowModalCreate(false)}
+        type={props.type}
       />
     </>
   )

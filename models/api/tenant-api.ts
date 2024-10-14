@@ -1,19 +1,19 @@
 import { TypeQuery, TypeSort } from "./common"
 
-export interface BusinessFilterRequest {
+export interface TenantFilterRequest {
   name: string
   limit: number
   page: number
   query: TypeQuery[]
   sort: TypeSort[]
 }
-export interface GetAllBusinessResponse {
+export interface GetAllTenantResponse {
   page: number
   total: number
   total_page: number
-  data: BusinessDetail[]
+  data: TenantDetail[]
 }
-export interface BusinessDetail {
+export interface TenantDetail {
   id: string
   name: string
   code: string
@@ -24,7 +24,7 @@ export interface BusinessDetail {
   website: string
   image_url: any[]
 }
-export interface UpdateBusinessRequest {
+export interface UpdateTenantRequest {
   code: string
   name?: string
   website: string
@@ -32,10 +32,12 @@ export interface UpdateBusinessRequest {
   is_active?: boolean
   image_url: any
 }
-export interface RequestLinkUniversity {
-  university_id: string
+export interface RequestLink {
+  university_id?: string
+  bussiness_id?: string
 }
 
-export interface AcceptLinkUniversity {
-  university_id: string[]
+export interface AcceptLink {
+  university_id?: string[]
+  bussiness_id?: string[]
 }

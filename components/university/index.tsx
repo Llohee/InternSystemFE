@@ -3,22 +3,22 @@ import { Button } from '@/components/ui/button/button'
 import { SearchIcon } from '@/components/ui/icon'
 import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { TableSkeleton } from '@/components/ui/skeleton'
-import { useGetAllUniversity } from '@/hooks/query/university'
-import { useFilterForUniversityStore } from '@/hooks/zustand/filter-for-university'
-import { UniversityDetail } from '@/models/api'
+import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
+import { TenantDetail } from '@/models/api'
 import produce from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import UniversityTable from './table'
 import CreateUniversityModal from './modal/create-university'
+import { useGetAllTenant } from '@/hooks/query/tenant'
 
-const UniversityWrapper = () => {
+const UniversityWrapper = (props: { type: string }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   useState(false)
   const [totalUniversity, setTotalUniversity] = useState(0)
 
-  const [universityChoose, setUniversityChoose] = useState<UniversityDetail[]>()
-  const filterUniversity = useFilterForUniversityStore()
-  const allUniversity = useGetAllUniversity()
+  const [universityChoose, setUniversityChoose] = useState<TenantDetail[]>()
+  const filterTenant = useFilterForTenantStore()
+  const allUniversity = useGetAllTenant(props.type)
   const tableRef = useRef<any>()
   useEffect(() => {
     if (allUniversity.status === 'success')
@@ -32,11 +32,11 @@ const UniversityWrapper = () => {
             <div className="ml-2">
               <DebouncedInput
                 placeholder={'Tìm kiếm'}
-                value={filterUniversity.filter.name}
+                value={filterTenant.filter.name}
                 className="lg:w-96 "
                 onChange={(value) => {
-                  filterUniversity.update(
-                    produce(filterUniversity.filter, (draftState) => {
+                  filterTenant.update(
+                    produce(filterTenant.filter, (draftState) => {
                       draftState.name = value.toString()
                       draftState.page = 0
                     })
@@ -141,6 +141,7 @@ const UniversityWrapper = () => {
       <CreateUniversityModal
         isOpen={isShowModalCreate}
         closeModal={() => setIsShowModalCreate(false)}
+        type={props.type}
       />
     </>
   )
