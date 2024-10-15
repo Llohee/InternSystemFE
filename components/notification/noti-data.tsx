@@ -47,7 +47,7 @@ const NotiData = (props: {
               <MenuBarItemLink
                 href={
                   noti.meta_data.type === 'REQUEST'
-                    ? `/link?type=${noti.meta_data.type}&is_readed=${noti.is_readed}&university_id=${noti.meta_data.university}`
+                    ? `/tenant-link?type=${noti.meta_data.type}&is_readed=${noti.is_readed}&tenant_id=${noti.meta_data.tenant_id}`
                     : `/report/lecturer/${noti.meta_data.student_id}?post_id=${noti.meta_data.post_id}&student_id=${noti.meta_data.student_id}`
                 }
                 key={noti.notify_id}
@@ -63,7 +63,7 @@ const NotiData = (props: {
                   description={noti.content}
                   createTime={noti.created_time}
                   readed={noti.is_readed}
-                  updaterName={noti.meta_data.Lecturer}
+                  updaterName={noti.meta_data.lecturer}
                   type={noti.meta_data.type}
                 />
               </MenuBarItemLink>
@@ -102,7 +102,7 @@ const NotiData = (props: {
                   description={noti.content}
                   createTime={noti.created_time}
                   readed={noti.is_readed}
-                  updaterName={noti.meta_data.Lecturer}
+                  updaterName={noti.meta_data.lecturer}
                   type={noti.meta_data.type}
                 />
               </div>

@@ -38,7 +38,7 @@ export function Header(props: HeaderProps) {
     },
     {
       title: 'Hồ sơ & CV',
-      link: '/dashboard',
+      link: '/profile-cv',
       icon: <></>,
     },
     {

@@ -11,13 +11,13 @@ export interface SysNotification {
   created_time: string
   meta_data: {
     post_id: string
-    Lecturer: string
+    lecturer: string
     type: 'REPORT' | 'REQUEST'
     student_id: string
     action: 'CREATE' | 'COMMENT' | 'UPDATE' | 'REQUEST'
-    code_university: string
-    university: string
-    universityName: string
+    code_tenant: string
+    tenant_id: string
+    tenant_name: string
   }
   is_redirect: boolean
   is_readed: boolean
