@@ -10,7 +10,6 @@ import toast from "react-hot-toast"
 
 export const usePostCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdatePostRequest>()
-  formCreate.register('negotiable_salary', { required: 'Mức lương là bắt buộc' })
 
   const mutation = usePostCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdatePostRequest> = async (data) => {
@@ -55,8 +54,17 @@ export const usePostUpdate = (closeModal: () => void, Post: PostDetail) => {
     defaultValues: {
       position: Post.position.id,
       local: Post.local.id,
+      description: Post.description,
+      slot: Post.slot,
+      is_active: Post.is_active,
       profession: Post.profession.id,
-      description: Post.description
+      salary_min: Post.salary_min,
+      salary_max: Post.salary_max,
+      negotiable_salary: Post.negotiable_salary,
+      currency: Post.currency,
+      request: Post.request,
+      interest: Post.interest,
+      expired_time: Post.expired_time
     }
   })
 

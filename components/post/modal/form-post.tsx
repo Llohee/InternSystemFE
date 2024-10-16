@@ -1,3 +1,4 @@
+import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
   ContainerFormBody,
@@ -8,10 +9,12 @@ import { GroupChooseBtn } from '@/components/ui/input/group-choose-btn'
 import { Input, inputStyles } from '@/components/ui/input/input'
 import InputDate from '@/components/ui/input/input-date'
 import { InputSelect } from '@/components/ui/select/select'
+import { SwitchButton } from '@/components/ui/switch/switch'
 import useGetConfig from '@/hooks/query/config'
 import { PostDetail, UpdatePostRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
 import { DatePicker } from 'antd'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -35,9 +38,9 @@ const FormPost = (props: {
   function removeHtmlTags(input: string) {
     return input.replace(/<[^>]*>/g, '').trim()
   }
-  const [option, setOption] = useState(
-    props.postDetail?.negotiable_salary ?? true
-  )
+  // const [option, setOption] = useState(
+  //   props.postDetail?.negotiable_salary ?? true
+  // )
   const currencyOptions = [
     {
       label: 'VND',
@@ -52,11 +55,6 @@ const FormPost = (props: {
       value: 'EUR',
     },
   ]
-  // useEffect(()=> {
-  //   if(option){
-
-  //   }
-  // }, [option])
   return (
     <>
       <form
@@ -95,7 +93,6 @@ const FormPost = (props: {
                       onChange(option.value ?? '')
                     }}
                     label={'Địa điểm'}
-                    isClearable
                     register={props.form.register}
                     required
                     disabled={props.isEdit}
@@ -138,7 +135,6 @@ const FormPost = (props: {
                       onChange(option.value ?? '')
                     }}
                     label={'Vị trí'}
-                    isClearable
                     register={props.form.register}
                     required
                     message={errors.position?.message ?? ''}
@@ -180,7 +176,6 @@ const FormPost = (props: {
                       onChange(option.value ?? '')
                     }}
                     label={'Ngành nghề'}
-                    isClearable
                     register={props.form.register}
                     required
                     message={errors.profession?.message ?? ''}
@@ -208,7 +203,7 @@ const FormPost = (props: {
                 label={'Chi tiết'}
                 intent={error ? 'error' : 'default'}
                 required
-                placeholder={'Mô tả'}
+                placeholder={'Nhập mô tả'}
               />
             )}
           />
@@ -238,7 +233,7 @@ const FormPost = (props: {
             control={props.form.control}
             name="interest"
             rules={{
-              required: 'Yêu cầu là bắt buộc',
+              required: 'Quyền lợi là bắt buộc',
             }}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Editor
@@ -249,34 +244,86 @@ const FormPost = (props: {
                   if (removeHtmlTags(data).length <= 0) onChange('')
                   else onChange(data)
                 }}
-                label={'Yêu cầu'}
+                label={'Quyền lợi'}
                 intent={error ? 'error' : 'default'}
                 required
-                placeholder={'Nhập yêu cầu'}
+                placeholder={'Nhập quyền lợi'}
               />
             )}
           />
-          <GroupChooseBtn
-            name="negotiable_salary"
-            register={register}
-            listValue={[
-              {
-                label: 'Thỏa thuận',
-                value: true,
-              },
-              {
-                label: 'Cơ bản',
-                value: false,
-              },
-            ]}
-            label={'Mức lương'}
-            type="radio"
-            onChange={(value) => setOption(value === 'true')}
-            classNameList="flex gap-5"
-            classNameLabel="text-label-3 text-typography-label font-normal pl-1"
-            required
-          />
-          {option === false && (
+          <div className="grid grid-cols-11 gap-6">
+            <div className="col-span-6 flex flex-col gap-2">
+              {/* <GroupChooseBtn
+                name="negotiable_salary"
+                register={register}
+                listValue={[
+                  {
+                    label: 'Thỏa thuận',
+                    value: true,
+                  },
+                  {
+                    label: 'Cơ bản',
+                    value: false,
+                  },
+                ]}
+                label={'Mức lương'}
+                type="radio"
+                onChange={(value) => value}
+                classNameList="flex gap-5"
+                classNameLabel="text-label-3 text-typography-label font-normal pl-1"
+                required
+              /> */}
+              <div className="text-label-3 text-typography-label">
+                Mức lương
+              </div>
+              <Controller
+                control={props.form.control}
+                name="negotiable_salary"
+                render={({ field: { value, onChange } }) => (
+                  <div className="flex justify-around items-center gap-2 border border-border-1 rounded-lg h-[38px] px-4">
+                    <div
+                      className={`text-label-3 font-normal ${
+                        props.form.watch('negotiable_salary') === true
+                          ? '!text-typography-disabled'
+                          : 'text-typography-label'
+                      }`}
+                    >
+                      Cơ bản
+                    </div>
+                    <SwitchButton
+                      enabled={value ?? true}
+                      setEnabled={() => {
+                        onChange(!(value ?? true))
+                      }}
+                      label={''}
+                      classname="!gap-0"
+                    />
+                    <div
+                      className={`text-label-3 font-normal ${
+                        props.form.watch('negotiable_salary') === false
+                          ? '!text-typography-disabled'
+                          : 'text-typography-label'
+                      }`}
+                    >
+                      Thỏa thuận
+                    </div>
+                  </div>
+                )}
+              />
+            </div>
+            <div className="col-span-5">
+              <Input<UpdatePostRequest>
+                name="slot"
+                register={props.form.register}
+                label={'Số lượng'}
+                placeholder="Nhập số lượng"
+                type={'number'}
+                maxLength={2}
+                required
+              />
+            </div>
+          </div>
+          {props.form.watch('negotiable_salary') === false && (
             <div className="grid grid-cols-11 gap-6">
               <div className="col-span-4">
                 <Input<UpdatePostRequest>
@@ -298,14 +345,13 @@ const FormPost = (props: {
                   required
                 />
               </div>
-              {/* <div className="col-span-2"></div> */}
-              {/* <div className="col-span-3">
+              <div className="col-span-3">
                 <Controller
                   control={props.form.control}
-                  name="currency_unit"
+                  name="currency"
                   render={({ field: { value, onChange } }) => {
-                    const [urlConfig, setUrlConfig] = useState<string>('')
-                    const getConfig = useGetConfig(urlConfig, '', [])
+                    // const [urlConfig, setUrlConfig] = useState<string>('')
+                    // const getConfig = useGetConfig(urlConfig, '', [])
                     return (
                       <>
                         <InputSelect
@@ -320,7 +366,6 @@ const FormPost = (props: {
                             onChange(option.value ?? '')
                           }}
                           label={'Đơn vị tiền tệ'}
-                          isClearable
                           register={props.form.register}
                           required
                           message={errors.position?.message ?? ''}
@@ -330,7 +375,7 @@ const FormPost = (props: {
                     )
                   }}
                 />
-              </div> */}
+              </div>
             </div>
           )}
           <InputDate<UpdatePostRequest>

@@ -41,19 +41,22 @@ export interface PostDetail {
     location: string
     website: string
   }
+  is_active: boolean
   uni_postings: any[]
   display_in: any[]
   CV_appplying: any[]
   description: string
   created_time: string
-  expired_time: number
+  expired_time: string
   slot: number
   activities: ActivityDetail[]
   profession: ConfigDetail
   salary_min: number
   salary_max: number
+  currency: string
   negotiable_salary: boolean
-  currency_unit: string
+  request: string
+  interest: string
 }
 
 export interface UpdatePostRequest {
@@ -71,5 +74,5 @@ export interface UpdatePostRequest {
   currency: string
   request: string
   interest: string
-  expired_time: number
+  expired_time: string
 }

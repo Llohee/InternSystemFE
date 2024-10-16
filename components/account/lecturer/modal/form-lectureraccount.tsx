@@ -43,7 +43,7 @@ export const FormLecturerAccount = (props: {
               name="email"
               register={register}
               intent={props.form.formState.errors.email ? 'error' : 'default'}
-              placeholder={'Nhập email trường học'}
+              placeholder={'Nhập email giảng viên'}
               message={props.form.formState.errors.email?.message ?? ''}
               disabled={props.isEdit}
               required

@@ -32,10 +32,10 @@ interface UniversitysProps {
 }
 
 const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
-  const filterUniversity = useFilterForTenantStore()
+  const filterTenantlink = useFilterForTenantStore()
   const [data, setData] = useState(() => [...props.getAllTenantData.data])
   const [sorting, setSorting] = useState<SortingState>([
-    ...filterUniversity.filter.sort.map((val: any) => ({
+    ...filterTenantlink.filter.sort.map((val: any) => ({
       id: val.name,
       desc: val.type,
     })),
@@ -56,8 +56,8 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     itemChoose,
   } = useChooseMulti<TenantDetail>({ data: data })
   useEffect(() => {
-    filterUniversity.update(
-      produce(filterUniversity.filter, (draftState: any) => {
+    filterTenantlink.update(
+      produce(filterTenantlink.filter, (draftState: any) => {
         draftState.sort = [
           ...sorting.map((val: any) => ({
             name: val.id,
@@ -119,7 +119,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       header: () => 'STT',
       cell: (info) => (
         <div>
-          {filterUniversity.filter.page * filterUniversity.filter.limit +
+          {filterTenantlink.filter.page * filterTenantlink.filter.limit +
             1 +
             info.row.index}
         </div>
@@ -257,8 +257,8 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       <div className="flex gap-2 py-4 border-t border-border-2 justify-end">
         <Pagination
           changePage={(e) => {
-            filterUniversity.update(
-              produce(filterUniversity.filter, (draftState: any) => {
+            filterTenantlink.update(
+              produce(filterTenantlink.filter, (draftState: any) => {
                 draftState.page = e - 1
               })
             )
@@ -269,11 +269,11 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
             props.getAllTenantData.total > 0 ? (
               <div className="hidden md:block">
                 {props.getAllTenantData.page *
-                  filterUniversity.filter.limit +
+                  filterTenantlink.filter.limit +
                   1}
                 -
                 {props.getAllTenantData.page *
-                  filterUniversity.filter.limit +
+                  filterTenantlink.filter.limit +
                   data.length}{' '}
                 trên tổng {props.getAllTenantData.total}
               </div>
@@ -298,6 +298,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
             isOpen={isShowModalAccept}
             closeModal={() => {
               setIsShowModalAccept(false)
+              router.push('/tenant-link')
             }}
             university_id={university_id}
           />

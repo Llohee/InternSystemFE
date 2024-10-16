@@ -5,6 +5,7 @@ import { GetAllPostResponse } from '@/models/api'
 import produce from 'immer'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import waitingDev from '@/public/images/wating-dev.png'
 
 const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
   const [data, setData] = useState(() => [...props.getAllPost.data])
@@ -18,7 +19,8 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
         {props.getAllPost.data.map((post) => (
           <div className="bg-grey-1 h-[110px] col-span-1 flex gap-2 overflow-hidden p-3 rounded-lg hover:bg-grey-2 hover:shadow-md">
             <Image
-              src={post.business.image_url}
+              // src={ post.business.image_url}
+              src={waitingDev}
               alt=""
               width={100}
               height={100}
