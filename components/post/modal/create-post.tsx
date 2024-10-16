@@ -1,7 +1,7 @@
 import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { Button } from '@/components/ui/button/button'
 import { Modal } from '@/components/ui/modal/modal'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePostCreate } from './hook'
 import FormPost from './form-post'
 
@@ -16,6 +16,9 @@ const CreatePostModal = (props: {
   const closeModal = () => {
     setIsConfirmCloseModal(true)
   }
+  useEffect(() => {
+    formCreate.setValue('negotiable_salary', true)
+  }, [props.closeModal, props.isOpen])
   return (
     <>
       <Modal

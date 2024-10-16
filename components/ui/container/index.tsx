@@ -81,3 +81,11 @@ export const ContainerCreateReportTime = (props: CreateReportTimeProps) => {
     </div>
   )
 }
+
+export const ContainerCVFormBody =({
+  children,
+  }: {
+    children : React.ReactNode
+  }) => {
+    return <div className="p-9 flex flex-col gap-8">{children}</div>
+  }

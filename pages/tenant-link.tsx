@@ -10,11 +10,7 @@ const LinkPage: NextPageWithAuthLayout = () => {
   const router = useRouter()
   const { type, is_readed, university_id } = router.query
   const [selectedTab, onChangeSelectedTab] = useState(
-    type === 'REQUEST' &&
-      is_readed === 'false' &&
-      typeof university_id === 'string'
-      ? 2
-      : 0
+    typeof university_id === 'string' ? 2 : 0
   )
   return (
     <div className="relative">
