@@ -67,15 +67,20 @@ export function Header(props: HeaderProps) {
     return (
       <div className="w-full top-0 sticky z-[1000]">
         <div className="bg-brand h-14 flex items-center justify-between md:px-8">
-          <div className="flex gap-2 items-center px-3">
-            <Image
-              src={userDetail.data.tenant?.image_url}
-              alt=""
-              width={30}
-              height={30}
-            />
-            <p className="text-white text-title-5 md:text-title-3">{userDetail.data.tenant?.name.toUpperCase()} ({userDetail.data.tenant?.code})</p>
-          </div>
+          {userDetail.data.tenant && (
+            <div className="flex gap-2 items-center px-3">
+              <Image
+                src={userDetail.data.tenant?.image_url}
+                alt=""
+                width={30}
+                height={30}
+              />
+              <p className="text-white text-title-5 md:text-title-3">
+                {userDetail.data.tenant?.name.toUpperCase()} (
+                {userDetail.data.tenant?.code})
+              </p>
+            </div>
+          )}
           <div className="relative flex gap-2.5 md:gap-3 items-center">
             <NotificationMenu />
             <div className="md:hidden">

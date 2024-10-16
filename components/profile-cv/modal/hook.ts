@@ -31,8 +31,8 @@ export function useCVCreateMutation(
       toast.promise(
         ProfileAndCV.createCV(getAccessToken.data!.access_token.token, createCVBody),
         {
-          loading: 'Đang tạo bài đăng',
-          success: 'Tạo bài đăng thành công',
+          loading: 'Đang tạo CV',
+          success: 'Tạo CV thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,
