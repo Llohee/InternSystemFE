@@ -208,7 +208,7 @@ export const InputSelect = <T extends FieldValues>({
         isClearable={props.isClearable && !props.required}
         isDisabled={props.disabled}
         defaultInputValue={props.inputDefault}
-        loadingMessage={() => t('mess.loading')}
+        loadingMessage={() => ''}
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,

@@ -34,6 +34,15 @@ const FormCV = (props: {
       >
         <ContainerCVFormBody>
           <Input<UpdateCVRequest>
+            label={'Tên CV'}
+            name="title"
+            register={useForm.register}
+            placeholder={'Nhập tên CV'}
+            message={useForm.formState.errors.title?.message ?? ''}
+            intent={useForm.formState.errors.title ? 'error' : 'default'}
+            required
+          />
+          <Input<UpdateCVRequest>
             label={'Mục tiêu nghề nghiệp'}
             name="target_job"
             register={useForm.register}

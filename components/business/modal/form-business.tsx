@@ -63,8 +63,9 @@ export const FormBusiness = (props: {
           />
           <Input<UpdateTenantRequest>
             label="Website"
-            type={'text'}
             name="website"
+            type='textArea'
+            lineTextArea={1}
             register={register}
             intent={props.form.formState.errors.name ? 'error' : 'default'}
             placeholder={'Nhập Website'}
@@ -75,7 +76,7 @@ export const FormBusiness = (props: {
             name="location"
             type="textArea"
             register={register}
-            lineTextArea={5}
+            lineTextArea={3}
             intent={props.form.formState.errors.name ? 'error' : 'default'}
             placeholder={'Nhập địa chỉ'}
             message={props.form.formState.errors.name?.message ?? ''}

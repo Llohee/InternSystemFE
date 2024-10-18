@@ -5,12 +5,18 @@ import { ErrorResponse, PostDetail, UpdatePostRequest } from "@/models/api"
 import { queryClient } from "@/pages/_app"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import { useEffect } from "react"
 import { SubmitHandler, useForm, UseFormReset } from "react-hook-form"
 import toast from "react-hot-toast"
 
 export const usePostCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdatePostRequest>()
-
+  useEffect(() => {
+    if (formCreate.watch('negotiable_salary') === true) {
+      formCreate.setValue('salary_min', undefined)
+      formCreate.setValue('salary_max', undefined)
+    }
+  }, [formCreate.watch('negotiable_salary')])
   const mutation = usePostCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdatePostRequest> = async (data) => {
     mutation.mutate(data)

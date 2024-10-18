@@ -1,5 +1,6 @@
 import { ActivityDetail } from "./activities-api"
 import { ConfigDetail, TypeQuery, TypeSort } from "./common"
+import { TenantDetail } from "./tenant-api"
 
 export interface PostFilterRequest {
   local: string
@@ -29,14 +30,14 @@ export interface GetAllPostResponse {
 }
 export interface PostDetail {
   id: string
+  title: string
+  work_experience: string
   position: ConfigDetail
   local: ConfigDetail
-  business: {
+  tenant: {
     id: string
     name: string
     code: string
-    created_time: string
-    is_active: string
     image_url: string
     location: string
     website: string
@@ -61,15 +62,17 @@ export interface PostDetail {
 
 export interface UpdatePostRequest {
   id: string
+  title: string
   position: string
+  work_experience: string
   local: string
   description: string
   slot: number
   business: string
   is_active: boolean
   profession: string
-  salary_min: number
-  salary_max: number
+  salary_min?: number
+  salary_max?: number
   negotiable_salary: boolean
   currency: string
   request: string
