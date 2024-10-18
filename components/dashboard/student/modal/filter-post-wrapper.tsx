@@ -52,7 +52,7 @@ const FilterPostWrapper = (props: {
   ]
 
   return (
-    <div className="py-5 border-b border-border-1">
+    <div className="py-5 border-b border-border-1 nav nav-tabs sticky top-0 bg-white z-10 flex flex-auto">
       <div className="flex md:flex-row flex-col gap-6 justify-start">
         <div className="flex gap-2 items-center">
           <InputSelect
