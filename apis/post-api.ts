@@ -1,4 +1,4 @@
-import { ConfigDetail, GetAllPostResponse, PostDetail, PostFilterRequest, UpdatePostRequest } from "@/models/api"
+import { ConfigDetail, GetAllPostResponse, PostDetail, PostFilterRequest, UpdateApplyCVRequest, UpdatePostRequest } from "@/models/api"
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
@@ -114,6 +114,16 @@ const PostApi = {
       },
     }
     return axiosClient.put(url, trymObject(data), config)
+  },
+  applyCV(accessToken: string, data: UpdateApplyCVRequest): Promise<any> {
+    const url = '/post/applycv'
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.post(url, trymObject(data), config)
   },
 }
 export default PostApi

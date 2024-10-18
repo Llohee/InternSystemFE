@@ -1,20 +1,16 @@
-import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Editor } from '@/components/ui/editor/editor'
-import { GroupChooseBtn } from '@/components/ui/input/group-choose-btn'
-import { Input, inputStyles } from '@/components/ui/input/input'
+import { Input } from '@/components/ui/input/input'
 import InputDate from '@/components/ui/input/input-date'
 import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import useGetConfig from '@/hooks/query/config'
 import { PostDetail, UpdatePostRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
-import { DatePicker } from 'antd'
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -38,9 +34,6 @@ const FormPost = (props: {
   function removeHtmlTags(input: string) {
     return input.replace(/<[^>]*>/g, '').trim()
   }
-  // const [option, setOption] = useState(
-  //   props.postDetail?.negotiable_salary ?? true
-  // )
   const currencyOptions = [
     {
       label: 'VND',
@@ -55,6 +48,28 @@ const FormPost = (props: {
       value: 'EUR',
     },
   ]
+  const work_experience = [
+    {
+      label: 'Không yêu cầu',
+      value: 'Không yêu cầu',
+    },
+    {
+      label: 'Dưới 1 Năm',
+      value: 'Dưới 1 Năm',
+    },
+    {
+      label: '1-3 Năm',
+      value: '1-3 Năm',
+    },
+    {
+      label: '3-5 Năm',
+      value: '3-5 Năm',
+    },
+    {
+      label: 'Trên 5 Năm',
+      value: 'Trên 5 Năm',
+    },
+  ]
   return (
     <>
       <form
@@ -62,6 +77,13 @@ const FormPost = (props: {
         onSubmit={handleSubmit(props.handleFormSubmit)}
       >
         <ContainerFormBody>
+          <Input<UpdatePostRequest>
+            name="title"
+            register={props.form.register}
+            label={'Tiêu đề bài đăng'}
+            placeholder="Nhập tiêu đề"
+            required
+          />
           <Controller
             control={props.form.control}
             name={'local'}
@@ -253,28 +275,8 @@ const FormPost = (props: {
           />
           <div className="grid grid-cols-11 gap-6">
             <div className="col-span-6 flex flex-col gap-2">
-              {/* <GroupChooseBtn
-                name="negotiable_salary"
-                register={register}
-                listValue={[
-                  {
-                    label: 'Thỏa thuận',
-                    value: true,
-                  },
-                  {
-                    label: 'Cơ bản',
-                    value: false,
-                  },
-                ]}
-                label={'Mức lương'}
-                type="radio"
-                onChange={(value) => value}
-                classNameList="flex gap-5"
-                classNameLabel="text-label-3 text-typography-label font-normal pl-1"
-                required
-              /> */}
               <div className="text-label-3 text-typography-label">
-                Mức lương
+                Mức lương<span className="text-error-base pl-1">*</span>
               </div>
               <Controller
                 control={props.form.control}
@@ -355,7 +357,7 @@ const FormPost = (props: {
                     return (
                       <>
                         <InputSelect
-                          name={'position'}
+                          name={'currency'}
                           options={currencyOptions}
                           value={
                             currencyOptions?.find(
@@ -368,8 +370,8 @@ const FormPost = (props: {
                           label={'Đơn vị tiền tệ'}
                           register={props.form.register}
                           required
-                          message={errors.position?.message ?? ''}
-                          intent={errors.position ? 'error' : 'default'}
+                          message={errors.currency?.message ?? ''}
+                          intent={errors.currency ? 'error' : 'default'}
                         />
                       </>
                     )
@@ -378,16 +380,53 @@ const FormPost = (props: {
               </div>
             </div>
           )}
-          <InputDate<UpdatePostRequest>
-            name="expired_time"
-            control={props.form.control}
-            intent={
-              props.form.formState.errors.expired_time ? 'error' : 'default'
-            }
-            label={'Hạn ứng tuyển'}
-            message={props.form.formState.errors.expired_time?.message ?? ''}
-            required
-          />
+          <div className="grid grid-cols-11 gap-6">
+            <div className="col-span-6">
+              <InputDate<UpdatePostRequest>
+                name="expired_time"
+                control={props.form.control}
+                intent={
+                  props.form.formState.errors.expired_time ? 'error' : 'default'
+                }
+                label={'Hạn ứng tuyển'}
+                message={
+                  props.form.formState.errors.expired_time?.message ?? ''
+                }
+                required
+              />
+            </div>
+            <div className="col-span-5">
+              <Controller
+                control={props.form.control}
+                name="work_experience"
+                render={({ field: { value, onChange } }) => {
+                  // const [urlConfig, setUrlConfig] = useState<string>('')
+                  // const getConfig = useGetConfig(urlConfig, '', [])
+                  return (
+                    <>
+                      <InputSelect
+                        name={'work_experience'}
+                        options={work_experience}
+                        value={
+                          work_experience?.find(
+                            (val: any) => value && val.value === value
+                          ) ?? null
+                        }
+                        onChange={(option) => {
+                          onChange(option.value ?? '')
+                        }}
+                        label={'Yêu cầu kinh nghiệm'}
+                        register={props.form.register}
+                        required
+                        message={errors.work_experience?.message ?? ''}
+                        intent={errors.work_experience ? 'error' : 'default'}
+                      />
+                    </>
+                  )
+                }}
+              />
+            </div>
+          </div>
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button

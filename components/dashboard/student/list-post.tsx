@@ -6,6 +6,7 @@ import produce from 'immer'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import waitingDev from '@/public/images/wating-dev.png'
+import { useRouter } from 'next/router'
 
 const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
   const [data, setData] = useState(() => [...props.getAllPost.data])
@@ -13,33 +14,36 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
   useEffect(() => {
     setData([...props.getAllPost.data])
   }, [props.getAllPost])
+  const router = useRouter()
   return (
     <>
       <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {props.getAllPost.data.map((post) => (
-          <div className="bg-grey-1 h-[110px] col-span-1 flex gap-2 overflow-hidden p-3 rounded-lg hover:bg-grey-2 hover:shadow-md">
+          <div
+            className="bg-grey-1 col-span-1 flex gap-2 px-3 py-4 rounded-lg hover:bg-grey-2 transition-all ease-in-out duration-500 hover:shadow-[0_0_10px_0px_rgba(77,122,229,0.4)] relative hover:cursor-pointer border border-grey-2 hover:border-border-2"
+            onClick={() => router.push(`/dashboard/${post.id}`)}
+          >
             <Image
-              // src={ post.business.image_url}
-              src={waitingDev}
+              src={post.tenant.image_url}
               alt=""
               width={100}
               height={100}
             />
-            <div className="flex flex-col gap-2 truncate">
+            <div className="flex flex-col justify-between gap-2 truncate">
               <div className="">
-                <div className="truncate text-typography-title text-heading-6">
+                <div className="truncate text-typography-title text-heading-6 group">
                   {post.position.name}
                 </div>
                 <Tooltip
                   placementTootip={'bottom-start'}
-                  tootipDetail={<>{post.business.name}</>}
+                  tootipDetail={<>{post.tenant.name}</>}
                 >
                   <div className="cursor-pointer truncate text-typography-body text-body-3">
-                    {post.business.name}
+                    {post.tenant.name}
                   </div>
                 </Tooltip>
               </div>
-              <div className="flex gap-2 mx-2 max-w-[200px] overflow-hidden rounded-lg">
+              <div className="flex gap-2 mx-2 overflow-hidden rounded-lg">
                 <div className="flex gap-1 items-center bg-white py-[2px] px-1 rounded-lg text-typography-body text-label-3 shadow-sm">
                   <svg
                     color="#FFAB00"
@@ -73,7 +77,7 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
                     ></path>
                   </svg>
                   {post.negotiable_salary === false
-                    ? `${post.salary_min} - ${post.salary_max}`
+                    ? `${post.salary_min} - ${post.salary_max} ${post.currency}`
                     : `Thỏa thuận`}
                 </div>
               </div>
