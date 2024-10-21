@@ -8,6 +8,8 @@ import { usePostUpdate } from './hook'
 import { PostDetail } from '@/models/api'
 import { useGetPostbyId } from '@/hooks/query/post'
 import { ModalLoading } from '@/components/ui/skeleton'
+import { ListTab } from '@/components/ui/list-tab/list-tab'
+import ApplyPost from './apply-post'
 interface PostProps {
   isOpen: boolean
   closeModal: () => void
@@ -75,13 +77,34 @@ const UpdatePost = (props: PostProps) => {
         size="large"
       >
         <div className="relative">
-          <FormPost
-            form={formUpdate}
-            handleFormSubmit={handleFormSubmit}
-            mutation={mutation}
-            postDetail={props.postDetail}
-            closeModal={props.closeModal}
-            isEdit={true}
+          <ListTab
+            // selectedIndex={selectedTab}
+            // onChange={onChangeSelectedTab}
+            titles={[
+              {
+                title: 'Bài đăng',
+                node: (
+                  <FormPost
+                    form={formUpdate}
+                    handleFormSubmit={handleFormSubmit}
+                    mutation={mutation}
+                    postDetail={props.postDetail}
+                    closeModal={props.closeModal}
+                    isEdit={true}
+                  />
+                ),
+              },
+              {
+                title: 'Ứng tuyển',
+                node: (
+                  <ApplyPost
+                    postDetail={props.postDetail}
+                    closeModal={props.closeModal}
+                  />
+                ),
+              },
+            ]}
+            tabPadding={'px-6'}
           />
         </div>
         {/* <ConfirmCloseModal
