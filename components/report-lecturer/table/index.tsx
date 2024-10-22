@@ -138,7 +138,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
             placementTootip="bottom-start"
           >
             <Link
-              href={`report/${info.row.original.id}`}
+              href={`lecturer/${info.row.original.id}`}
               className="relative hover:text-primary-base truncate"
             >
               <div className="max-w-[210px] truncate">{info.getValue()}</div>

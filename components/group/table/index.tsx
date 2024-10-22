@@ -21,6 +21,8 @@ import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 import { GetAllGroupResponse, GroupDetail } from '@/models/api'
 import { useFilterForGroupStore } from '@/hooks/zustand/filter-for-group'
 import dayjs from 'dayjs'
+import ConfirmDeleteGroupModal from '../modal/confirm-delete-group'
+import UpdateGroupModal from '../modal/update-group'
 
 interface GroupsProps {
   getAllGroupData: GetAllGroupResponse
@@ -42,7 +44,8 @@ const GroupTable = (props: GroupsProps, ref: any) => {
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<GroupDetail>()
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+  const [groupChoose, setGroupChoose] = useState<GroupDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -164,7 +167,7 @@ const GroupTable = (props: GroupsProps, ref: any) => {
             btnStyle="no-background"
             onClick={() => {
               setIsShowModalUpdate(true)
-              setUserChoose(info.row.original)
+              setGroupChoose(info.row.original)
             }}
           >
             <svg
@@ -195,12 +198,21 @@ const GroupTable = (props: GroupsProps, ref: any) => {
     state: {
       columnVisibility: { tenant: roleIsSuperAdmin },
       sorting,
+      columnFilters,
     },
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     sortDescFirst: false,
     pageCount: 0,
     debugTable: true,
   })
+  React.useEffect(() => {
+    if (table.getState().columnFilters[0]?.id === 'fullName') {
+      if (table.getState().sorting[0]?.id !== 'fullName') {
+        table.setSorting([{ id: 'fullName', desc: false }])
+      }
+    }
+  }, [table.getState().columnFilters[0]?.id])
 
   return (
     <>
@@ -231,6 +243,26 @@ const GroupTable = (props: GroupsProps, ref: any) => {
           showGotoPageInput
         ></Pagination>
       </div>
+      {groupChoose && isShowModalDelete && (
+        <ConfirmDeleteGroupModal
+          isOpen={isShowModalDelete}
+          closeModal={() => {
+            setIsShowModalDelete(false)
+            setGroupChoose(undefined)
+          }}
+          groupDetail={groupChoose}
+        />
+      )}
+      {groupChoose && isShowModalUpdate && (
+        <UpdateGroupModal
+          isOpen={isShowModalUpdate}
+          closeModal={() => {
+            setIsShowModalUpdate(false)
+            setGroupChoose(undefined)
+          }}
+          groupDetail={groupChoose}
+        />
+      )}
     </>
   )
 }

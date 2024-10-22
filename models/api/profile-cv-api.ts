@@ -47,6 +47,6 @@ export interface UpdateCVRequest {
 }
 export interface UpdateApplyCVRequest {
   post_id: string
-  description: string
+  description?: string
   cv_id: string
 }

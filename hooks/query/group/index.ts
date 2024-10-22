@@ -10,6 +10,8 @@ export const GroupKeys = {
   all: ['getAllGroup'] as const,
   getAllGroup: (filter: GroupFilterRequest) =>
     [...GroupKeys.all, filter, 'getAllGroup'] as const,
+  getGroupById: (id: string) =>
+    [...GroupKeys.all, 'getAllGroup', 'getGroupById', id] as const,
 }
 
 export function useGetAllGroup() {
@@ -27,5 +29,14 @@ export function useGetAllGroup() {
     () =>
       GroupApi.getAllGroup(getAccessToken.data!.access_token.token, filterGroup.filter),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+export function useGetGroupById(id: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    GroupKeys.getGroupById(id),
+    () => GroupApi.getGroupById(getAccessToken.data!.access_token.token, id),
+    { enabled: !getAccessToken.isFetching }
   )
 }

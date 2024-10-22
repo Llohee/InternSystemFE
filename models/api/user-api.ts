@@ -1,4 +1,6 @@
+import { ActivityDetail } from "./activities-api"
 import { roleUser } from "./common"
+import { GroupDetail } from "./group-api"
 
 export interface UserGetDetail {
   id: string
@@ -10,31 +12,15 @@ export interface UserGetDetail {
   is_active: boolean
   role: roleUser[]
   created_time: string
-  // activities: {
-  //   actor: string
-  //   action: string
-  //   time: string
-  // }[]
-  id_number: string
-  faculty: string
-  institute: string
-  class: string
-  program_training: string
+  group: GroupDetail
+  activities: ActivityDetail[]
+  id_number: string //MSSV
+  faculty: string //Khoa
+  institute: string //Viện
+  class: string //Lớp
+  major: string //Ngành
+  program_training: string //CT đào tạo
   academic_year: string
-  group: {
-    id: string
-    name: string
-    students: {
-      fullname: string
-      email: string
-    }[]
-    created_time: string
-    lecturer_id: {
-      fullname: string
-      email: string
-      phone: string
-    }
-  }
   status: string
   updated_time: string
   type: "STUDENT" | "BUSINESS" | "UNIVERSITY"
@@ -53,6 +39,7 @@ export interface UpdateUserRequest {
   phone?: string
   faculty: string
   institute: string
+  program_training: string
   class: string
   major: string
   academic_year: any

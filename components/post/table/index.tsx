@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button/button'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { TableView } from '@/components/ui/table'
 import { useFilterForPostBusinessStore } from '@/hooks/zustand/filter-for-post'
-import { GetAllPostResponse, PostDetail } from '@/models/api'
+import { CVDetail, GetAllPostResponse, PostDetail } from '@/models/api'
 import {
   ColumnFiltersState,
   createColumnHelper,
@@ -10,11 +10,14 @@ import {
   getCoreRowModel,
   getExpandedRowModel,
   SortingState,
-  useReactTable,    
+  useReactTable,
 } from '@tanstack/react-table'
 import produce from 'immer'
 import React, { useEffect, useState } from 'react'
 import UpdatePosModal from '../modal/update-post'
+import dayjs from 'dayjs'
+import { DATE_FORMAT_VIEW } from '@/components/common/constant'
+import { Pill } from '@/components/ui/pill'
 
 const PostBusinessTable = (props: {
   getallPostBusinessData: GetAllPostResponse
@@ -72,6 +75,12 @@ const PostBusinessTable = (props: {
       enableColumnFilter: true,
       meta: 'w-stt',
     }),
+    columnHelper.accessor('title', {
+      header: 'Tiêu đề',
+      cell: (info) => <div>{info.getValue()}</div>,
+      enableColumnFilter: true,
+      meta: 'w-boolean',
+    }),
     columnHelper.accessor('local', {
       header: 'Địa điểm',
       cell: (info) => <div>{info.getValue().name}</div>,
@@ -84,11 +93,44 @@ const PostBusinessTable = (props: {
       enableColumnFilter: true,
       meta: 'w-boolean',
     }),
-    columnHelper.accessor('description', {
-      header: 'Mô tả',
-      cell: (info) => <div>{info.getValue()}</div>,
+    columnHelper.accessor('profession', {
+      header: 'Chuyên ngành',
+      cell: (info) => <div>{info.getValue().name}</div>,
       enableColumnFilter: true,
-      meta: 'w-description',
+      meta: 'w-boolean',
+    }),
+    columnHelper.accessor('created_time', {
+      header: 'Ngày tạo',
+      cell: (info) => {
+        return <p>{dayjs(info.getValue()).format(DATE_FORMAT_VIEW)}</p>
+      },
+      enableColumnFilter: true,
+      meta: 'w-time pl-10 ',
+    }),
+    columnHelper.accessor('expired_time', {
+      header: 'Hạn ứng tuyển',
+      cell: (info) => {
+        return <p>{dayjs(info.getValue()).format(DATE_FORMAT_VIEW)}</p>
+      },
+      enableColumnFilter: true,
+      meta: 'w-time pl-10 ',
+    }),
+    columnHelper.accessor('CV_applying', {
+      header: 'Số lượng ứng tuyển',
+      cell: (info) => {
+        const cvApplyingArray = info.getValue() as any[] | undefined
+        return (
+          <p>
+            {Array.isArray(cvApplyingArray) && cvApplyingArray.length > 0 ? (
+              <Pill intent={'primary'}>{cvApplyingArray.length}</Pill>
+            ) : (
+              <Pill intent={'grey'}>0</Pill>
+            )}
+          </p>
+        )
+      },
+      enableColumnFilter: true,
+      meta: 'w-time pl-10 ',
     }),
     columnHelper.display({
       id: 'action',

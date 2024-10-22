@@ -14,7 +14,7 @@ import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 export const FormBusiness = (props: {
   form: UseFormReturn<UpdateTenantRequest, any>
   handleFormSubmit: SubmitHandler<UpdateTenantRequest>
-  BusinessDetail?: TenantDetail
+  businessDetail?: TenantDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -64,7 +64,7 @@ export const FormBusiness = (props: {
           <Input<UpdateTenantRequest>
             label="Website"
             name="website"
-            type='textArea'
+            type="textArea"
             lineTextArea={1}
             register={register}
             intent={props.form.formState.errors.name ? 'error' : 'default'}
@@ -82,8 +82,8 @@ export const FormBusiness = (props: {
             message={props.form.formState.errors.name?.message ?? ''}
           />
           <Uploader
-            defaultValue={props.BusinessDetail?.image_url.map((v) => v.object)}
-            attachments={props.BusinessDetail?.image_url}
+            defaultValue={props.businessDetail?.image_url.map((v) => v.object)}
+            attachments={props.businessDetail?.image_url}
             className="col-span-full"
             label="Ảnh đại diện"
             module="business"
