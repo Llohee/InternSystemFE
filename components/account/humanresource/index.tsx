@@ -141,6 +141,7 @@ const HumanresourceAccount = (props: { type: string }) => {
             getAllAccountHumanresourceData={allAccountHumanresource.data}
             setHumanresourceAccountChoose={setHumanresourceAccountChoose}
             isPreviousData={allAccountHumanresource.isPreviousData}
+            type={props.type}
           />
         )}
       </div>

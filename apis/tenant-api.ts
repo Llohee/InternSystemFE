@@ -40,6 +40,41 @@ const TenantApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
+  updateTenant(
+    accessToken: string,
+    id: string,
+    data: UpdateTenantRequest,
+    type: string
+  ): Promise<any> {
+    const url = `/tenant/${type}/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteTenant(accessToken: string, id: string, type: string): Promise<any> {
+    const url = `/tenant/${type}/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
+  getTenantById(accessToken: string, id: string, type: string): Promise<TenantDetail> {
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    const url = `/tenant/${type}/${id}`
+    return axiosClient.get(url, config)
+  },
   getConfigTenant(accessToken: string, type: string): Promise<GetAllTenantResponse> {
     const url = `/tenant/${type}`
     return axiosClient.get(url, {
@@ -49,7 +84,6 @@ const TenantApi = {
       },
     })
   },
-  
   getAllTenantLink(
     accessToken: string,
     filter: TenantFilterRequest,
@@ -76,7 +110,6 @@ const TenantApi = {
       },
     })
   },
-
   requestLink(
     accessToken: string,
     data: RequestLink
@@ -104,6 +137,5 @@ const TenantApi = {
     return axiosClient.post(url, trymObject(data), config)
   },
 }
-
 
 export default TenantApi

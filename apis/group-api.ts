@@ -39,6 +39,39 @@ const GroupApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
+  updateGroup(
+    accessToken: string,
+    id: string,
+    data: UpdateGroupRequest,
+  ): Promise<any> {
+    const url = `/auth/groups/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteGroup(accessToken: string, id: string): Promise<any> {
+    const url = `/auth/groups/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
+  getGroupById(accessToken: string, id: string): Promise<GroupDetail> {
+    const url = `/auth/groups/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
 }
 
 export default GroupApi

@@ -20,7 +20,7 @@ export const FormHumanresourceAccount = (props: {
   form: UseFormReturn<UpdateUserRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUserRequest>
   mutation: any
-  userDetail?: UserGetDetail
+  humanresourceDetail?: UserGetDetail
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean

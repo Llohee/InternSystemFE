@@ -13,6 +13,8 @@ export const AccountLecturerKeys = {
     [...AccountLecturerKeys.all, filter, 'getAllAccountLecturer'] as const,
   getConfigLTWhithoutGroup: () =>
     [...AccountLecturerKeys.all, 'getConfigLTWhithoutGroup'] as const,
+  getLecturerById: (id: string) =>
+    [...AccountLecturerKeys.all, 'getAllAccountLecturer', 'getLecturerById', id] as const
 }
 
 export function useGetAllAccountLecturer() {
@@ -39,6 +41,15 @@ export function useGetConfigLTWhithoutGroup() {
   return useQuery(
     AccountLecturerKeys.getConfigLTWhithoutGroup(),
     () => accountLecturerApi.getConfigLTWhithoutGroup(getAccessToken.data!.access_token.token),
+    { enabled: !getAccessToken.isFetching }
+  )
+}
+export function useGetLecturerById(id: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    AccountLecturerKeys.getLecturerById(id),
+    () => accountLecturerApi.getLecturerById(getAccessToken.data!.access_token.token, id),
     { enabled: !getAccessToken.isFetching }
   )
 }

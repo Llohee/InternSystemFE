@@ -63,6 +63,30 @@ const accountStudentApi = {
       }
     })
   },
+  updateStudent(
+    accessToken: string,
+    id: string,
+    data: UpdateUserRequest,
+  ): Promise<any> {
+    const url = `/auth/users/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteStudent(accessToken: string, id: string): Promise<any> {
+    const url = `/auth/users/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
   getStudentById(accessToken: string, id: string): Promise<UserGetDetail> {
     const url = `/auth/users/${id}`
     return axiosClient.get(url, {

@@ -22,7 +22,6 @@ const StudentAccount = () => {
     useState<UserGetDetail[]>()
   const [isShowModalUpdateAction, setIsShowModalUpdateAction] = useState(false)
   const filterStudentAccount = useFilterForStudentAccountStore()
-  // const templateLink = useGetTemplateLink()
   const allAccountStudent = useGetAllAccountStudent()
   const tableRef = useRef<any>()
   useEffect(() => {

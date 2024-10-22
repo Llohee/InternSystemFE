@@ -15,7 +15,7 @@ import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 export const FormUniversity = (props: {
   form: UseFormReturn<UpdateTenantRequest, any>
   handleFormSubmit: SubmitHandler<UpdateTenantRequest>
-  UniversityDetail?: TenantDetail
+  universityDetail?: TenantDetail
   mutation: any
   closeModal: () => void
   resetForm?: () => void
@@ -64,10 +64,8 @@ export const FormUniversity = (props: {
             required
           />
           <Uploader
-            defaultValue={props.UniversityDetail?.image_url.map(
-              (v) => v.object
-            )}
-            attachments={props.UniversityDetail?.image_url}
+            defaultValue={props.universityDetail?.image_url}
+            attachments={props.universityDetail?.image_url}
             className="col-span-full"
             label="Ảnh đại diện"
             module="university"
