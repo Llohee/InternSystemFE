@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { SelectDateRangeInput } from '@/components/ui/select-date/select-date-range-input'
-// import { usegetConfigUniversity } from '@/hooks/query/tenant'
+import { SwitchButton } from '@/components/ui/switch/switch'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
@@ -19,7 +19,7 @@ export const FormStudentAccount = (props: {
   form: UseFormReturn<UpdateUserRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUserRequest>
   mutation: any
-  userDetail?: UserGetDetail
+  studentDetail?: UserGetDetail
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean
@@ -83,7 +83,7 @@ export const FormStudentAccount = (props: {
               disabled={props.isEdit}
               required
             />
-            {/* <Controller
+            <Controller
               control={props.form.control}
               name="is_active"
               render={({ field: { value, onChange } }) => (
@@ -95,7 +95,7 @@ export const FormStudentAccount = (props: {
                   label={'Trạng thái'}
                 />
               )}
-            /> */}
+            />
           </div>
           {!props.isEdit && (
             <div className="col col-span-full">
@@ -115,13 +115,13 @@ export const FormStudentAccount = (props: {
           )}
           <div className="col col-span-full grid md:grid-cols-2 gap-5">
             <Input<UpdateUserRequest>
-              label={'Tên tài khoản'}
+              label={'Họ và tên'}
               name="fullname"
               register={props.form.register}
               intent={
                 props.form.formState.errors.fullname ? 'error' : 'default'
               }
-              placeholder={'Nhập tên tài khoản'}
+              placeholder={'Nhập họ và tên'}
               message={props.form.formState.errors.fullname?.message ?? ''}
               required
             />
@@ -130,21 +130,19 @@ export const FormStudentAccount = (props: {
               name="id_number"
               register={props.form.register}
               intent={
-                props.form.formState.errors.fullname ? 'error' : 'default'
+                props.form.formState.errors.id_number ? 'error' : 'default'
               }
               placeholder={'Nhập tên mã số sinh viên'}
-              message={props.form.formState.errors.fullname?.message ?? ''}
+              message={props.form.formState.errors.id_number?.message ?? ''}
               required
             />
             <Input<UpdateUserRequest>
               label={'Khoa'}
               name="faculty"
               register={props.form.register}
-              intent={
-                props.form.formState.errors.fullname ? 'error' : 'default'
-              }
+              intent={props.form.formState.errors.faculty ? 'error' : 'default'}
               placeholder={'Nhập tên khoa'}
-              message={props.form.formState.errors.fullname?.message ?? ''}
+              message={props.form.formState.errors.faculty?.message ?? ''}
               required
             />
             <Input<UpdateUserRequest>
@@ -152,51 +150,63 @@ export const FormStudentAccount = (props: {
               name="institute"
               register={props.form.register}
               intent={
-                props.form.formState.errors.fullname ? 'error' : 'default'
+                props.form.formState.errors.institute ? 'error' : 'default'
               }
               placeholder={'Nhập tên viện'}
-              message={props.form.formState.errors.fullname?.message ?? ''}
+              message={props.form.formState.errors.institute?.message ?? ''}
               required
             />
             <Input<UpdateUserRequest>
               label={'Ngành'}
               name="major"
               register={props.form.register}
-              intent={
-                props.form.formState.errors.fullname ? 'error' : 'default'
-              }
+              intent={props.form.formState.errors.major ? 'error' : 'default'}
               placeholder={'Nhập tên ngành'}
-              message={props.form.formState.errors.fullname?.message ?? ''}
+              message={props.form.formState.errors.major?.message ?? ''}
               required
             />
             <Input<UpdateUserRequest>
               label={'Lớp'}
-              name="institute"
+              name="class"
+              register={props.form.register}
+              intent={props.form.formState.errors.class ? 'error' : 'default'}
+              placeholder={'Nhập tên lớp'}
+              message={props.form.formState.errors.class?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Chương trình đào tạo'}
+              name="program_training"
               register={props.form.register}
               intent={
-                props.form.formState.errors.fullname ? 'error' : 'default'
+                props.form.formState.errors.program_training
+                  ? 'error'
+                  : 'default'
               }
-              placeholder={'Nhập tên lớp'}
-              message={props.form.formState.errors.fullname?.message ?? ''}
+              placeholder={'Nhập chương trình đào tạo'}
+              message={
+                props.form.formState.errors.program_training?.message ?? ''
+              }
               required
             />
             <Controller
               control={props.form.control}
+              defaultValue={props.studentDetail?.academic_year}
               name="academic_year"
               render={({ field: { value, onChange } }) => {
-                // const parsedYearRange = value
-                //   ? {
-                //       start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
-                //       end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
-                //     }
-                //   : undefined
+                const parsedYearRange = value
+                  ? {
+                      start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
+                      end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
+                    }
+                  : undefined
                 return (
                   <FilterRangerDate
                     label="Niên khóa"
                     format={YEAR_FORMAT_VIEW}
                     picker="year"
                     required
-                    data={value}
+                    data={parsedYearRange}
                     disabledDate={false}
                     onChange={onChange}
                   />

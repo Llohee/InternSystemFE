@@ -17,17 +17,15 @@ export interface GetAllGroupResponse {
 export interface GroupDetail {
   id: string
   name: string
-  lecturer: {
-    id: string,
-    fullname: string
-  }
+  lecturer: UserGetDetail
+  students: UserGetDetail[]
   university: string
   created_time: string
   num_of_student: string
 }
 export interface UpdateGroupRequest {
-  name?: string
-  lecturer_id: string
+  name: string
+  lecturer: string
   students: string[]
   is_active?: boolean
   created_time: string

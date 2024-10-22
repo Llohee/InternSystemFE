@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from 'react'
 import BusinessTable from './table'
 import CreateBusinessModal from './modal/create-business'
 
-const BusinessWrapper = (props : {type: string}) => {
+const BusinessWrapper = (props: { type: string }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const [totalBusiness, setTotalBusiness] = useState(0)
 
@@ -135,6 +135,7 @@ const BusinessWrapper = (props : {type: string}) => {
             getAllBusinessData={allBusiness.data}
             setBusinessChoose={setBusinessChoose}
             isPreviousData={allBusiness.isPreviousData}
+            type={props.type}
           />
         )}
       </div>

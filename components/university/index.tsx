@@ -135,6 +135,7 @@ const UniversityWrapper = (props: { type: string }) => {
             getAllUniversityData={allUniversity.data}
             setUniversityChoose={setUniversityChoose}
             isPreviousData={allUniversity.isPreviousData}
+            type={props.type}
           />
         )}
       </div>

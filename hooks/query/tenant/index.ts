@@ -15,6 +15,8 @@ export const TenantKeys = {
     [...TenantKeys.all, 'getConfigTenant'] as const,
   getAllTenantLink: (filter: TenantFilterRequest) =>
     [...TenantKeys.all, filter, 'getAllTenantLink'] as const,
+  getTenantById: (id: string) =>
+    [...TenantKeys.all, 'getAllTenant', 'getTenantById', id] as const,
 }
 
 export function useGetAllTenant(type: string) {
@@ -65,5 +67,14 @@ export function useGetAllTenantLink(type: string) {
     () =>
       TenantApi.getAllTenantLink(getAccessToken.data!.access_token.token, filterTenant.filter, type),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+export function useGetTenantById(id: string, type: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    TenantKeys.getTenantById(id),
+    () => TenantApi.getTenantById(getAccessToken.data!.access_token.token, id, type),
+    { enabled: !getAccessToken.isFetching }
   )
 }

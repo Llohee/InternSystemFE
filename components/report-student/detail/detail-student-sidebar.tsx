@@ -38,11 +38,11 @@ const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
           <div className="text-heading-6">Giảng viên phụ trách</div>
           <div className={`flex gap-2 text-sm break-all pt-5 items-center`}>
             <Avatar
-              name={props.detailStudent.group.lecturer_id.email}
+              name={props.detailStudent.group.lecturer.email}
               size="medium"
             />
             <div className="flex flex-col text-heading-7">
-              <div>{props.detailStudent.group.lecturer_id.fullname}</div>
+              <div>{props.detailStudent.group.lecturer.fullname}</div>
             </div>
           </div>
           <div className="flex flex-col gap-3 py-5 text-button-3">
@@ -56,7 +56,7 @@ const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
                 <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
                 <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
               </svg>
-              {props.detailStudent.group.lecturer_id.email}
+              {props.detailStudent.group.lecturer.email}
             </div>
             <div className="flex gap-2">
               <svg
@@ -71,7 +71,7 @@ const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
                   clipRule="evenodd"
                 />
               </svg>
-              {props.detailStudent.group.lecturer_id.phone}
+              {props.detailStudent.group.lecturer.phone}
             </div>
           </div>
         </div>

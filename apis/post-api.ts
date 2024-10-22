@@ -125,5 +125,15 @@ const PostApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
+  HRapproveCV(accessToken: string, data: UpdateApplyCVRequest): Promise<any> {
+    const url = '/post/hrapply'
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  }
 }
 export default PostApi
