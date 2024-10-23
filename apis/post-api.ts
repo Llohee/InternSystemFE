@@ -146,6 +146,16 @@ const PostApi = {
       },
     }
     return axiosClient.put(url, trymObject(data), config)
+  },
+  AUapproveCV(accessToken: string, data: UpdateApplyCVRequest): Promise<any> {
+    const url = '/post/auapply'
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.put(url, trymObject(data), config)
   }
 }
 export default PostApi
