@@ -1,7 +1,6 @@
-import { StatusView } from '@/components/report-lecturer/common/status-view'
+import { ViewStatusStudent } from '@/components/report/report-lecturer/common/status-view'
 import Avatar from '@/components/ui/avatar/avatar'
 import { UserGetDetail } from '@/models/api'
-import React from 'react'
 
 const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
   return (
@@ -14,7 +13,13 @@ const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
           <div className="text-sm break-all flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <div className="text-heading-8">Trạng thái sinh viên</div>
-              <StatusView data={props.detailStudent.status ?? 'Không có'} />
+              <ViewStatusStudent
+                status={
+                  props.detailStudent.dataCvApply.find(
+                    (e) => e.status !== 'Pending'
+                  )?.status ?? 'Not Apply'
+                }
+              />
             </div>
           </div>
         </div>

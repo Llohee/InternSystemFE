@@ -53,12 +53,13 @@ const PostApi = {
   },
   getAllPostBusiness(
     accessToken: string,
-    filter: PostFilterRequest
+    filter: PostFilterRequest,
+    tenant: string
   ): Promise<GetAllPostResponse> {
-    const url = '/post/business'
+    const url = '/post/'
 
     let query =
-      filter.profession != ''
+      filter.profession != '' 
         ? `or(like(name,"${filter.profession}"),))`
         : ''
 
@@ -73,6 +74,7 @@ const PostApi = {
       params: {
         size: filter.limit,
         page: filter.page,
+        tenant: tenant,
         query,
         sort,
       },
@@ -114,6 +116,16 @@ const PostApi = {
       },
     }
     return axiosClient.put(url, trymObject(data), config)
+  },
+  deletePost(accessToken: string, id: string): Promise<any> {
+    const url = `/post/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.post(url, config)
   },
   applyCV(accessToken: string, data: UpdateApplyCVRequest): Promise<any> {
     const url = '/post/applycv'

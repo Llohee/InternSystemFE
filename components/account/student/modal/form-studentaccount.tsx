@@ -38,17 +38,25 @@ export const FormStudentAccount = (props: {
     disabledDate: boolean
     label?: string
     required?: boolean
-    onChange: (data: string | undefined) => void
+    default?: { start: Date; end: Date }
+    onChange: (data: { start: Date; end: Date } | undefined) => void
     format?: string
     picker?: 'time' | 'date' | 'month' | 'year'
   }) => {
     function updateRangeDate(data: { start?: Date; end?: Date }) {
       if (!data.start && !data.end) {
         props.onChange(undefined)
-      } else if (data.start && data.end) {
-        const startYear = dayjs(data.start).year()
-        const endYear = dayjs(data.end).year()
-        props.onChange(`${startYear}-${endYear}`)
+      }
+      if (data.start && !data.end)
+        props.onChange({ start: data.start, end: data.start })
+      else if (!data.start && data.end)
+        props.onChange({ start: data.end, end: data.end })
+      else if (data.start && data.end) {
+        if (dayjs(data.start).isBefore(data.end)) {
+          props.onChange({ start: data.start, end: data.end })
+        } else if (dayjs(data.start).isAfter(data.end))
+          props.onChange({ start: data.end, end: data.start })
+        else props.onChange({ start: data.start, end: data.end })
       }
     }
     return (
@@ -59,6 +67,7 @@ export const FormStudentAccount = (props: {
           disabledDate={props.disabledDate}
           format={props.format}
           picker={props.picker}
+          default={props.default}
           onChange={updateRangeDate}
         />
       </div>
@@ -194,19 +203,20 @@ export const FormStudentAccount = (props: {
               defaultValue={props.studentDetail?.academic_year}
               name="academic_year"
               render={({ field: { value, onChange } }) => {
-                const parsedYearRange = value
-                  ? {
-                      start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
-                      end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
-                    }
-                  : undefined
+                // const parsedYearRange = value
+                //   ? {
+                //       start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
+                //       end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
+                //     }
+                //   : undefined
                 return (
                   <FilterRangerDate
                     label="Niên khóa"
                     format={YEAR_FORMAT_VIEW}
                     picker="year"
                     required
-                    data={parsedYearRange}
+                    default={props.studentDetail?.academic_year}
+                    data={value}
                     disabledDate={false}
                     onChange={onChange}
                   />

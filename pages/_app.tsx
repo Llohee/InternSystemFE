@@ -18,6 +18,7 @@ import NonSSRWrapper from '@/components/common/no-ssr-wrapper'
 import { ErrorResponse } from '@/models/api/common'
 import CustomToast from '@/components/ui/custom-toast/custom-toast'
 import toast from 'react-hot-toast'
+import { ConfigProvider } from 'antd'
 
 const inter = localFont({
   src: '../public/font/Tapiocaness-Regular.otf',
@@ -98,20 +99,36 @@ export default function App({ Component, pageProps }: AppPropsWithAuthLayout) {
   const title = Component.title
   const nonePadding = Component.nonePadding
   return (
-    <QueryClientProvider client={queryClient}>
-      <CustomToast />
-      <NonSSRWrapper>
-        <AuthProvider isPublic={Auth === PublicAuth}>
-          <Auth>
-            <Layout title={title} nonePadding={nonePadding ?? false}>
-              <main className={` h-full text-typography-body `}>
-                <Component {...pageProps} />
-              </main>
-            </Layout>
-          </Auth>
-        </AuthProvider>
-      </NonSSRWrapper>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    // <ConfigProvider
+    //   // locale={i18n.language === 'vi' ? viVN : enUS}
+    //   theme={{
+    //     token: {
+    //       colorBgContainerDisabled: '#0035800a',
+    //       colorTextDisabled: '#00204D40',
+    //       colorBorder: '#00358033',
+    //       colorText: '#00204Dcc',
+    //       colorPrimary: '#366ae2',
+    //       colorTextPlaceholder: '#00204D66',
+    //       fontFamily: `${inter.style.fontFamily}`,
+    //       zIndexPopupBase: 9999,
+    //     },
+    //   }}
+    // >
+      <QueryClientProvider client={queryClient}>
+        <CustomToast />
+        <NonSSRWrapper>
+          <AuthProvider isPublic={Auth === PublicAuth}>
+            <Auth>
+              <Layout title={title} nonePadding={nonePadding ?? false}>
+                <main className={` h-full text-typography-body `}>
+                  <Component {...pageProps} />
+                </main>
+              </Layout>
+            </Auth>
+          </AuthProvider>
+        </NonSSRWrapper>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    // </ConfigProvider>
   )
 }

@@ -7,7 +7,7 @@ import { ReportDetail } from '@/models/api'
 import { useState } from 'react'
 import FromScore from './form-score'
 import { useScoreUpdate } from './hook'
-import ReportComment from '@/components/report-student/create/comment'
+import ReportComment from '@/components/report/report-student/create/comment'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
 
 const CreatescoreModal = (props: {
@@ -91,8 +91,8 @@ const Createscore = (props: {
         appear={false}
       >
         <ListTab
-         selectedIndex={selectedTab}
-         onChange={onChangeSelectedTab}
+          selectedIndex={selectedTab}
+          onChange={onChangeSelectedTab}
           titles={[
             {
               title: 'Báo cáo',

@@ -63,7 +63,7 @@ export function useGetConfigPostProfession() {
   )
 }
 
-export function useGetAllPostBusiness() {
+export function useGetAllPostBusiness(tenant: string) {
   const getAccessToken = useGetAccessToken()
   const filterPost = useFilterForPostBusinessStore()
   useEffect(() => {
@@ -78,7 +78,8 @@ export function useGetAllPostBusiness() {
     () =>
       PostApi.getAllPostBusiness(
         getAccessToken.data!.access_token.token,
-        filterPost.filter
+        filterPost.filter,
+        tenant
       ),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )
