@@ -1,4 +1,5 @@
 import { TypeQuery, TypeSort } from "./common"
+import { TenantDetail } from "./tenant-api"
 import { UserGetDetail } from "./user-api"
 export interface CVFilterRequest {
   name: string

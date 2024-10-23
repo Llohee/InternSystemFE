@@ -97,7 +97,7 @@ export const useStudentUpdate = (closeModal: () => void, student: UserGetDetail)
       major: student.major,
       program_training: student.program_training,
       class: student.class,
-      academic_year: student.academic_year,
+      academic_year: { start: student.academic_year.start, end: student.academic_year.end },
       phone: student.phone,
     },
   })

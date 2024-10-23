@@ -1,6 +1,6 @@
 import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
-import ReportLecturerWrapper from '@/components/report-lecturer'
+import ReportLecturerWrapper from '@/components/report/report-lecturer'
 import { NextPageWithAuthLayout } from '@/pages/_app'
 
 const ReportLecturerPage: NextPageWithAuthLayout = () => {

@@ -9,6 +9,7 @@ export interface PostFilterRequest {
   profession: string
   salary_min?: number,
   salary_max?: number,
+  tenant: string,
   limit: number
   page: number
   query: TypeQuery[]

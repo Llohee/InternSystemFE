@@ -1,7 +1,7 @@
 import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
 import NotFoundPage from '@/components/page-error/not-found'
-import ReportLecturerDetailWrapper from '@/components/report-lecturer/detail'
+import ReportLecturerDetailWrapper from '@/components/report/report-lecturer/detail'
 import { NextPageWithAuthLayout } from '@/pages/_app'
 import { useRouter } from 'next/router'
 

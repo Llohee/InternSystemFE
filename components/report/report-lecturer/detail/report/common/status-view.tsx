@@ -17,7 +17,7 @@ export const reportStatusOptions: {
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
   },
   {
-    label: 'Đang chấm',
+    label: 'Đang thực tập',
     value: 'ONTIME',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
   },

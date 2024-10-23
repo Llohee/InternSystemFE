@@ -11,6 +11,7 @@ export const useFilterForPostStore = create<FilterForPostState>((set) => ({
   filter: {
     local: '',
     profession: '',
+    tenant: '',
     salary_min: undefined,
     salary_max: undefined,
     query: [],
@@ -26,6 +27,7 @@ export const useFilterForPostStore = create<FilterForPostState>((set) => ({
       filter: {
         local: '',
         profession: '',
+        tenant: '',
         salary_min: undefined,
         salary_max: undefined,
         query: [],
@@ -41,6 +43,7 @@ export const useFilterForPostBusinessStore = create<FilterForPostState>((set) =>
   filter: {
     local: '',
     profession: '',
+    tenant: '',
     salary_min: undefined,
     salary_max: undefined,
     query: [],
@@ -56,6 +59,7 @@ export const useFilterForPostBusinessStore = create<FilterForPostState>((set) =>
       filter: {
         local: '',
         profession: '',
+        tenant: '',
         salary_min: undefined,
         salary_max: undefined,
         query: [],
