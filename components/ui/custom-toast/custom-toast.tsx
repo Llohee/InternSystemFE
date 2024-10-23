@@ -1,25 +1,14 @@
 import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button/button'
+import { Transition } from '@headlessui/react'
 import toast, { Toaster, ToastBar, useToasterStore } from 'react-hot-toast'
 import DOMPurify from 'dompurify'
-import ReactHtmlParser from 'html-react-parser'
-import { Transition } from '@headlessui/react'
+import parse from 'html-react-parser'
 
 const CustomToast = () => {
   const { toasts } = useToasterStore()
 
-  // const TOAST_LIMIT = 3
-
   useEffect(() => {
-    // toasts
-    //   .filter((t) => t.visible) // Only consider visible toasts
-    //   .filter((_, i) => i >= TOAST_LIMIT) // Is toast index over limit?
-    //   .forEach((t) => {
-    //     t.style = { ...t.style, color: 'pink' }
-    //     console.log(t.style)
-    //     // t.className = t.className + ' bg-primary-primary shake-it-off'
-    //   }) // Dismiss – Use toast.remove(t.id) for no exit animation
-
     if (document) {
       const toastsArr = document.querySelectorAll('.go4109123758')
       toastsArr.forEach((toastElement) => {
@@ -142,7 +131,7 @@ const CustomToast = () => {
                 {({ icon, message }) => (
                   <div
                     id="toastContent"
-                    className="flex items-start w-full opacity-0 duration-[230ms] ease-in-out group-has-[.toast-1:hover,.toast-2:hover,.toast-3:hover]:opacity-100"
+                    className="flex items-start w-full opacity-100 duration-[230ms] ease-in-out"
                   >
                     {icon}
                     {['success', 'error', 'loading', 'blank'].includes(
@@ -162,26 +151,23 @@ const CustomToast = () => {
                               onClick={() => toast.dismiss()}
                               className="hidden mx-2.5 my-1 opacity-0 duration-[230ms] ease-in-out group-has-[.toast-1:hover,.toast-2:hover,.toast-3:hover]:opacity-100"
                             >
-                              Bỏ tất cả
+                              Xóa tất cả
                             </Button>
                           )}
                         </div>
-                        {/* <div className="w-fit text-pretty">{message}</div> */}
-                        {t.type === 'error' ? (
-                          <div className="w-fit text-pretty flex">
-                            {typeof message !== 'string' && message !== null
-                              ? React.createElement(
-                                  message.type,
-                                  message.props,
-                                  ReactHtmlParser(
-                                    DOMPurify.sanitize(message.props.children)
-                                  )
+                        <div className="w-fit text-pretty flex">
+                          {typeof message !== 'string' &&
+                          message !== null &&
+                          typeof message.props.children === 'string'
+                            ? React.createElement(
+                                message.type,
+                                message.props,
+                                parse(
+                                  DOMPurify.sanitize(message.props.children)
                                 )
-                              : message}
-                          </div>
-                        ) : (
-                          <div className="w-fit text-pretty">{message}</div>
-                        )}
+                              )
+                            : message}
+                        </div>
                       </div>
                     ) : (
                       <div className="-mt-1 flex-1">

@@ -23,6 +23,7 @@ import { GetAllTenantResponse, TenantDetail } from '@/models/api'
 import { useRouter } from 'next/router'
 import AcceptRequestLink from '../modal/accept-request-link'
 import ConfirmRequestLink from '../modal/confirm-request-link'
+import Link from 'next/link'
 
 interface UniversitysProps {
   getAllTenantData: GetAllTenantResponse
@@ -130,7 +131,13 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     columnHelper.accessor('name', {
       id: 'name',
       header: 'Tên doanh nghiệp',
-      cell: (info) => <button>{info.getValue()}</button>,
+      cell: (info) => (
+        <Link
+          href={`/tenant-link/${info.row.original.id}/?tenant_name=${info.row.original.name}&tenant_code=${info.row.original.code}`}
+        >
+          {info.getValue()}
+        </Link>
+      ),
       enableColumnFilter: true,
       meta: 'w-name',
     }),
@@ -268,12 +275,10 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
           label={
             props.getAllTenantData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getAllTenantData.page *
-                  filterTenantlink.filter.limit +
+                {props.getAllTenantData.page * filterTenantlink.filter.limit +
                   1}
                 -
-                {props.getAllTenantData.page *
-                  filterTenantlink.filter.limit +
+                {props.getAllTenantData.page * filterTenantlink.filter.limit +
                   data.length}{' '}
                 trên tổng {props.getAllTenantData.total}
               </div>

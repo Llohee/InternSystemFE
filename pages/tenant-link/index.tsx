@@ -1,6 +1,6 @@
 import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
-import TenantLinkWrapper from '@/components/tenant-link'
+import TenantLinkWrapper from '@/components/tenant/tenant-link'
 import { ListTab } from '@/components/ui/list-tab/list-tab'
 import { NextPageWithAuthLayout } from '@/pages/_app'
 import { useRouter } from 'next/router'

@@ -1,14 +1,14 @@
 import { useFilterForTenantStore } from '@/hooks/zustand/filter-for-tenant'
 import { TenantDetail } from '@/models/api'
 import { useEffect, useRef, useState } from 'react'
-import { DebouncedInput } from '../ui/input/debouced-input'
 import produce from 'immer'
 import { useGetAllTenantLink } from '@/hooks/query/tenant'
-import { SearchIcon } from '../ui/icon'
-import { Button } from '../ui/button/button'
-import PageError from '../page-error/error'
-import { TableSkeleton } from '../ui/skeleton'
 import TenantLinkTable from './table'
+import { DebouncedInput } from '@/components/ui/input/debouced-input'
+import { SearchIcon } from '@/components/ui/icon'
+import { Button } from '@/components/ui/button/button'
+import PageError from '@/components/page-error/error'
+import { TableSkeleton } from '@/components/ui/skeleton'
 
 const TenantLinkWrapper = (props: { type: string }) => {
   const [totalTenant, setTotalTenant] = useState(0)
@@ -42,35 +42,6 @@ const TenantLinkWrapper = (props: { type: string }) => {
               />
             </div>
           </div>
-          {/* <div className="flex gap-2 py-1">
-            <Button
-              onClick={() => {
-                tableRef.current.clearChooseItems()
-                setIsShowModalCreate(true)
-              }}
-              intent={'primary'}
-              size="small"
-              className="hidden md:flex gap-2 items-center text-typography-secondary"
-              bounce
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-
-              <span>Tạo mới</span>
-            </Button>
-          </div> */}
           <div className="flex flex-col gap-3 md:hidden fixed z-10 bottom-14 right-2">
             <Button
               onClick={() => {

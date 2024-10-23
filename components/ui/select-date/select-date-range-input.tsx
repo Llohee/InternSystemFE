@@ -121,6 +121,11 @@ export const SelectDateRangeInput = (props: {
             props.onChange({ start: data[0]?.toDate(), end: data[1]?.toDate() })
           else props.onChange({ start: undefined, end: undefined })
         }}
+        defaultValue={
+          props.default
+            ? [dayjs(props.default.start), dayjs(props.default.end)]
+            : undefined
+        }
         placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
         className="border border-border-1 relative appearance-none py-2 px-3 focus:outline-none leading-tight peer text-body-3 w-full gap-2 !text-typography-label rounded-lg transition-all checked:text-grey-1 h-[38px] !placeholder-typography-placeholder"
       />

@@ -9,11 +9,13 @@ import { DebouncedInput } from '../ui/input/debouced-input'
 import { TableSkeleton } from '../ui/skeleton'
 import PostBusinessTable from './table'
 import CreatePostModal from './modal/create-post'
+import { useGetUserDetail } from '@/hooks/query/auth'
 
 const PostWrapper = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   const filterPost = useFilterForPostBusinessStore()
-  const allPostBusiness = useGetAllPostBusiness()
+  const userDetail = useGetUserDetail()
+  const allPostBusiness = useGetAllPostBusiness(userDetail.data.tenant.code)
   return (
     <>
       <div className="">
