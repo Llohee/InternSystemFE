@@ -19,7 +19,7 @@ export function Uploader<T extends FieldValues>({
   name: Path<T>
   control: Control<T>
   defaultValue?: PathValue<T, Path<T>>
-  attachments?: AttachmentDetail[]
+  attachment: AttachmentDetail
   label?: string
   isDownload?: boolean
   disabled?: boolean
@@ -33,129 +33,171 @@ export function Uploader<T extends FieldValues>({
     control: props.control,
     defaultValue: props.defaultValue,
   })
-  const [items, setItems] = useState<AttachmentDetail[]>(
-    props.attachments ?? []
+
+  const [item, setItem] = useState<AttachmentDetail | null>(
+    props.attachment ?? null
   )
-  // const [message, setMessage] = useState<string | null>(null)
-  const [files, setFiles] = useState<File[] | null>(null)
+  const [file, setFile] = useState<File | null>(null)
 
   const handleGotLink = (res: AttachmentDetail) => {
-    setItems((pre) => {
-      let newItems = [...pre, res]
-      onChange(newItems.map((i) => i.object) as any)
-      return newItems
-    })
-    // setFiles(null)
+    setItem(res)
+    onChange(res.object as any)
+    setFile(null)
   }
+
   const handleUploadFailed = (msg: string) => {
-    // setMessage(msg)
-    setFiles(null)
+    setFile(null)
   }
-  const [uploadPercentage, setUploadPercentage] = useState<
-    { file: string; percent: number }[]
-  >([])
+
+  const [uploadPercentage, setUploadPercentage] = useState<number>(0)
+
   const mutation = useUploadFileMutation(
     handleGotLink,
     handleUploadFailed,
     props.module
   )
-  const handleChange = (fs: File[]) => {
-    let filesUpload = [...(fs ?? [])]
-    setFiles([...(files ?? []), ...filesUpload])
-    filesUpload.forEach((file: any) => {
-      mutation.mutate({
-        file,
-        onUploadProgress: (progressEvent: any) => {
-          onUploadProgress(progressEvent, file)
-        },
-      })
+
+  const handleChange = (file: File) => {
+    setFile(file)
+    mutation.mutate({
+      file,
+      onUploadProgress: (progressEvent: any) => {
+        const { loaded, total } = progressEvent
+        let percent = Math.floor((loaded * 100) / total)
+        setUploadPercentage(percent)
+      },
     })
   }
 
-  const handleRemove = (index: number) => {
-    if (items !== null) {
-      const is = items.filter((_, i) => i !== index)
-      onChange(is.map((i) => i.object) as any)
-      setItems(is)
-    }
+  const handleRemove = () => {
+    onChange(null)
+    setItem(null)
   }
-  const onUploadProgress = (progressEvent: any, file: File) => {
-    const { loaded, total } = progressEvent
-    let percent = Math.floor((loaded * 100) / total)
-    setUploadPercentage((prevalue) => {
-      if (percent < 100) {
-        let newArr = [...prevalue]
-        let index = newArr.findIndex((e) => e.file === file.name)
 
-        if (index >= 0) {
-          newArr[index].percent = percent
-          return [...newArr]
-        } else {
-          newArr = [...newArr, { file: file.name, percent }]
-          return [...newArr]
-        }
-      } else {
-        let newArr = prevalue.filter((e) => e.file.includes(file.name))
-        return [...newArr]
-      }
-    })
-  }
-  function uniqByObject(array?: AttachmentDetail[]) {
-    const result: AttachmentDetail[] = []
-    for (const item of array ?? []) {
-      if (result.findIndex((e) => e.object === item.object) < 0) {
-        result.push(item)
-      }
-    }
-    return result
-  }
   useEffect(() => {
-    setItems(
-      uniqByObject([...items, ...(props.attachments ?? [])]).filter((item) => {
-        const matchedItemB = value?.find((e: any) => e === item.object)
-        return matchedItemB !== undefined
-      })
-    )
+    if (value && props.attachment && value === props.attachment.object) {
+      setItem(props.attachment)
+    }
   }, [value])
 
   return (
     <div className={props.className}>
-      {label != '' && (
+      {label && (
         <div className="text-left">
-          <div className="text-label-3 text-typography-label">{label}</div>
+          <div className="text-label-3 text-typography-label">
+            {label}
+            {props.required && <span className="text-error-base pl-1">*</span>}
+          </div>
         </div>
       )}
       <div className="flex flex-wrap gap-1 py-2 items-center justify-start">
-        {items.map((item, index) => (
+        {item ? (
           <FileItem
-            key={index}
             itemContent={item}
-            onRemoveClicked={
-              !props.disabled ? () => handleRemove(index) : undefined
-            }
+            onRemoveClicked={!props.disabled ? handleRemove : undefined}
           />
-        ))}
-        {mutation.isLoading &&
-          uploadPercentage.map((item, index) => (
-            <FileItemLoading key={index} percent={item.percent} />
-          ))}
+        ) : (
+          mutation.isLoading && <FileItemLoading percent={uploadPercentage} />
+        )}
       </div>
 
-      <FileUploader
-        {...props}
-        fileOrFiles={files}
-        handleChange={handleChange}
-        children={<UploadView {...props} />}
-        multiple
-      />
-      {/* {message && (
-        <div className="text-left text-error-base text-subtitle-3">
-          {message}
-        </div>
-      )} */}
+      {!item && (
+        <FileUploader
+          {...props}
+          handleChange={handleChange}
+          children={<UploadView {...props} />}
+          required={props.required ?? false}
+        />
+      )}
     </div>
   )
 }
+
+const FileItem = ({
+  itemContent,
+  onRemoveClicked,
+}: {
+  itemContent: AttachmentDetail
+  onRemoveClicked?: () => void
+}) => {
+  return (
+    <div className="relative flex justify-center items-center group text-primary-base bg-primary-background rounded-xl h-7">
+      <Link
+        href={itemContent.dowload_url}
+        target="_blank"
+        className="whitespace-nowrap text-left group-hover:opacity-50"
+      >
+        <div className="rounded-sm px-1 py-0.5 flex flex-row">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6 rounded p-1 my-auto"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+            />
+          </svg>
+          <span className="text-button-5 truncate my-auto w-24">
+            {itemContent.name}
+          </span>
+        </div>
+      </Link>
+      {onRemoveClicked && (
+        <div className="top-0 right-0 z-10 hidden group-hover:block hover:bg-grey-5 absolute cursor-pointer rounded-r-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-7 h-7 text-primary-base"
+            onClick={onRemoveClicked}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
+      )}
+    </div>
+  )
+}
+
+const FileItemLoading = ({ percent }: { percent: number }) => (
+  <div className="relative group">
+    <div className="whitespace-nowrap text-left flex gap-2 px-2 py-1 justify-center items-center text-primary-base bg-primary-background rounded-xl group-hover:opacity-50">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className=" w-5 h-5"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+        />
+      </svg>
+      <div className="flex justify-start items-center w-20 bg-grey-3 rounded-full h-2 py-2 border border-grey-4">
+        <div
+          style={{ width: `${percent}%` }}
+          className="bg-primary-base h-auto rounded-full text-[6px] text-center text-white leading-relaxed animate-pulse"
+        >
+          {percent}%
+        </div>
+      </div>
+    </div>
+  </div>
+)
 
 export const UploadView = (props: {
   fileTypes?: string[]
@@ -215,136 +257,136 @@ export const UploadView = (props: {
   )
 }
 
-const FileItem = (props: {
-  className?: string
-  itemContent: AttachmentDetail
-  onRemoveClicked?: () => void
-}) => {
-  return (
-    <div
-      className={`relative flex justify-center items-center group text-primary-base bg-primary-background rounded-xl h-7  ${props.className}`}
-    >
-      <Link
-        href={props.itemContent.dowload_url}
-        target="_blank"
-        className="whitespace-nowrap text-left group-hover:opacity-50"
-      >
-        <div
-          className="rounded-sm px-1 py-0.5 flex flex-row "
-          onClick={() => {}}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6 rounded p-1 my-auto "
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-            />
-          </svg>
+// const FileItem = (props: {
+//   className?: string
+//   itemContent: AttachmentDetail
+//   onRemoveClicked?: () => void
+// }) => {
+//   return (
+//     <div
+//       className={`relative flex justify-center items-center group text-primary-base bg-primary-background rounded-xl h-7  ${props.className}`}
+//     >
+//       <Link
+//         href={props.itemContent.dowload_url}
+//         target="_blank"
+//         className="whitespace-nowrap text-left group-hover:opacity-50"
+//       >
+//         <div
+//           className="rounded-sm px-1 py-0.5 flex flex-row "
+//           onClick={() => {}}
+//         >
+//           <svg
+//             xmlns="http://www.w3.org/2000/svg"
+//             fill="none"
+//             viewBox="0 0 24 24"
+//             strokeWidth="1.5"
+//             stroke="currentColor"
+//             className="w-6 h-6 rounded p-1 my-auto "
+//           >
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+//             />
+//           </svg>
 
-          <span className="text-button-5 truncate my-auto w-24">
-            {props.itemContent.name}
-          </span>
-        </div>
-      </Link>
-      {props.onRemoveClicked && (
-        <div className="top-0 right-0 z-10 hidden group-hover:block hover:bg-grey-5 absolute cursor-pointer rounded-r-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-7 h-7 text-primary-base "
-            onClick={props.onRemoveClicked}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </div>
-      )}
-    </div>
-  )
-}
-const FileItemLoading = (props: { percent: number }) => {
-  return (
-    <div className={`relative group`}>
-      <div className="whitespace-nowrap text-left flex gap-2 px-2 py-1 justify-center items-center text-primary-base bg-primary-background rounded-xl group-hover:opacity-50">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className=" w-5 h-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-          />
-        </svg>
-        <div className="flex justify-start items-center w-20 bg-grey-3 rounded-full h-2 py-2 border border-grey-4">
-          <div
-            style={{
-              width: `${props.percent}%`,
-            }}
-            className="bg-primary-base h-auto rounded-full text-[6px] text-center text-white leading-relaxed animate-pulse"
-          >
-            {props.percent}%
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-export const AttachmentsView = (props: {
-  className?: string
-  attachments: {
-    name: string
-    object: string
-    dowload_url: string
-  }[]
-}) => {
-  return (
-    <div className={props.className}>
-      <div className="flex items-center gap-1 text-label-3 min-w-fit mb-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-4 h-4"
-        >
-          <path
-            fillRule="evenodd"
-            d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"
-            clipRule="evenodd"
-          />
-        </svg>
-        Tệp đính kèm
-      </div>
-      {props.attachments.length === 0 ? (
-        <div className="italic min-w-fit mx-0.5 text-subtitle-3">
-          Không có tệp đính kèm nào
-        </div>
-      ) : (
-        <div className="flex flex-wrap gap-1">
-          {props.attachments.map((item, index) => (
-            <div className="col">
-              <FileItem key={index} itemContent={item} />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
+//           <span className="text-button-5 truncate my-auto w-24">
+//             {props.itemContent.name}
+//           </span>
+//         </div>
+//       </Link>
+//       {props.onRemoveClicked && (
+//         <div className="top-0 right-0 z-10 hidden group-hover:block hover:bg-grey-5 absolute cursor-pointer rounded-r-full">
+//           <svg
+//             xmlns="http://www.w3.org/2000/svg"
+//             fill="none"
+//             viewBox="0 0 24 24"
+//             strokeWidth="1.5"
+//             stroke="currentColor"
+//             className="w-7 h-7 text-primary-base "
+//             onClick={props.onRemoveClicked}
+//           >
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               d="M6 18L18 6M6 6l12 12"
+//             />
+//           </svg>
+//         </div>
+//       )}
+//     </div>
+//   )
+// }
+// const FileItemLoading = (props: { percent: number }) => {
+//   return (
+//     <div className={`relative group`}>
+//       <div className="whitespace-nowrap text-left flex gap-2 px-2 py-1 justify-center items-center text-primary-base bg-primary-background rounded-xl group-hover:opacity-50">
+//         <svg
+//           xmlns="http://www.w3.org/2000/svg"
+//           fill="none"
+//           viewBox="0 0 24 24"
+//           strokeWidth="1.5"
+//           stroke="currentColor"
+//           className=" w-5 h-5"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+//           />
+//         </svg>
+//         <div className="flex justify-start items-center w-20 bg-grey-3 rounded-full h-2 py-2 border border-grey-4">
+//           <div
+//             style={{
+//               width: `${props.percent}%`,
+//             }}
+//             className="bg-primary-base h-auto rounded-full text-[6px] text-center text-white leading-relaxed animate-pulse"
+//           >
+//             {props.percent}%
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+// export const AttachmentsView = (props: {
+//   className?: string
+//   attachments: {
+//     name: string
+//     object: string
+//     dowload_url: string
+//   }[]
+// }) => {
+//   return (
+//     <div className={props.className}>
+//       <div className="flex items-center gap-1 text-label-3 min-w-fit mb-2">
+//         <svg
+//           xmlns="http://www.w3.org/2000/svg"
+//           viewBox="0 0 24 24"
+//           fill="currentColor"
+//           className="w-4 h-4"
+//         >
+//           <path
+//             fillRule="evenodd"
+//             d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"
+//             clipRule="evenodd"
+//           />
+//         </svg>
+//         Tệp đính kèm
+//       </div>
+//       {props.attachments.length === 0 ? (
+//         <div className="italic min-w-fit mx-0.5 text-subtitle-3">
+//           (Không có tệp đính kèm nào)
+//         </div>
+//       ) : (
+//         <div className="flex flex-wrap gap-1">
+//           {props.attachments.map((item, index) => (
+//             <div className="col">
+//               <FileItem key={index} itemContent={item} />
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   )
+// }

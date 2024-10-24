@@ -29,8 +29,8 @@ const FromScore = (props: {
           disabled
         />
         <Uploader
-          defaultValue={props.report?.attachments.map((v) => v.object)}
-          attachments={props.report?.attachments}
+          defaultValue={props.report?.attachments}
+          attachment={props.report?.attachments}
           className="col-span-full"
           label="Tệp đính kèm"
           module="university"

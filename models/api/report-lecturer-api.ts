@@ -42,7 +42,7 @@ export interface ReportDetail {
     time: string
   }
   status: 'OVERDUE' | 'ONTIME'
-  attachments: any[]
+  attachments: any
   upload_time: string
   expired_time: number
   comments: string[]
@@ -58,6 +58,6 @@ export interface CurentReportStudentDetail {
 export interface UpdateReportRequest {
   milestone_id: string
   schedule_id: string
-  attachments: any[]
+  attachments: any
   description: string
 }

@@ -22,7 +22,7 @@ export interface TenantDetail {
   email: string
   location: string
   website: string
-  image_url: any[]
+  image_url: any
 }
 export interface UpdateTenantRequest {
   code: string
