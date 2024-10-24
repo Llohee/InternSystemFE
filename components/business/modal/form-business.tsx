@@ -82,8 +82,8 @@ export const FormBusiness = (props: {
             message={props.form.formState.errors.name?.message ?? ''}
           />
           <Uploader
-            defaultValue={props.businessDetail?.image_url.map((v) => v.object)}
-            attachments={props.businessDetail?.image_url}
+            defaultValue={props.businessDetail?.image_url}
+            attachment={props.businessDetail?.image_url}
             className="col-span-full"
             label="Ảnh đại diện"
             module="business"
