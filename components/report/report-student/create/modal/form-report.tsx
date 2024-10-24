@@ -32,16 +32,16 @@ const FormReport = (props: {
               props.form.formState.errors.description ? 'error' : 'default'
             }
             placeholder={'Nhập ghi chú'}
-            defautValue={props.isEdit ? props.currentReportDetail?.description : ""}
+            defautValue={
+              props.isEdit ? props.currentReportDetail?.description : ''
+            }
             message={props.form.formState.errors.description?.message ?? ''}
             disabled={props.isEdit}
             required
           />
           <Uploader
-            defaultValue={props.currentReportDetail?.attachments.map(
-              (v) => v.object
-            )}
-            attachments={props.currentReportDetail?.attachments}
+            defaultValue={props.currentReportDetail?.attachments}
+            attachment={props.currentReportDetail?.attachments}
             className="col-span-full"
             label="Tệp đính kèm"
             module="university"
