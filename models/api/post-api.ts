@@ -50,8 +50,8 @@ export interface PostDetail {
   // display_in: any[]
   CV_applying: { cv_id: string, user_info: UserDetail, status: 'Pending' | 'HR Approver' | 'AU Approver' }[]
   description: string
-  created_time: string
-  expired_time: string
+  created_time?: string
+  expired_time?: string
   slot: number
   activities: ActivityDetail[]
   profession: ConfigDetail

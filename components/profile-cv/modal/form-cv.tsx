@@ -16,6 +16,7 @@ const FormCV = (props: {
   handleFormSubmit: SubmitHandler<UpdateCVRequest>
   mutation: any
   isUpdate?: boolean
+  closeModal: () => void
 }) => {
   const { useForm, mutation, handleFormSubmit } = props
   const [isShowModalOptions, setIsShowModalOptions] = useState(false)
@@ -30,7 +31,7 @@ const FormCV = (props: {
     <>
       <form
         onSubmit={useForm.handleSubmit(handleFormSubmit)}
-        className="bg-grey-1 relative"
+        className="bg-white relative rounded-md overflow-hidden"
       >
         <ContainerCVFormBody>
           <Input<UpdateCVRequest>
@@ -105,9 +106,15 @@ const FormCV = (props: {
         </ContainerCVFormBody>
         <ContainerFormFooter>
           <Button
+            btnStyle={'no-background'}
+            intent={'grey'}
+            onClick={props.closeModal}
+          >
+            Hủy
+          </Button>
+          <Button
             type="submit"
             intent={'primary'}
-            onClick={useForm.handleSubmit(handleFormSubmit)}
             disabled={mutation.isLoading}
             posting={mutation.isLoading}
           >

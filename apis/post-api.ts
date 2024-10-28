@@ -56,7 +56,7 @@ const PostApi = {
     filter: PostFilterRequest,
     tenant: string
   ): Promise<GetAllPostResponse> {
-    const url = '/post/'
+    const url = '/post/tenant'
 
     let query =
       filter.profession != '' 
