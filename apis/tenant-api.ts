@@ -110,19 +110,7 @@ const TenantApi = {
       },
     })
   },
-  requestLink(
-    accessToken: string,
-    data: RequestLink
-  ): Promise<any> {
-    const url = `/auth/users/notify/university-link`
-    const config = {
-      headers: {
-        token: accessToken,
-        'Access-Control-Allow-Origin': '*',
-      },
-    }
-    return axiosClient.post(url, trymObject(data), config)
-  },
+ 
   acceptLink(
     accessToken: string,
     data: AcceptLink

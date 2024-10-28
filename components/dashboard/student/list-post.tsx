@@ -20,7 +20,7 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
       <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {props.getAllPost.data.map((post) => (
           <div
-            className="bg-grey-1 col-span-1 flex gap-2 px-3 py-4 rounded-lg hover:bg-grey-2 transition-all ease-in-out duration-500 hover:shadow-[0_0_10px_0px_rgba(77,122,229,0.4)] relative hover:cursor-pointer border border-grey-2 hover:border-border-2"
+            className="bg-grey-1 col-span-1 flex gap-2 px-3 py-4 rounded-lg hover:bg-grey-2 transition-all ease-in-out duration-150 hover:shadow-[0_0_5px_0px_rgba(77,122,229,0.4)] relative hover:cursor-pointer border border-grey-2 hover:border-border-2"
             onClick={() => router.push(`/dashboard/${post.id}`)}
           >
             <Image

@@ -3,13 +3,11 @@ import { MainLayout } from '@/components/layout'
 import NotFoundPage from '@/components/page-error/not-found'
 import TenantDetailWrapper from '@/components/tenant/tenant-detail'
 import { NextPageWithAuthLayout } from '@/pages/_app'
-import { useParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 
 const TenantDetailPage: NextPageWithAuthLayout = () => {
   const router = useRouter()
-  const { slugId } = router.query
-  const { tenant_code } = useParams()
+  const { slugId, tenant_code } = router.query
   return (
     <>
       {slugId ? (

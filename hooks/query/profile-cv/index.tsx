@@ -13,7 +13,7 @@ export const ProfileCVKeys = {
   getConfigCV: () => [...ProfileCVKeys.all, 'getConfigCV'] as const,
 }
 
-export function useGetAllCV(type: string) {
+export function useGetAllCV() {
   const getAccessToken = useGetAccessToken()
   const filterCV = useFilterForCVStore()
   useEffect(() => {
