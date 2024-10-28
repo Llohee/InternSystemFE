@@ -58,6 +58,7 @@ export function usePostCreateMutation(
 export const usePostUpdate = (closeModal: () => void, Post: PostDetail) => {
   const formUpdate = useForm<UpdatePostRequest>({
     defaultValues: {
+      title: Post.title,
       position: Post.position.id,
       local: Post.local.id,
       description: Post.description,
@@ -70,7 +71,8 @@ export const usePostUpdate = (closeModal: () => void, Post: PostDetail) => {
       currency: Post.currency,
       request: Post.request,
       interest: Post.interest,
-      expired_time: Post.expired_time
+      expired_time: Post.expired_time,
+      work_experience: Post.work_experience
     }
   })
 

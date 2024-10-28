@@ -95,7 +95,7 @@ export const SingleNotiSkeleton = () => {
 
 export const SinglePostSkeleton = () => {
   return (
-    <div className="flex gap-2 items-center w-[400px]">
+    <div className="flex gap-2 items-center">
       <div className="animate-pulse bg-grey-2 h-20 w-[5px] rounded-l-md"></div>
       <div className="animate-pulse bg-grey-2 h-16 aspect-square rounded-md" />
       <div className="grow flex flex-col gap-2">

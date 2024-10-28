@@ -13,28 +13,30 @@ const TenantDetailViewModal = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  type: string
 }) => {
-  const useDetail = useGetUserDetail()
-  const getTenantById = useGetTenantById(
-    props.tenantDetail.id,
-    useDetail.data.role === 'AU' ? 'business' : 'university'
-  )
-  if (getTenantById.status === 'loading')
-    return (
-      <ModalLoading
-        length={5}
-        size="xl"
-        isOpen={props.isOpen}
-        closeModal={props.closeModal}
-      />
-    )
-  if (getTenantById.status === 'error') return <></>
+  // const useDetail = useGetUserDetail()
+  // const getTenantById = useGetTenantById(
+  //   props.tenantDetail.id,
+  //   useDetail.data.role === 'AU' ? 'business' : 'university'
+  // )
+  // if (getTenantById.status === 'loading')
+  //   return (
+  //     <ModalLoading
+  //       length={5}
+  //       size="xl"
+  //       isOpen={props.isOpen}
+  //       closeModal={props.closeModal}
+  //     />
+  //   )
+  // if (getTenantById.status === 'error') return <></>
   return (
     <>
       <TenantDetailView
         isOpen={props.isOpen}
         closeModal={props.closeModal}
-        tenantDetail={getTenantById.data}
+        tenantDetail={props.tenantDetail}
+        type={props.type}
       />
     </>
   )
@@ -43,6 +45,7 @@ const TenantDetailView = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  type: string
 }) => {
   // const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
   // const closeModal = () => {
@@ -66,6 +69,7 @@ const TenantDetailView = (props: {
           <DetailView
             tenantDetail={props.tenantDetail}
             closeModal={props.closeModal}
+            type={props.type}
           />
         </div>
       </Modal>

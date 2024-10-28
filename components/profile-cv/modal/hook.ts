@@ -1,5 +1,6 @@
 import ProfileAndCV from "@/apis/profile-cv-api"
 import { useGetAccessToken } from "@/hooks/query/auth"
+import { ProfileCVKeys } from "@/hooks/query/profile-cv"
 import { ErrorResponse } from "@/models/api"
 import { UpdateCVRequest } from "@/models/api/profile-cv-api"
 import { queryClient } from "@/pages/_app"
@@ -8,10 +9,10 @@ import { AxiosError } from "axios"
 import { SubmitHandler, useForm, UseFormReset } from "react-hook-form"
 import toast from "react-hot-toast"
 
-export const useCVCreate = () => {
+export const useCVCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdateCVRequest>()
 
-  const mutation = useCVCreateMutation(formCreate.reset)
+  const mutation = useCVCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdateCVRequest> = async (data) => {
     mutation.mutate(data)
   }
@@ -24,6 +25,7 @@ export const useCVCreate = () => {
 
 export function useCVCreateMutation(
   reset: UseFormReset<UpdateCVRequest>,
+  closeModal: () => void
 ) {
   const getAccessToken = useGetAccessToken()
   return useMutation<any, AxiosError, UpdateCVRequest, any>(
@@ -41,7 +43,8 @@ export function useCVCreateMutation(
       ),
     {
       onSuccess: (data) => {
-        // queryClient.invalidateQueries(CVKeys.all)
+        queryClient.invalidateQueries(ProfileCVKeys.all)
+        closeModal()
         reset()
       },
     }

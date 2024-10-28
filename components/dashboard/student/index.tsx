@@ -36,11 +36,30 @@ const StudentHomePage = () => {
       })
     )
   }, [])
+  if (
+    getAllPost.status === 'error' ||
+    getConfigLocal.status === 'error' ||
+    getConfigProfession.status === 'error'
+  )
+    return <></>
+  if (
+    getConfigLocal.status === 'loading' ||
+    getConfigProfession.status === 'loading' ||
+    getAllPost.status === 'loading'
+  )
+    return (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        {[...Array(12)].map((_, index) => (
+          <SinglePostSkeleton />
+        ))}
+      </div>
+    )
   return (
     <>
-      <div className="mx-4 lg:mx-16 my-8 relative flex flex-col gap-8">
-        {getConfigLocal.status === 'success' &&
-          getConfigProfession.status === 'success' && (
+      {getConfigLocal.status === 'success' &&
+        getConfigProfession.status === 'success' &&
+        getAllPost.status === 'success' && (
+          <div className="mx-4 lg:mx-16 my-8 relative flex flex-col gap-8">
             <FilterPostWrapper
               totalPost={totalPost}
               filterValue={filterValue}
@@ -50,19 +69,9 @@ const StudentHomePage = () => {
               setFilterValue={setFilterValue}
               setFilterQuery={setFilterQuery}
             />
-          )}
-        {getAllPost.status === 'error' && <></>}
-        {getAllPost.status === 'loading' && (
-          <div className="mx-4 lg:mx-16 my-8 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(12)].map((_, index) => (
-              <SinglePostSkeleton />
-            ))}
+            <ListPost getAllPost={getAllPost.data} />
           </div>
         )}
-        {getAllPost.status === 'success' && (
-          <ListPost getAllPost={getAllPost.data} />
-        )}
-      </div>
     </>
   )
 }

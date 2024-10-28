@@ -1,6 +1,7 @@
+import notificationApi from '@/apis/notification-api'
 import TenantApi from '@/apis/tenant-api'
 import { ConfirmModal } from '@/components/common/confirm'
-import { useGetAccessToken } from '@/hooks/query/auth'
+import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
 import { TenantKeys } from '@/hooks/query/tenant'
 import { ErrorResponse, RequestLink, TenantDetail } from '@/models/api'
 import { queryClient } from '@/pages/_app'
@@ -11,20 +12,27 @@ import toast from 'react-hot-toast'
 const ConfirmRequestLink = (props: {
   isOpen: boolean
   closeModal: () => void
-  tenantDetail?: TenantDetail
+  tenantDetail: TenantDetail
 }) => {
   const mutation = useRequestLinkMutation(props.closeModal)
+  const userDetail = useGetUserDetail()
   return (
     <>
       <ConfirmModal
         {...props}
         title={'Liên kết đến trường học'}
-        description={'Yêu cầu sẽ được gửi đến nhà trường'}
+        description={`Yêu cầu sẽ được gửi đến ${
+          userDetail.data.role === 'AU' ? 'doanh nghiệp' : 'nhà trường'
+        }`}
         type="Info"
         action={() => {
-          mutation.mutate({
-            university_id: `${props.tenantDetail?.id}`,
-          })
+          mutation.mutate(
+            userDetail.data.role === 'AU' 
+              ? {
+                  bussiness_id: `${props.tenantDetail.id}`,
+                }
+              : { university_id: `${props.tenantDetail.id}` }
+          )
           props.closeModal()
         }}
       />
@@ -36,7 +44,7 @@ const useRequestLinkMutation = (action: () => void) => {
   return useMutation<any, AxiosError, RequestLink, any>(
     (body) =>
       toast.promise(
-        TenantApi.requestLink(getAccessToken.data!.access_token.token, body),
+        notificationApi.requestLink(getAccessToken.data!.access_token.token, body),
         {
           loading: 'Đang gửi yêu cầu',
           success: 'Yêu cầu đã được gửi thành công',

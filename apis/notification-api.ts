@@ -1,6 +1,7 @@
 import { GetAllNotification } from "@/models/api/notification-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
+import { RequestLink } from "@/models/api"
 
 const notificationApi = {
   getNotification(accessToken: string, page: number,): Promise<GetAllNotification> {
@@ -39,6 +40,20 @@ const notificationApi = {
       }),
       config
     )
+  },
+  requestLink(
+    accessToken: string,
+    data: RequestLink
+  ): Promise<any> {
+    const url = `/auth/users/notify/university-link`
+    // const url = `/auth/users/notify/bussiness-link`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.post(url, trymObject(data), config)
   },
 }
 
