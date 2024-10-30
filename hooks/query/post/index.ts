@@ -1,6 +1,6 @@
-import { PostFilterRequest } from "@/models/api";
+import { PostFilterRequest, ProfessionsFilterRequest } from "@/models/api";
 import { useGetAccessToken } from "../auth";
-import { useFilterForPostBusinessStore, useFilterForPostStore } from "@/hooks/zustand/filter-for-post";
+import { useFilterForPostBusinessStore, useFilterForPostStore, useFilterForProfessionsStore } from "@/hooks/zustand/filter-for-post";
 import { useEffect } from "react";
 import produce from "immer";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,8 @@ export const PostKeys = {
     [...PostKeys.all, filter, 'getAllPostBusiness'] as const,
   getConfigPostLocal: () =>
     [...PostKeys.all, 'getConfigPostLocal'] as const,
+  getAllProfession: (filter: ProfessionsFilterRequest) =>
+    [...PostKeys.all, filter, 'getAllProfession'] as const,
   getConfigPostProfession: () =>
     [...PostKeys.all, 'getConfigPostProfession'] as const,
   getPostById: (id: string) =>
@@ -50,6 +52,27 @@ export function useGetConfigPostLocal() {
     PostKeys.getConfigPostLocal(),
     () => PostApi.getConfigPostLocal(getAccessToken.data!.access_token.token),
     { enabled: !getAccessToken.isFetching }
+  )
+}
+
+export function useGetAllProfession() {
+  const getAccessToken = useGetAccessToken()
+  const filterPost = useFilterForProfessionsStore()
+  useEffect(() => {
+    filterPost.update(
+      produce(filterPost.filter, (draftState: any) => {
+        draftState.page = 0
+      })
+    )
+  }, [filterPost.filter.name])
+  return useQuery(
+    PostKeys.getAllProfession(filterPost.filter),
+    () =>
+      PostApi.getAllProfession(
+        getAccessToken.data!.access_token.token,
+        filterPost.filter
+      ),
+    { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )
 }
 

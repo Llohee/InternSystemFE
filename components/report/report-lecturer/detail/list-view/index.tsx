@@ -15,10 +15,11 @@ interface ReportLecturerProps {
   idLecturer: string
   showList: boolean
   setShowList: (b: boolean) => void
+  profession: string
 }
 const ReportLecturerListView = (props: ReportLecturerProps) => {
   const { showList, setShowList } = props
-  const allReportLecturer = useGetAllReportLecturer()
+  const allReportLecturer = useGetAllReportLecturer(props.profession)
   const filterReportLecturer = useFilterForReportLecturerStore()
 
   return (

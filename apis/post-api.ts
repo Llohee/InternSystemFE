@@ -1,4 +1,4 @@
-import { ConfigDetail, GetAllPostResponse, PostDetail, PostFilterRequest, UpdateApplyCVRequest, UpdatePostRequest } from "@/models/api"
+import { ConfigDetail, GetAllPostResponse, GetAllProfessionResponse, PostDetail, PostFilterRequest, ProfessionsFilterRequest, UpdateApplyCVRequest, UpdatePostRequest } from "@/models/api"
 import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
@@ -33,6 +33,32 @@ const PostApi = {
       },
     })
   },
+  getAllProfession(
+    accessToken: string,
+    filter: ProfessionsFilterRequest,
+  ): Promise<GetAllProfessionResponse> {
+    const url = '/post/profession/'
+    let query = <any>{}
+    filter.query.forEach(item => {
+      query[item.name] = item.value
+    })
+    let sort = filter.sort
+      .map((val: any) => `${val.local}=${val.type ? '-1' : '1'}`)
+      .join(';')
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+      params: {
+        name: filter.name,
+        size: filter.limit,
+        page: filter.page,
+        ...query,
+        sort,
+      },
+    })
+  },
   getConfigPostLocal(accessToken: string): Promise<ConfigDetail[]> {
     const url = '/post/local/'
     return axiosClient.get(url, {
@@ -59,7 +85,7 @@ const PostApi = {
     const url = '/post/tenant'
 
     let query =
-      filter.profession != '' 
+      filter.profession != ''
         ? `or(like(name,"${filter.profession}"),))`
         : ''
 

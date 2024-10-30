@@ -15,6 +15,13 @@ export interface PostFilterRequest {
   query: TypeQuery[]
   sort: TypeSort[]
 }
+export interface ProfessionsFilterRequest {
+  name: string
+  limit: number
+  page: number
+  query: TypeQuery[]
+  sort: TypeSort[]
+}
 export interface ExportPostFilterRequest {
   // name: string
   size: number
@@ -24,6 +31,12 @@ export interface ExportPostFilterRequest {
   sort: TypeSort[]
   query: TypeQuery[]
   // params: TypeParam[]
+}
+export interface GetAllProfessionResponse {
+  page: number
+  total: number
+  total_page: number
+  data: ConfigDetail[]
 }
 export interface GetAllPostResponse {
   page: number
