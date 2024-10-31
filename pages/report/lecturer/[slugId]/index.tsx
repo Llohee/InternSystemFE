@@ -11,7 +11,7 @@ const ReportLecturerDetailPage: NextPageWithAuthLayout = () => {
   return (
     <>
       {slugId ? (
-        <ReportLecturerDetailWrapper id={slugId as string} />
+        <ReportLecturerDetailWrapper id={slugId as string} profession="" />
       ) : (
         <NotFoundPage />
       )}

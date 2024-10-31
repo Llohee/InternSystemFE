@@ -9,7 +9,10 @@ import ReportView from './report-view'
 import { useGetScheduleByLecturer } from '@/hooks/query/schedule'
 import { useGetStudentById } from '@/hooks/query/account/student'
 
-const ReportLecturerDetailWrapper = (props: { id: string }) => {
+const ReportLecturerDetailWrapper = (props: {
+  id: string
+  profession: string
+}) => {
   const [showList, setShowList] = useState(true)
   return (
     <>
@@ -73,12 +76,7 @@ const ReportLecturerViewWrapper = (props: {
 
   return (
     <>
-      {/* <Head>
-        <title>{getTicketDetail.data.name}</title>
-      </Head> */}
       <ReportView
-        // ticket={getTicketDetail.data}
-        // defaultTabTask={typeof props.taskID === 'string'}
         studentById={studentByID.data}
         scheduleLecturer={scheduleLecturer.data}
         {...props}

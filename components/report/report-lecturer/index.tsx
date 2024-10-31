@@ -9,8 +9,10 @@ import { useEffect, useRef, useState } from 'react'
 import ReportTable from './table'
 import { useGetAllReportLecturer } from '@/hooks/query/report-lecturer'
 import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
+import { useRouter } from 'next/router'
+import { useRoleIsLecturer } from '@/components/auth/hooks'
 
-const ReportLecturerWrapper = () => {
+const ReportLecturerWrapper = (props: { profession: string }) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   useState(false)
   const [totalReportLecturer, setTotalReportLecturer] = useState(0)
@@ -18,7 +20,9 @@ const ReportLecturerWrapper = () => {
   const [ReportLecturerChoose, setReportLecturerChoose] =
     useState<ReportLecturerDetail[]>()
   const filterReportLecturer = useFilterForReportLecturerStore()
-  const allReportLecturer = useGetAllReportLecturer()
+  const router = useRouter()
+
+  const allReportLecturer = useGetAllReportLecturer(props.profession)
   const tableRef = useRef<any>()
   useEffect(() => {
     if (allReportLecturer.status === 'success')
@@ -46,7 +50,7 @@ const ReportLecturerWrapper = () => {
               />
             </div>
           </div>
-          <div className="flex gap-2 py-1">
+          {/* <div className="flex gap-2 py-1">
             <Button
               onClick={() => {
                 tableRef.current.clearChooseItems()
@@ -74,7 +78,7 @@ const ReportLecturerWrapper = () => {
 
               <span>Tạo mới</span>
             </Button>
-          </div>
+          </div> */}
           <div className="flex flex-col gap-3 md:hidden fixed z-10 bottom-14 right-2">
             <Button
               onClick={() => {
