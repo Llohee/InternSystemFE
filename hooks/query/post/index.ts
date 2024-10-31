@@ -81,7 +81,13 @@ export function useGetConfigPostProfession() {
 
   return useQuery(
     PostKeys.getConfigPostProfession(),
-    () => PostApi.getConfigPostProfession(getAccessToken.data!.access_token.token),
+    () => PostApi.getAllProfession(getAccessToken.data!.access_token.token, {
+      limit: -1,
+      name: '',
+      page: 0,
+      sort: [{ name: 'name', type: false }],
+      query: []
+    }),
     { enabled: !getAccessToken.isFetching }
   )
 }

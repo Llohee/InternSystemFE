@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button/button'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { TableView } from '@/components/ui/table'
 import { useFilterForPostBusinessStore } from '@/hooks/zustand/filter-for-post'
-import { CVDetail, GetAllPostResponse, PostDetail } from '@/models/api'
 import {
   ColumnFiltersState,
   createColumnHelper,
@@ -14,23 +13,26 @@ import {
 } from '@tanstack/react-table'
 import produce from 'immer'
 import React, { useEffect, useState } from 'react'
-import UpdatePosModal from '../modal/update-post'
+// import UpdatePosModal from '../modal/update-post'
 import dayjs from 'dayjs'
 import { DATE_FORMAT_VIEW } from '@/components/common/constant'
-import { Pill } from '@/components/ui/pill'
-import ConfirmDeletePostModal from '../modal/confirm-delete-post'
+import {
+  CustomPostDetail,
+  GetAllCustomPostResponse,
+} from '@/models/api/custom-post-api'
+// import ConfirmDeletePostModal from '../modal/confirm-delete-post'
 
-const PostBusinessTable = (props: {
-  getallPostBusinessData: GetAllPostResponse
+const CustomPostBusinessTable = (props: {
+  getallCustomPostData: GetAllCustomPostResponse
   isPreviousData: boolean
 }) => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
   const [isShowModalDelete, setIsShowModalDelete] = useState(false)
-  const [postChoose, setPostChoose] = useState<PostDetail>()
+  const [customPostChoose, setCustomPostChoose] = useState<CustomPostDetail>()
 
   const filterPost = useFilterForPostBusinessStore()
   const [data, setData] = React.useState(() => [
-    ...props.getallPostBusinessData.data,
+    ...props.getallCustomPostData.data,
   ])
 
   const [sorting, setSorting] = React.useState<SortingState>(
@@ -57,10 +59,10 @@ const PostBusinessTable = (props: {
     sortColumn()
   }, [sorting])
   useEffect(() => {
-    setData([...props.getallPostBusinessData.data])
-  }, [props.getallPostBusinessData])
+    setData([...props.getallCustomPostData.data])
+  }, [props.getallCustomPostData])
 
-  const columnHelper = createColumnHelper<PostDetail>()
+  const columnHelper = createColumnHelper<CustomPostDetail>()
 
   const columns = [
     columnHelper.display({
@@ -80,18 +82,6 @@ const PostBusinessTable = (props: {
     columnHelper.accessor('title', {
       header: 'Tiêu đề',
       cell: (info) => <div>{info.getValue()}</div>,
-      enableColumnFilter: true,
-      meta: 'w-boolean',
-    }),
-    columnHelper.accessor('local', {
-      header: 'Địa điểm',
-      cell: (info) => <div>{info.getValue().name}</div>,
-      enableColumnFilter: true,
-      meta: 'w-boolean',
-    }),
-    columnHelper.accessor('position', {
-      header: 'Vị trí',
-      cell: (info) => <div>{info.getValue().name}</div>,
       enableColumnFilter: true,
       meta: 'w-boolean',
     }),
@@ -117,23 +107,6 @@ const PostBusinessTable = (props: {
       enableColumnFilter: true,
       meta: 'w-time pl-10 ',
     }),
-    columnHelper.accessor('CV_applying', {
-      header: 'Số lượng ứng tuyển',
-      cell: (info) => {
-        const cvApplyingArray = info.getValue() as any[] | undefined
-        return (
-          <p>
-            {Array.isArray(cvApplyingArray) && cvApplyingArray.length > 0 ? (
-              <Pill intent={'primary'}>{cvApplyingArray.length}</Pill>
-            ) : (
-              <Pill intent={'grey'}>0</Pill>
-            )}
-          </p>
-        )
-      },
-      enableColumnFilter: true,
-      meta: 'w-time pl-10 ',
-    }),
     columnHelper.display({
       id: 'action',
       header: () => 'Tác vụ',
@@ -146,7 +119,7 @@ const PostBusinessTable = (props: {
             btnStyle="no-background"
             onClick={() => {
               setIsShowModalUpdate(true)
-              setPostChoose(info.row.original)
+              setCustomPostChoose(info.row.original)
             }}
           >
             <svg
@@ -179,7 +152,7 @@ const PostBusinessTable = (props: {
             ariaLabel="Open delete row modal"
             onClick={() => {
               setIsShowModalDelete(true)
-              setPostChoose(info.row.original)
+              setCustomPostChoose(info.row.original)
             }}
           >
             <svg
@@ -235,17 +208,15 @@ const PostBusinessTable = (props: {
               })
             )
           }}
-          pageCurrent={props.getallPostBusinessData.page + 1}
-          totalPage={props.getallPostBusinessData.total_page}
+          pageCurrent={props.getallCustomPostData.page + 1}
+          totalPage={props.getallCustomPostData.total_page}
           label={
-            props.getallPostBusinessData.total > 0 ? (
+            props.getallCustomPostData.total > 0 ? (
               <div className="hidden md:block">
-                {props.getallPostBusinessData.page * filterPost.filter.limit +
-                  1}
-                -
-                {props.getallPostBusinessData.page * filterPost.filter.limit +
+                {props.getallCustomPostData.page * filterPost.filter.limit + 1}-
+                {props.getallCustomPostData.page * filterPost.filter.limit +
                   data.length}{' '}
-                trên tổng {props.getallPostBusinessData.total}
+                trên tổng {props.getallCustomPostData.total}
               </div>
             ) : (
               <></>
@@ -255,7 +226,7 @@ const PostBusinessTable = (props: {
           isPreviousData={props.isPreviousData}
         ></Pagination>
       </div>
-      {postChoose && (
+      {/* {postChoose && (
         <UpdatePosModal
           isOpen={isShowModalUpdate}
           closeModal={() => setIsShowModalUpdate(false)}
@@ -267,13 +238,13 @@ const PostBusinessTable = (props: {
           isOpen={isShowModalDelete}
           closeModal={() => {
             setIsShowModalDelete(false)
-            setPostChoose(undefined)
+            setCustomPostChoose(undefined)
           }}
           postDetail={postChoose}
         />
-      )}
+      )} */}
     </>
   )
 }
 
-export default PostBusinessTable
+export default CustomPostBusinessTable

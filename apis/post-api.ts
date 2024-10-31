@@ -68,15 +68,15 @@ const PostApi = {
       },
     })
   },
-  getConfigPostProfession(accessToken: string): Promise<ConfigDetail[]> {
-    const url = '/post/profession/'
-    return axiosClient.get(url, {
-      headers: {
-        token: accessToken,
-        'Access-Control-Allow-Origin': '*',
-      },
-    })
-  },
+  // getConfigPostProfession(accessToken: string): Promise<ConfigDetail[]> {
+  //   const url = '/post/profession/'
+  //   return axiosClient.get(url, {
+  //     headers: {
+  //       token: accessToken,
+  //       'Access-Control-Allow-Origin': '*',
+  //     },
+  //   })
+  // },
   getAllPostBusiness(
     accessToken: string,
     filter: PostFilterRequest,
