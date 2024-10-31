@@ -8,8 +8,9 @@ const ReportLecturerApi = {
   getAllReportLecturer(
     accessToken: string,
     filter: ReportLecturerFilterRequest,
+    profession: string
   ): Promise<GetAllReportLecturerResponse> {
-    const url = '/auth/users/students'
+    const url = `/auth/users/students?profession=${profession}`
     let query = getQuery(filter.query, filter.name, [
       'name',
       'code'

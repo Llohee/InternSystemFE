@@ -14,6 +14,7 @@ export * from './comment-api'
 export * from './notification-api'
 export * from './activities-api'
 export * from './post-api'
+export * from './custom-post-api'
 export * from './profile-cv-api'
 
 
