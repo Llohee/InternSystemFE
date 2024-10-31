@@ -1,25 +1,25 @@
+import { YEAR_FORMAT_VIEW } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
-import { InputSelect } from '@/components/ui/select/select'
+import { SelectDateRangeInput } from '@/components/ui/select-date/select-date-range-input'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { usegetConfigUniversity } from '@/hooks/query/university'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormStudentAccount = (props: {
   form: UseFormReturn<UpdateUserRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUserRequest>
   mutation: any
-  userDetail?: UserGetDetail
+  studentDetail?: UserGetDetail
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean
@@ -32,6 +32,48 @@ export const FormStudentAccount = (props: {
     reset,
     control,
   } = props.form
+
+  const FilterRangerDate = (props: {
+    data?: { start?: Date; end?: Date }
+    disabledDate: boolean
+    label?: string
+    required?: boolean
+    default?: { start: Date; end: Date }
+    onChange: (data: { start: Date; end: Date } | undefined) => void
+    format?: string
+    picker?: 'time' | 'date' | 'month' | 'year'
+  }) => {
+    function updateRangeDate(data: { start?: Date; end?: Date }) {
+      if (!data.start && !data.end) {
+        props.onChange(undefined)
+      }
+      if (data.start && !data.end)
+        props.onChange({ start: data.start, end: data.start })
+      else if (!data.start && data.end)
+        props.onChange({ start: data.end, end: data.end })
+      else if (data.start && data.end) {
+        if (dayjs(data.start).isBefore(data.end)) {
+          props.onChange({ start: data.start, end: data.end })
+        } else if (dayjs(data.start).isAfter(data.end))
+          props.onChange({ start: data.end, end: data.start })
+        else props.onChange({ start: data.start, end: data.end })
+      }
+    }
+    return (
+      <div className="flex gap-2">
+        <SelectDateRangeInput
+          label={props.label}
+          required={props.required}
+          disabledDate={props.disabledDate}
+          format={props.format}
+          picker={props.picker}
+          default={props.default}
+          onChange={updateRangeDate}
+        />
+      </div>
+    )
+  }
+
   return (
     <>
       <form
@@ -82,15 +124,104 @@ export const FormStudentAccount = (props: {
           )}
           <div className="col col-span-full grid md:grid-cols-2 gap-5">
             <Input<UpdateUserRequest>
-              label={'Tên tài khoản'}
+              label={'Họ và tên'}
               name="fullname"
               register={props.form.register}
               intent={
                 props.form.formState.errors.fullname ? 'error' : 'default'
               }
-              placeholder={'Nhập tên tài khoản'}
+              placeholder={'Nhập họ và tên'}
               message={props.form.formState.errors.fullname?.message ?? ''}
               required
+            />
+            <Input<UpdateUserRequest>
+              label={'Mã số sinh viên'}
+              name="id_number"
+              register={props.form.register}
+              intent={
+                props.form.formState.errors.id_number ? 'error' : 'default'
+              }
+              placeholder={'Nhập tên mã số sinh viên'}
+              message={props.form.formState.errors.id_number?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Khoa'}
+              name="faculty"
+              register={props.form.register}
+              intent={props.form.formState.errors.faculty ? 'error' : 'default'}
+              placeholder={'Nhập tên khoa'}
+              message={props.form.formState.errors.faculty?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Viện'}
+              name="institute"
+              register={props.form.register}
+              intent={
+                props.form.formState.errors.institute ? 'error' : 'default'
+              }
+              placeholder={'Nhập tên viện'}
+              message={props.form.formState.errors.institute?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Ngành'}
+              name="major"
+              register={props.form.register}
+              intent={props.form.formState.errors.major ? 'error' : 'default'}
+              placeholder={'Nhập tên ngành'}
+              message={props.form.formState.errors.major?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Lớp'}
+              name="class"
+              register={props.form.register}
+              intent={props.form.formState.errors.class ? 'error' : 'default'}
+              placeholder={'Nhập tên lớp'}
+              message={props.form.formState.errors.class?.message ?? ''}
+              required
+            />
+            <Input<UpdateUserRequest>
+              label={'Chương trình đào tạo'}
+              name="program_training"
+              register={props.form.register}
+              intent={
+                props.form.formState.errors.program_training
+                  ? 'error'
+                  : 'default'
+              }
+              placeholder={'Nhập chương trình đào tạo'}
+              message={
+                props.form.formState.errors.program_training?.message ?? ''
+              }
+              required
+            />
+            <Controller
+              control={props.form.control}
+              defaultValue={props.studentDetail?.academic_year}
+              name="academic_year"
+              render={({ field: { value, onChange } }) => {
+                // const parsedYearRange = value
+                //   ? {
+                //       start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
+                //       end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
+                //     }
+                //   : undefined
+                return (
+                  <FilterRangerDate
+                    label="Niên khóa"
+                    format={YEAR_FORMAT_VIEW}
+                    picker="year"
+                    required
+                    default={props.studentDetail?.academic_year}
+                    data={value}
+                    disabledDate={false}
+                    onChange={onChange}
+                  />
+                )
+              }}
             />
 
             <Input<UpdateUserRequest>
@@ -105,7 +236,7 @@ export const FormStudentAccount = (props: {
               }}
             />
           </div>
-          
+
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
               {(props.mutation.error as AxiosError<ErrorResponse>)?.response

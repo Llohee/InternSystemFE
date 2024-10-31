@@ -11,6 +11,8 @@ export const AccountHumanresourceKeys = {
   all: ['getAllAccountHumanresource'] as const,
   getAllAccountHumanresource: (filter: HumanresourceAccountFilterRequest) =>
     [...AccountHumanresourceKeys.all, filter, 'getAllAccountHumanresource'] as const,
+  getAccountHumanresourceById: (id: string) =>
+    [...AccountHumanresourceKeys.all, 'getAllAccountHumanresource', 'getAccountHumanresourceById', id] as const
 }
 
 export function useGetAllAccountHumanresource() {
@@ -29,5 +31,14 @@ export function useGetAllAccountHumanresource() {
     () =>
       accountHumanresource.getAllAccountHumanresource(getAccessToken.data!.access_token.token, filterUser.filter, isSA),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
+  )
+}
+export function useGetAccountHumanresourceById(id: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    AccountHumanresourceKeys.getAccountHumanresourceById(id),
+    () => accountHumanresource.getHumanresourceById(getAccessToken.data!.access_token.token, id),
+    { enabled: !getAccessToken.isFetching }
   )
 }

@@ -23,7 +23,7 @@ const CreateGroupModal = (props: CreateGroup) => {
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Tạo mới trường học
+              Tạo mới nhóm
             </div>
             <Button
               iconOnly

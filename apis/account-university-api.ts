@@ -52,7 +52,40 @@ const accountUniversityApi = {
       },
     }
     return axiosClient.post(url, trymObject(data), config)
-  }
+  },
+  updateUniversity(
+    accessToken: string,
+    id: string,
+    data: UpdateUserRequest,
+  ): Promise<any> {
+    const url = `/auth/users/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteUniversity(accessToken: string, id: string): Promise<any> {
+    const url = `/auth/users/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
+  getUniversityById(accessToken: string, id: string): Promise<UserGetDetail> {
+    const url = `/auth/users/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
 }
 
 export default accountUniversityApi

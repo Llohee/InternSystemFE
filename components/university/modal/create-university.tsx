@@ -8,10 +8,12 @@ import { useUniversityCreate } from './hook'
 interface CreateUniversity {
   isOpen: boolean
   closeModal: () => void
+  type: string
 }
 const CreateUniversityModal = (props: CreateUniversity) => {
   const { handleFormSubmit, formCreate, mutation } = useUniversityCreate(
-    props.closeModal
+    props.closeModal,
+    props.type
   )
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
   const closeModal = () => {

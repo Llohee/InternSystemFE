@@ -6,7 +6,7 @@ import {
   passwordRegex,
   phoneRegex
 } from '@/hooks/regex'
-import { ErrorResponse, UpdateUserRequest } from '@/models/api'
+import { ErrorResponse, UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -35,7 +35,7 @@ export const useLecturerAccountCreate = (closeModal: () => void) => {
   formCreate.register('password', {
     pattern: {
       value: passwordRegex,
-      message: 'Không đúng định dạng mật khẩu',
+      message: 'Ít nhất 8 kí tự bao gồm chữ hoa, chữ thường, số và kí tự đặc biệt',
     },
   })
   formCreate.register('fullname', {
@@ -86,79 +86,62 @@ export function useLecturerAccountCreateMutation(
     }
   )
 }
-// export const useUserUpdate = (closeModal: () => void, user: UserGetDetail) => {
-//   const { t } = useTranslation()
-//   const formUpdate = useForm<UpdateUserRequest>({
-//     defaultValues: {
-//       email: user.email,
-//       fullname: user.fullname,
-//       phone: user.phone,
-//       roles: user.roles,
-//       is_active: user.is_active,
-//     },
-//   })
+export const useLecturerUpdate = (closeModal: () => void, lecturer: UserGetDetail) => {
+  const formUpdate = useForm<UpdateUserRequest>({
+    defaultValues: {
+      fullname: lecturer.fullname,
+      email: lecturer.email,
+      id_number: lecturer.id_number,
+      faculty: lecturer.faculty,
+      institute: lecturer.institute,
+      major: lecturer.major,
+      program_training: lecturer.program_training,
+      class: lecturer.class,
+      academic_year: lecturer.academic_year,
+      phone: lecturer.phone,
+    },
+  })
 
-//   formUpdate.register('phone', {
-//     pattern: {
-//       value: phoneRegex,
-//       message: t('input.mess.error_phone'),
-//     },
-//   })
-//   formUpdate.register('email', {
-//     required: t('input.mess.required.none'),
-//     maxLength: { value: 50, message: 'user.display_name_max' },
+  const mutation = useLecturerUpdateMutation(formUpdate.reset, closeModal, lecturer)
+  const handleFormSubmit: SubmitHandler<UpdateUserRequest> = async (data) => {
+    mutation.mutate(data)
+  }
 
-//     pattern: {
-//       value: emailRegex,
-//       message: t('input.mess.error_email'),
-//     },
-//   })
-//   formUpdate.register('fullname', {
-//     required: t('input.mess.required.label', { label: 'Tên hiển thị' }),
-//     maxLength: { value: 100, message: t('user.display_name_max') },
-//   })
-//   const mutation = useUserUpdateMutation(formUpdate.reset, closeModal, user)
-//   const handleFormSubmit: SubmitHandler<UpdateUserRequest> = async (data) => {
-//     mutation.mutate(data)
-//   }
-
-//   return {
-//     // Form
-//     formUpdate,
-//     handleFormSubmit,
-//     mutation,
-//   }
-// }
-// export function useUserUpdateMutation(
-//   reset: UseFormReset<UpdateUserRequest>,
-//   closeModal: () => void,
-//   user: UserGetDetail
-// ) {
-//   const getAccessToken = useGetAccessToken()
-//   const { t } = useTranslation()
-//   return useMutation<any, AxiosError, UpdateUserRequest, any>(
-//     (updateUserBody) =>
-//       toast.promise(
-//         accountLecturerApi.updateUser(
-//           getAccessToken.data!.accessToken,
-//           user.id,
-//           updateUserBody
-//         ),
-//         {
-//           loading: t('user.updating'),
-//           success: t('user.update_successfully'),
-//           error: (err) =>
-//             (err as AxiosError<ErrorResponse>).response?.data?.description ??
-//             (err as AxiosError).message,
-//         },
-//         {}
-//       ),
-//     {
-//       onSuccess: (data) => {
-//         queryClient.invalidateQueries(AccountLecturerKeys.all)
-//         // reset()
-//         closeModal()
-//       },
-//     }
-//   )
-// }
+  return {
+    formUpdate,
+    handleFormSubmit,
+    mutation,
+  }
+}
+export function useLecturerUpdateMutation(
+  reset: UseFormReset<UpdateUserRequest>,
+  closeModal: () => void,
+  tenant: UserGetDetail,
+) {
+  const getAccessToken = useGetAccessToken()
+  return useMutation<any, AxiosError, UpdateUserRequest, any>(
+    (body) =>
+      toast.promise(
+        accountLecturerApi.updateLecturer(
+          getAccessToken.data!.access_token.token,
+          tenant.id,
+          body
+        ),
+        {
+          loading: 'Đang cập nhật giảng viên',
+          success: 'Cập nhật giảng viên thành công',
+          error: (err) =>
+            (err as AxiosError<ErrorResponse>).response?.data?.description ??
+            (err as AxiosError).message,
+        },
+        {}
+      ),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(AccountLecturerKeys.all)
+        // reset()
+        closeModal()
+      },
+    }
+  )
+}

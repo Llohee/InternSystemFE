@@ -4,22 +4,20 @@ import {
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
-import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { usegetConfigUniversity } from '@/hooks/query/university'
+// import { usegetConfigUniversity } from '@/hooks/query/tenant'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormLecturerAccount = (props: {
   form: UseFormReturn<UpdateUserRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUserRequest>
   mutation: any
-  userDetail?: UserGetDetail
+  lecturerDetail?: UserGetDetail
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean
@@ -45,7 +43,7 @@ export const FormLecturerAccount = (props: {
               name="email"
               register={register}
               intent={props.form.formState.errors.email ? 'error' : 'default'}
-              placeholder={'Nhập email trường học'}
+              placeholder={'Nhập email giảng viên'}
               message={props.form.formState.errors.email?.message ?? ''}
               disabled={props.isEdit}
               required

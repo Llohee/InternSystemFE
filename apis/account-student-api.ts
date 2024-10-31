@@ -2,6 +2,7 @@ import { StudentAccountFilterRequest, UpdateUserRequest, GetAllUsersResponse, Us
 import { getQuery } from "./common-api"
 import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
+import { StringGradients } from "antd/es/progress/progress"
 
 const accountStudentApi = {
   getAllAccountStudent(
@@ -42,7 +43,7 @@ const accountStudentApi = {
     })
   },
   createStudent(accessToken: string, data: UpdateUserRequest): Promise<UserGetDetail> {
-    const url = 'auth/users'
+    const url = 'auth/students'
     const config = {
       headers: {
         token: accessToken,
@@ -59,6 +60,48 @@ const accountStudentApi = {
         'Access-Control-Allow-Origin': '*',
       }, params: {
         role: 'ST'
+      }
+    })
+  },
+  updateStudent(
+    accessToken: string,
+    id: string,
+    data: UpdateUserRequest,
+  ): Promise<any> {
+    const url = `/auth/users/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteStudent(accessToken: string, id: string): Promise<any> {
+    const url = `/auth/users/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
+  getStudentById(accessToken: string, id: string): Promise<UserGetDetail> {
+    const url = `/auth/users/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
+  getDetailStudent(accessToken: string): Promise<UserGetDetail> {
+    const url = `/auth/users/detail-student`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
       }
     })
   }

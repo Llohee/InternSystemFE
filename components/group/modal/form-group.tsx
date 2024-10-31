@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button/button'
 import {
   CustomComboboxButton,
   ComboboxButtonWrapper,
-  ComboboxOption,
+  CustomComboboxOption,
   CustomComboboxOptions,
   ComboboxText,
   UserDetailOptionDisp,
@@ -16,7 +16,7 @@ import { Input, inputStyles } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import { useGetConfigLTWhithoutGroup } from '@/hooks/query/account/lecturer'
 import { useGetConfigSTWhithoutGroup } from '@/hooks/query/account/student'
-import { UpdateGroupRequest, UserGetDetail } from '@/models/api'
+import { GroupDetail, UpdateGroupRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { Combobox, ComboboxInput } from '@headlessui/react'
 import { DevTool } from '@hookform/devtools'
@@ -27,9 +27,9 @@ import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 export const FormGroup = (props: {
   form: UseFormReturn<UpdateGroupRequest, any>
   handleFormSubmit: SubmitHandler<UpdateGroupRequest>
+  groupDetail?: GroupDetail
   mutation: any
   closeModal: () => void
-  resetForm?: () => void
   isEdit?: boolean
 }) => {
   const {
@@ -72,7 +72,7 @@ export const FormGroup = (props: {
           </div>
           <Controller
             control={props.form.control}
-            name="lecturer_id"
+            name="lecturer"
             render={({
               field: {
                 ref,
@@ -122,7 +122,7 @@ export const FormGroup = (props: {
                                   <ComboboxInput
                                     ref={ref}
                                     className={inputStyles({
-                                      intent: errors.lecturer_id
+                                      intent: errors.lecturer
                                         ? 'error'
                                         : 'default',
                                     })}
@@ -152,9 +152,12 @@ export const FormGroup = (props: {
                               </ComboboxText>
                             ) : (
                               filterUser.map((user) => (
-                                <ComboboxOption key={user.id} value={user}>
+                                <CustomComboboxOption
+                                  key={user.id}
+                                  value={user}
+                                >
                                   <UserDetailOptionDisp user={user} />
-                                </ComboboxOption>
+                                </CustomComboboxOption>
                               ))
                             )}
                           </CustomComboboxOptions>
@@ -167,9 +170,9 @@ export const FormGroup = (props: {
                             />
                           )}
                         </div>
-                        {errors.lecturer_id?.message ? (
+                        {errors.lecturer?.message ? (
                           <span className={'text-label-5 text-error-base'}>
-                            {errors.lecturer_id?.message}
+                            {errors.lecturer?.message}
                           </span>
                         ) : (
                           ''
@@ -242,7 +245,7 @@ export const FormGroup = (props: {
                                   <ComboboxInput
                                     ref={ref}
                                     className={inputStyles({
-                                      intent: errors.lecturer_id
+                                      intent: errors.lecturer
                                         ? 'error'
                                         : 'default',
                                     })}
@@ -272,9 +275,12 @@ export const FormGroup = (props: {
                               </ComboboxText>
                             ) : (
                               filterUser.map((user) => (
-                                <ComboboxOption key={user.id} value={user}>
+                                <CustomComboboxOption
+                                  key={user.id}
+                                  value={user}
+                                >
                                   <UserDetailOptionDisp user={user} />
-                                </ComboboxOption>
+                                </CustomComboboxOption>
                               ))
                             )}
                           </CustomComboboxOptions>

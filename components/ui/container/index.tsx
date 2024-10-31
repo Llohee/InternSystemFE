@@ -1,6 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import { cx } from 'class-variance-authority'
+import { humanizeDurationConfig } from '@/components/common/duration'
 
 export const ContainerFormBody = React.forwardRef<
   HTMLDivElement,
@@ -52,3 +53,39 @@ export const ContainerLastUpdated = (props: LastUpdatedProps) => {
     </div>
   )
 }
+
+interface CreateReportTimeProps {
+  upload_time?: string
+  expired_time?: number
+}
+
+export const ContainerCreateReportTime = (props: CreateReportTimeProps) => {
+  return (
+    <div className="flex gap-3 py-2.5 px-4 items-center justify-between rounded-lg bg-grey-2 border border-border-2">
+      <p className="flex flex-wrap gap-2">
+        <span className="text-label-3 text-typography-label">
+          Thời gian nộp:
+        </span>
+        <span className="text-body-3 text-typography-body">
+          {dayjs(props.upload_time).format('DD/MM/YYYY HH:mm')}
+        </span>
+      </p>
+      {(props.expired_time ?? 0) > 0 && (
+        <p className="flex flex-wrap gap-2">
+          <span className="text-label-3 text-typography-label">Trễ hạn:</span>
+          <span className="text-body-3 text-typography-body">
+            {humanizeDurationConfig(props.expired_time ?? 0)}
+          </span>
+        </p>
+      )}
+    </div>
+  )
+}
+
+export const ContainerCVFormBody =({
+  children,
+  }: {
+    children : React.ReactNode
+  }) => {
+    return <div className="p-9 flex flex-col gap-8">{children}</div>
+  }

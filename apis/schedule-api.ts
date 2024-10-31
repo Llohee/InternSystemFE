@@ -51,6 +51,25 @@ const ScheduleApi = {
       },
     })
   },
+  getDetailScheduleByLecturer(accessToken: string): Promise<ScheduleDetail> {
+    const url = '/schedule/schedule_lecturer'
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
+  getDetailScheduleByStudent(accessToken: string): Promise<ScheduleDetail> {
+    const url = '/schedule/schedule_student'
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
+
   updateSchedule(
     accessToken: string,
     data: UpdateScheduleRequest,
@@ -78,15 +97,6 @@ const ScheduleApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
-  // getConfigSchedule(accessToken: string): Promise<GetAllScheduleResponse> {
-  //   const url = '/tenant/Schedule'
-  //   return axiosClient.get(url, {
-  //     headers: {
-  //       token: accessToken,
-  //       'Access-Control-Allow-Origin': '*',
-  //     },
-  //   })
-  // }
 }
 
 export default ScheduleApi

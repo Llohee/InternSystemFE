@@ -10,6 +10,8 @@ export const ScheduleKeys = {
   all: ['getAllSchedule'] as const,
   getAllSchedule: (filter: ScheduleFilterRequest) =>
     [...ScheduleKeys.all, filter, 'getAllSchedule'] as const,
+  getScheduleByLecturer: () => [...ScheduleKeys.all, 'getScheduleByLecturer'] as const,
+  getScheduleByStudent: () => [...ScheduleKeys.all, 'getScheduleByStudent'] as const,
   getScheduleById: (id: string) =>
     [
       ...ScheduleKeys.all,
@@ -43,6 +45,26 @@ export function useGetSchedulebyId(id: string) {
     ScheduleKeys.getScheduleById(id),
     () =>
       ScheduleApi.getDetailSchedule(getAccessToken.data!.access_token.token, id),
+    { enabled: !getAccessToken.isFetching }
+  )
+}
+export function useGetScheduleByLecturer() {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ScheduleKeys.getScheduleByLecturer(),
+    () =>
+      ScheduleApi.getDetailScheduleByLecturer(getAccessToken.data!.access_token.token),
+    { enabled: !getAccessToken.isFetching }
+  )
+}
+export function useGetScheduleByStudent() {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ScheduleKeys.getScheduleByStudent(),
+    () =>
+      ScheduleApi.getDetailScheduleByStudent(getAccessToken.data!.access_token.token),
     { enabled: !getAccessToken.isFetching }
   )
 }

@@ -2,13 +2,28 @@ import { SideBar } from '@/components/ui/side-bar/side-bar'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { SideBarItemType, SideBarSubItemType } from '@/models/ui/sidebar'
 import produce from 'immer'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import ActionButtons from './action-buttons'
-import { Account, home, business, university, Schedule } from './list-items'
+import {
+  Account,
+  home,
+  tenantlink,
+  Post,
+  Report,
+  Schedule,
+  tenant,
+} from './list-items'
 
-const sidebarAllItems: SideBarItemType[] = [home, university, business, Account, Schedule]
+const sidebarAllItems: SideBarItemType[] = [
+  home,
+  tenant,
+  tenantlink,
+  Account,
+  Schedule,
+  Post,
+  Report,
+]
 const SidebarLayout = (props: {
   sidebarExpanded: boolean
   setSidebarExpanded: (b: boolean) => void

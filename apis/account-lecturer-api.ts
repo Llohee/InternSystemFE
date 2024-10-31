@@ -50,6 +50,39 @@ const accountLecturerApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
+  updateLecturer(
+    accessToken: string,
+    id: string,
+    data: UpdateUserRequest,
+  ): Promise<any> {
+    const url = `/auth/users/update/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteLecturer(accessToken: string, id: string): Promise<any> {
+    const url = `/auth/users/delete/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
+  getLecturerById(accessToken: string, id: string): Promise<UserGetDetail> {
+    const url = `/auth/users/${id}`
+    return axiosClient.get(url, {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      }
+    })
+  },
   getConfigLTWhithoutGroup(accessToken: string): Promise<UserGetDetail[]> {
     const url = '/auth/users/without-group'
     return axiosClient.get(url, {

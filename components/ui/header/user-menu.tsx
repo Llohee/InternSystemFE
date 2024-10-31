@@ -1,7 +1,7 @@
 import { UserDetail } from '@/models/api'
 import { MenuItem } from './header'
 import { Fragment, useState } from 'react'
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, Transition } from '@headlessui/react'
 import InitialImage from '@/components/common/get-initial'
 import Link from 'next/link'
 import {
@@ -86,26 +86,24 @@ export const UserMenu = (props: {
     <>
       <div className="flex gap-4">
         <MenuBar>
-          <Menu.Button className="flex w-full h-full justify-center text-sm font-medium  hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <MenuButton className="flex w-full h-full justify-center items-center text-sm font-medium  hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 p-3">
             {props.listItem ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
+                fill="#FFFF"
                 className="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
+                  fill-rule="evenodd"
+                  d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                  clip-rule="evenodd"
+                ></path>
               </svg>
             ) : (
               <InitialImage name={props.userDetail.fullname} />
             )}
-          </Menu.Button>
+          </MenuButton>
           <MenuBarItems className="!w-72 !mt-4">
             {[...(props.listItem ?? []), ...listMenuItems].map((val, index) =>
               val.link ? (

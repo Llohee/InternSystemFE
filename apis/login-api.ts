@@ -24,19 +24,24 @@ const loginApi = {
   //     { headers: { token: accessToken } }
   //   )
   // },
-  loginWithAccessCode(accessCode: string): Promise<UserDetail> {
-    const url = '/auth/login-ad/'
-    const config = {
-      headers: { 'access-code': accessCode },
-    }
-    return axiosClient.post(url, {}, config)
-  },
+  // loginWithAccessCode(accessCode: string): Promise<UserDetail> {
+  //   const url = '/auth/login-ad/'
+  //   const config = {
+  //     headers: { 'access-code': accessCode },
+  //   }
+  //   return axiosClient.post(url, {}, config)
+  // },
   refreshToken(refreshToken: string): Promise<UserDetail> {
     const config = {
       headers: { 'refresh-token': refreshToken },
     }
     const url = '/auth/refresh-token/'
     return axiosClient.post(url, {}, config)
+  },
+  loginWithAccessCode(data: string): Promise<UserDetail> {
+    const url = '/auth/sso/login_azure'
+  
+    return axiosClient.post(url,{code :data})
   },
 }
 

@@ -6,7 +6,8 @@ import {
 import { Input } from '@/components/ui/input/input'
 import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { usegetConfigBusiness } from '@/hooks/query/business'
+import { usegetConfigTenant } from '@/hooks/query/tenant'
+// import { usegetConfigBusiness } from '@/hooks/query/business'
 import { checkPhoneVN } from '@/hooks/regex'
 import { UpdateUserRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
@@ -19,10 +20,11 @@ export const FormHumanresourceAccount = (props: {
   form: UseFormReturn<UpdateUserRequest, any>
   handleFormSubmit: SubmitHandler<UpdateUserRequest>
   mutation: any
-  userDetail?: UserGetDetail
+  humanresourceDetail?: UserGetDetail
   closeModal: () => void
   resetForm?: () => void
   isEdit?: boolean
+  type: string
 }) => {
   const {
     register,
@@ -45,7 +47,7 @@ export const FormHumanresourceAccount = (props: {
               name="email"
               register={register}
               intent={props.form.formState.errors.email ? 'error' : 'default'}
-              placeholder={'Nhập email trường học'}
+              placeholder={'Nhập email doanh nghiệp'}
               message={props.form.formState.errors.email?.message ?? ''}
               disabled={props.isEdit}
               required
@@ -110,7 +112,7 @@ export const FormHumanresourceAccount = (props: {
             name="business"
             rules={{ required: 'Doanh nghiệp là bắt buộc' }}
             render={({ field: { value, onChange } }) => {
-              const allBusiness = usegetConfigBusiness()
+              const allBusiness = usegetConfigTenant(props.type)
               const [options, setOptions] = useState<any[]>([])
               useEffect(() => {
                 if (allBusiness.data) {
