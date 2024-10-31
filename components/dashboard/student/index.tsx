@@ -65,7 +65,7 @@ const StudentHomePage = () => {
               filterValue={filterValue}
               filterQuery={filterQuery}
               getConfigLocal={getConfigLocal.data}
-              getConfigProfession={getConfigProfession.data}
+              getConfigProfession={getConfigProfession.data.data}
               setFilterValue={setFilterValue}
               setFilterQuery={setFilterQuery}
             />
