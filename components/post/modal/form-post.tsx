@@ -9,6 +9,7 @@ import InputDate from '@/components/ui/input/input-date'
 import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import useGetConfig from '@/hooks/query/config'
+import { useGetConfigPostProfession } from '@/hooks/query/post'
 import { PostDetail, UpdatePostRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
 import { useEffect, useState } from 'react'
@@ -175,15 +176,14 @@ const FormPost = (props: {
             render={({ field: { value, onChange } }) => {
               const [urlConfig, setUrlConfig] = useState<string>('')
               const getConfig = useGetConfig(urlConfig, '', [])
-              const optionsTypeProject = getConfig?.data?.map((val: any) => ({
-                value: val.id,
-                label: val.name,
-              }))
-
-              useEffect(() => {
-                let path = `/post/profession`
-                setUrlConfig(path)
-              }, [])
+              const getConfigProfession = useGetConfigPostProfession()
+              // const getConfig = useGetConfig(urlConfig, '', [])
+              const optionsTypeProject = getConfigProfession.data?.data.map(
+                (val) => ({
+                  value: val.id,
+                  label: val.name,
+                })
+              )
               return (
                 <>
                   <InputSelect

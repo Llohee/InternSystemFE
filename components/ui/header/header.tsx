@@ -13,6 +13,7 @@ import { useGetUserDetail } from '@/hooks/query/auth'
 import { useLogoutNavigate } from '@/hooks/useLogout'
 import { UserMenu } from './user-menu'
 import NotificationMenu from '@/components/notification'
+import { useRoleIsStudent } from '@/components/auth/hooks'
 // import { Tag } from '../tag'
 interface HeaderProps {
   title?: string
@@ -61,9 +62,10 @@ export function Header(props: HeaderProps) {
   }, [router])
 
   const userDetail = useGetUserDetail()
-
   const logoutNavigate = useLogoutNavigate()
-  if (userDetail.data.role == 'ST')
+  const isroleST = useRoleIsStudent()
+  
+  if (isroleST)
     return (
       <div className="w-full top-0 sticky z-[1000]">
         <div className="bg-brand h-14 flex items-center justify-between md:px-8">

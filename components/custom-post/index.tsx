@@ -9,12 +9,13 @@ import PageError from '../page-error/error'
 import { TableSkeleton } from '../ui/skeleton'
 import CustomPostBusinessTable from './table'
 import CreateCustomPostModal from './modal/create-custom-post'
+import { useRoleIsAdminUniversity } from '../auth/hooks'
 
-const CustomPost = () => {
+const CustomPostWrapper = () => {
   const allCusTomPost = useGetAllCustomPost()
   const filterCustomPost = useFilterForCusTomPostStore()
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
-
+  const isRoleAU = useRoleIsAdminUniversity()
   return (
     <>
       <div className="">
@@ -37,56 +38,60 @@ const CustomPost = () => {
               />
             </div>
           </div>
-          <div className="hidden md:flex gap-2 py-1">
-            <Button
-              size={'small'}
-              intent={'primary'}
-              className=" gap-2 items-center"
-              onClick={() => setIsShowModalCreate(true)}
-              bounce
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
+          {!isRoleAU && (
+            <>
+              <div className="hidden md:flex gap-2 py-1">
+                <Button
+                  size={'small'}
+                  intent={'primary'}
+                  className=" gap-2 items-center"
+                  onClick={() => setIsShowModalCreate(true)}
+                  bounce
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
 
-              <span>Tạo mới</span>
-            </Button>
-          </div>
-          <div className="flex flex-col gap-3 md:hidden fixed z-20 bottom-28 right-5">
-            <Button
-              onClick={() => setIsShowModalCreate(true)}
-              intent={'primary'}
-              size="small"
-              iconOnly
-              ariaLabel="Open create service modal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-8 h-8"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </Button>
-          </div>
+                  <span>Tạo mới</span>
+                </Button>
+              </div>
+              <div className="flex flex-col gap-3 md:hidden fixed z-20 bottom-28 right-5">
+                <Button
+                  onClick={() => setIsShowModalCreate(true)}
+                  intent={'primary'}
+                  size="small"
+                  iconOnly
+                  ariaLabel="Open create service modal"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </Button>
+              </div>
+            </>
+          )}
         </div>
         {allCusTomPost.status == 'error' && <PageError />}
         {allCusTomPost.status == 'loading' && <TableSkeleton />}
@@ -107,4 +112,4 @@ const CustomPost = () => {
   )
 }
 
-export default CustomPost
+export default CustomPostWrapper
