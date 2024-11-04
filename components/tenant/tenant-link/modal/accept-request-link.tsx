@@ -1,4 +1,5 @@
 import TenantApi from '@/apis/tenant-api'
+import { useRoleIsAdminUniversity } from '@/components/auth/hooks'
 import { ConfirmModal } from '@/components/common/confirm'
 import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
 import { TenantKeys } from '@/hooks/query/tenant'
@@ -21,19 +22,19 @@ const AcceptRequestLink = (props: {
   tenantDetail: TenantDetail
 }) => {
   const mutation = useRequestLinkMutation(props.closeModal)
-  const userDetail = useGetUserDetail()
+  const isroleAU = useRoleIsAdminUniversity()
   return (
     <>
       <ConfirmModal
         {...props}
         title={'Chấp nhận liên kết'}
         description={`Chấp nhận liên kết với ${
-          userDetail.data.role === 'AU' ? 'doanh nghiệp' : 'nhà trường'
+          isroleAU ? 'doanh nghiệp' : 'nhà trường'
         }`}
         type="Info"
         action={() => {
           mutation.mutate(
-            userDetail.data.role === 'AU'
+            isroleAU
               ? { bussiness_id: [`${props.tenantDetail.id}`] }
               : { university_id: [`${props.tenantDetail.id}`] }
           )
