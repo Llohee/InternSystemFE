@@ -88,7 +88,6 @@ const DetailView = (props: {
           </Link>
         </div>
       </ContainerFormBody>
-      {JSON.stringify(props.tenantDetail.id)}
       <ContainerFormFooter>
         <Button
           btnStyle={'no-background'}

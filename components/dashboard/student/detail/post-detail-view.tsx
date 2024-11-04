@@ -152,12 +152,12 @@ const PostDetailView = (props: { postDetail: PostDetail }) => {
         </div>
         <div className="col-span-1">
           <div className="bg-grey-2 px-8 py-8 rounded-lg grid grid-cols-2 gap-4 col-span-2">
-            <div className="col-span-1">
+            <div className="col-span-1 flex items-center">
               <Image
                 src={props.postDetail.tenant.image_url}
                 alt=""
-                width={100}
-                height={100}
+                width={150}
+                height={150}
                 className="border border-border-1 rounded-md col-span-1"
               />
             </div>

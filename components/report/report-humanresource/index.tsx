@@ -31,15 +31,12 @@ const ReportHUmanresourceWrapper = () => {
             />
           </div>
         </div>
-
-        <div className="flex flex-col gap-3  fixed z-10 bottom-14 right-2">
-          {allProfession.status === 'error' && <PageError />}
-          {allProfession.status === 'loading' && <TableSkeleton />}
-          {allProfession.status === 'success' && (
-            <ListProfession allProfession={allProfession.data} />
-          )}
-        </div>
       </div>
+      {allProfession.status === 'error' && <PageError />}
+      {allProfession.status === 'loading' && <TableSkeleton />}
+      {allProfession.status === 'success' && (
+        <ListProfession allProfession={allProfession.data} />
+      )}
     </>
   )
 }

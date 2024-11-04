@@ -1,5 +1,6 @@
 import notificationApi from '@/apis/notification-api'
 import TenantApi from '@/apis/tenant-api'
+import { useRoleIsAdminUniversity } from '@/components/auth/hooks'
 import { ConfirmModal } from '@/components/common/confirm'
 import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
 import { TenantKeys } from '@/hooks/query/tenant'
@@ -15,19 +16,19 @@ const ConfirmRequestLink = (props: {
   tenantDetail: TenantDetail
 }) => {
   const mutation = useRequestLinkMutation(props.closeModal)
-  const userDetail = useGetUserDetail()
+  const isRoleAU = useRoleIsAdminUniversity()
   return (
     <>
       <ConfirmModal
         {...props}
         title={'Liên kết đến trường học'}
         description={`Yêu cầu sẽ được gửi đến ${
-          userDetail.data.role === 'AU' ? 'doanh nghiệp' : 'nhà trường'
+          isRoleAU ? 'doanh nghiệp' : 'nhà trường'
         }`}
         type="Info"
         action={() => {
           mutation.mutate(
-            userDetail.data.role === 'AU' 
+            isRoleAU
               ? {
                   bussiness_id: `${props.tenantDetail.id}`,
                 }
@@ -44,7 +45,10 @@ const useRequestLinkMutation = (action: () => void) => {
   return useMutation<any, AxiosError, RequestLink, any>(
     (body) =>
       toast.promise(
-        notificationApi.requestLink(getAccessToken.data!.access_token.token, body),
+        notificationApi.requestLink(
+          getAccessToken.data!.access_token.token,
+          body
+        ),
         {
           loading: 'Đang gửi yêu cầu',
           success: 'Yêu cầu đã được gửi thành công',
