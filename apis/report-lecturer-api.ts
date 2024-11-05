@@ -5,7 +5,7 @@ import { trymObject } from "@/utils"
 import { GetAllReportComment, ReportCommentDetail } from "@/models/api/comment-api"
 
 const ReportLecturerApi = {
-  getAllReportLecturer(
+  getAllStudent(
     accessToken: string,
     filter: ReportLecturerFilterRequest,
     profession: string
