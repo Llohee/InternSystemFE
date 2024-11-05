@@ -48,7 +48,8 @@ export interface ReportDetail {
   expired_time: number
   comments: string[]
   activities: ActivityDetail[]
-  score: number
+  score_business: number
+  score_lecturer: number
 }
 export interface CurentReportStudentDetail {
   id: string
