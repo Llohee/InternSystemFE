@@ -60,11 +60,11 @@ const ReportView = (props: {
                       {
                         title: 'Báo cáo',
                         node: <ReportWrapper studentId={props.id} />,
-                      },
-                      {
-                        title: 'Lịch sử',
-                        node: <></>,
-                      },
+                      }
+                      // {
+                      //   title: 'Lịch sử',
+                      //   node: <></>,
+                      // },
                     ]}
                   />
                 </div>

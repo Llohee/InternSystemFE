@@ -1,5 +1,6 @@
 import { ActivityDetail } from "./activities-api"
 import { TypeQuery, TypeSort } from "./common"
+import { UserGetDetail } from "./user-api"
 
 export interface ReportLecturerFilterRequest {
   name: string
@@ -12,15 +13,15 @@ export interface GetAllReportLecturerResponse {
   page: number
   total: number
   total_page: number
-  data: ReportLecturerDetail[]
+  data: UserGetDetail[]
 }
-export interface ReportLecturerDetail {
-  id: string
-  fullname: string
-  code: string
-  email: string
-  phone: string
-}
+// export interface ReportLecturerDetail {
+//   id: string
+//   fullname: string
+//   code: string
+//   email: string
+//   phone: string
+// }
 export interface GetAllReportResponse {
   page: number
   total: number

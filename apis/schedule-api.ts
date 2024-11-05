@@ -51,8 +51,8 @@ const ScheduleApi = {
       },
     })
   },
-  getDetailScheduleByLecturer(accessToken: string): Promise<ScheduleDetail> {
-    const url = '/schedule/schedule_lecturer'
+  getDetailScheduleByLecturer(accessToken: string, student_id: string): Promise<ScheduleDetail> {
+    const url = `/schedule/schedule_lecturer?student_id=${student_id}`
     return axiosClient.get(url, {
       headers: {
         token: accessToken,

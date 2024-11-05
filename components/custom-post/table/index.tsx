@@ -28,7 +28,7 @@ const CustomPostBusinessTable = (props: {
   isPreviousData: boolean
 }) => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [isShowModalDetail, setIsShowModalDetail] = useState(true)
+  const [isShowModalDetail, setIsShowModalDetail] = useState(false)
   const [isShowModalDelete, setIsShowModalDelete] = useState(false)
   const [customPostChoose, setCustomPostChoose] = useState<CustomPostDetail>()
 

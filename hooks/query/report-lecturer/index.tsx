@@ -11,8 +11,8 @@ import { ReportLecturerFilterRequest } from '@/models/api'
 
 export const ReportLecturerKeys = {
   all: ['getAllReportLecturer'] as const,
-  getAllReportLecturer: (filter: ReportLecturerFilterRequest) =>
-    [...ReportLecturerKeys.all, filter, 'getAllReportLecturer'] as const,
+  getAllStudent: (filter: ReportLecturerFilterRequest) =>
+    [...ReportLecturerKeys.all, filter, 'getAllStudent'] as const,
   getReportbyStudentId: (
     studentId: string,
     filter: ReportLecturerFilterRequest
@@ -37,7 +37,7 @@ export const ReportLecturerKeys = {
   ],
 }
 
-export function useGetAllReportLecturer(profession: string) {
+export function useGetAllStudent(profession: string) {
   const getAccessToken = useGetAccessToken()
   const filterUser = useFilterForReportLecturerStore()
   useEffect(() => {
@@ -48,9 +48,9 @@ export function useGetAllReportLecturer(profession: string) {
     )
   }, [filterUser.filter.name])
   return useQuery(
-    ReportLecturerKeys.getAllReportLecturer(filterUser.filter),
+    ReportLecturerKeys.getAllStudent(filterUser.filter),
     () =>
-      ReportLecturerApi.getAllReportLecturer(
+      ReportLecturerApi.getAllStudent(
         getAccessToken.data!.access_token.token,
         filterUser.filter,
         profession
