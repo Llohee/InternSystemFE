@@ -5,7 +5,7 @@ import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { Pill } from '@/components/ui/pill'
 import { Tooltip } from '@/components/ui/tooltip/tooltip'
-import { useGetAllReportLecturer } from '@/hooks/query/report-lecturer'
+import { useGetAllStudent } from '@/hooks/query/report-lecturer'
 import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
 import produce from 'immer'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ interface ReportLecturerProps {
 }
 const ReportLecturerListView = (props: ReportLecturerProps) => {
   const { showList, setShowList } = props
-  const allReportLecturer = useGetAllReportLecturer(props.profession)
+  const allStudent = useGetAllStudent(props.profession)
   const filterReportLecturer = useFilterForReportLecturerStore()
 
   return (
@@ -62,15 +62,6 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
           />
         </svg>
         <span className="hidden group-hover:block text-left">
-          {/* {t(
-            `ticket.filter.default.${
-              defautFilterTicket.find(
-                (e) =>
-                  e === filterReportLecturer.filter.defaultQuery ||
-                  (!Boolean(filterReportLecturer.filter.defaultQuery) && e === 'all')
-              ) ?? 'all'
-            }`
-          )} */}
           Tất cả sinh viên
         </span>
       </Button>
@@ -329,36 +320,33 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
           </div>
           <div className="grow h-[calc(100vh_-_18rem)] md:h-[calc(100vh_-_12rem)] overflow-auto">
             <div className="h-full">
-              {allReportLecturer.status === 'loading' && (
-                <ReportListViewSkeleton />
-              )}
-              {allReportLecturer.status === 'success' &&
-                allReportLecturer.data.data.length <= 0 && (
+              {allStudent.status === 'loading' && <ReportListViewSkeleton />}
+              {allStudent.status === 'success' &&
+                allStudent.data.data.length <= 0 && (
                   <div className="w-full h-full flex justify-center items-center">
                     Không có dữ liệu
                   </div>
                 )}
-              {allReportLecturer.status === 'success' && (
+              {allStudent.status === 'success' && (
                 <>
-                  {allReportLecturer.data.data.map((LecturerId, index) => (
+                  {allStudent.data.data.map((stu, index) => (
                     <Link
-                      href={`/report/lecturer/${LecturerId.id}`}
+                      href={`/report/lecturer/${stu.id}`}
                       onClick={() => setShowList(true)}
                       key={index}
                       className={`group flex py-4 px-6 justify-start text-body-3 gap-2 hover:bg-primary-hover/10 ${
-                        props.idLecturer === LecturerId.id &&
-                        'bg-primary-base/10'
+                        props.idLecturer === stu.id && 'bg-primary-base/10'
                       }`}
                     >
                       <div className="py-2">
                         <Tooltip
                           tootipDetail={
-                            LecturerId.fullname ?? 'Sinh viên: Chưa xác định'
+                            stu.fullname ?? 'Sinh viên: Chưa xác định'
                           }
                           placementTootip="auto-start"
                           dark
                         >
-                          <Avatar name={LecturerId.fullname ?? ''} />
+                          <Avatar name={stu.fullname ?? ''} />
                         </Tooltip>
                       </div>
                       <div className="flex flex-col gap-3">
@@ -366,14 +354,14 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                           <Tooltip
                             tootipDetail={
                               <div className="line-clamp-2 w-52">
-                                {LecturerId.fullname}
+                                {stu.fullname}
                               </div>
                             }
                             placementTootip="auto-start"
                           >
                             <div
                               className={`relative py-0.5 flex flex-wrap gap-1 overflow-hidden h-fit ${
-                                props.idLecturer === LecturerId.id &&
+                                props.idLecturer === stu.id &&
                                 'text-primary-base'
                               }`}
                             >
@@ -381,120 +369,23 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                                 intent="primary"
                                 className="shadow absolute top-0"
                               >
-                                {LecturerId?.code ?? ''}
+                                {stu?.code ?? ''}
                               </Pill> */}
                               <div
                                 className="line-clamp-2"
                                 style={{
                                   textIndent: `${
-                                    LecturerId.code?.length < 6
-                                      ? LecturerId.code?.length * 4.25 + 58
-                                      : LecturerId.code?.length * 5 + 58
+                                    stu.id_number?.length < 6
+                                      ? stu.id_number?.length * 4.25 + 58
+                                      : stu.id_number?.length * 5 + 58
                                   }px`,
                                 }}
                               >
-                                {LecturerId.fullname}
+                                {stu.fullname}
                               </div>
                             </div>
                           </Tooltip>
                         </div>
-                        {/* <div className="flex items-center gap-2 text-subtitle-4">
-                          <span className="font-bold w-20">
-                            {LecturerId.status?.name ?? ''}
-                          </span>
-                          <span className="w-1 h-1 aspect-square bg-black rounded-full"></span>
-                          <div className="flex gap-2 items-cente justify-start">
-                            <div className="flex gap-2 items-center w-full">
-                              <div
-                                className={
-                                  LecturerId.sla?.response_assurance
-                                    ?.is_overdue ||
-                                  LecturerId.sla?.resolving_assurance
-                                    ?.is_overdue
-                                    ? 'text-error-base'
-                                    : ''
-                                }
-                              >
-                                {dayjs(LecturerId.created_time).format(
-                                  DATE_TIME_FORMAT_VIEW
-                                )}
-                              </div>
-
-                              <div className="!whitespace-normal !overflow-auto">
-                                <Tooltip
-                                  placementTootip="top"
-                                  tootipDetail={
-                                    <GetDataSLAFull
-                                      ticketID={LecturerId.id}
-                                      sla={LecturerId.sla}
-                                    />
-                                  }
-                                >
-                                  <div className="flex gap-1 ">
-                                    {LecturerId.sla?.response_assurance
-                                      ?.is_overdue && (
-                                      <>
-                                        <div className="text-subtitle-3 lg:flex lg:flex-wrap items-center gap-1 text-error-base">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-4 h-4"
-                                          >
-                                            <path
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                                            />
-                                          </svg>
-                                        </div>
-                                      </>
-                                    )}
-                                    {LecturerId.sla?.resolving_assurance
-                                      ?.is_overdue && (
-                                      <>
-                                        <div className="text-subtitle-3 hidden lg:flex lg:flex-wrap items-center gap-1 text-error-base ">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-4 h-4 fill-error-base"
-                                          >
-                                            <path
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                              d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
-                                            />
-                                          </svg>
-                                        </div>
-                                        <div className="lg:hidden">
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-4 h-4 fill-error-base text-error-base"
-                                          >
-                                            <path
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                              d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
-                                            />
-                                          </svg>
-                                        </div>
-                                      </>
-                                    )}
-                                  </div>
-                                </Tooltip>
-                              </div>
-                            </div>
-                          </div>
-                        </div> */}
                       </div>
                     </Link>
                   ))}
@@ -502,7 +393,7 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
               )}
             </div>
           </div>
-          {allReportLecturer.status === 'success' && (
+          {allStudent.status === 'success' && (
             <div className="w-full flex bg-grey-1 py-2 justify-center">
               <div>
                 <Pagination
@@ -516,8 +407,8 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                       )
                     )
                   }}
-                  pageCurrent={allReportLecturer.data.page + 1}
-                  totalPage={allReportLecturer.data.total_page}
+                  pageCurrent={allStudent.data.page + 1}
+                  totalPage={allStudent.data.total_page}
                 />
               </div>
             </div>

@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/button/button'
 import { SearchIcon } from '@/components/ui/icon'
 import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { TableSkeleton } from '@/components/ui/skeleton'
-import { ReportLecturerDetail } from '@/models/api'
+import { UserGetDetail } from '@/models/api'
 import produce from 'immer'
 import { useEffect, useRef, useState } from 'react'
 import ReportTable from './table'
-import { useGetAllReportLecturer } from '@/hooks/query/report-lecturer'
+import { useGetAllStudent } from '@/hooks/query/report-lecturer'
 import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-report-lecturer'
 import { useRouter } from 'next/router'
 import { useRoleIsLecturer } from '@/components/auth/hooks'
@@ -18,11 +18,11 @@ const ReportLecturerWrapper = (props: { profession: string }) => {
   const [totalReportLecturer, setTotalReportLecturer] = useState(0)
 
   const [ReportLecturerChoose, setReportLecturerChoose] =
-    useState<ReportLecturerDetail[]>()
+    useState<UserGetDetail[]>()
   const filterReportLecturer = useFilterForReportLecturerStore()
   const router = useRouter()
 
-  const allReportLecturer = useGetAllReportLecturer(props.profession)
+  const allReportLecturer = useGetAllStudent(props.profession)
   const tableRef = useRef<any>()
   useEffect(() => {
     if (allReportLecturer.status === 'success')
@@ -139,6 +139,7 @@ const ReportLecturerWrapper = (props: { profession: string }) => {
             getAllReportLecturerData={allReportLecturer.data}
             setReportLecturerChoose={setReportLecturerChoose}
             isPreviousData={allReportLecturer.isPreviousData}
+            profession={props.profession}
           />
         )}
       </div>

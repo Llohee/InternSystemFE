@@ -48,13 +48,13 @@ export function useGetSchedulebyId(id: string) {
     { enabled: !getAccessToken.isFetching }
   )
 }
-export function useGetScheduleByLecturer() {
+export function useGetScheduleByLecturer(student_id: string) {
   const getAccessToken = useGetAccessToken()
 
   return useQuery(
     ScheduleKeys.getScheduleByLecturer(),
     () =>
-      ScheduleApi.getDetailScheduleByLecturer(getAccessToken.data!.access_token.token),
+      ScheduleApi.getDetailScheduleByLecturer(getAccessToken.data!.access_token.token, student_id),
     { enabled: !getAccessToken.isFetching }
   )
 }

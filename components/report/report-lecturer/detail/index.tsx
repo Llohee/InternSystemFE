@@ -52,7 +52,7 @@ const ReportLecturerViewWrapper = (props: {
   isOpenSideListReport: boolean
 }) => {
   const router = useRouter()
-  const scheduleLecturer = useGetScheduleByLecturer()
+  const scheduleLecturer = useGetScheduleByLecturer(props.id)
   const studentByID = useGetStudentById(props.id)
   if (scheduleLecturer.status === 'loading' || studentByID.status === 'loading')
     return <ReportDetailSkeleton />

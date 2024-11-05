@@ -18,7 +18,7 @@ import React, {
   useState,
 } from 'react'
 import { DATE_FORMAT_VIEW } from '@/components/common/constant'
-import { GetAllReportLecturerResponse, ReportLecturerDetail } from '@/models/api'
+import { GetAllReportLecturerResponse, UserGetDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import { Tooltip } from '@/components/ui/tooltip/tooltip'
 import Link from 'next/link'
@@ -26,8 +26,9 @@ import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-repo
 
 interface ReportLecturersProps {
   getAllReportLecturerData: GetAllReportLecturerResponse
-  setReportLecturerChoose: (ReportLecturer: ReportLecturerDetail[]) => void
+  setReportLecturerChoose: (ReportLecturer: UserGetDetail[]) => void
   isPreviousData: boolean
+  profession: string
 }
 
 const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
@@ -45,7 +46,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
     []
   )
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
-  const [userChoose, setUserChoose] = useState<ReportLecturerDetail>()
+  const [userChoose, setUserChoose] = useState<UserGetDetail>()
   const {
     toggleChooseAllItem,
     toggleChooseItem,
@@ -53,7 +54,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
     clearChooseItems,
     chooseAllItems,
     itemChoose,
-  } = useChooseMulti<ReportLecturerDetail>({ data: data })
+  } = useChooseMulti<UserGetDetail>({ data: data })
   useEffect(() => {
     filterUser.update(
       produce(filterUser.filter, (draftState: any) => {
@@ -83,7 +84,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
     setDataChoose(props.getAllReportLecturerData.data)
     clearChooseItems()
   }, [props.getAllReportLecturerData])
-  const columnHelper = createColumnHelper<ReportLecturerDetail>()
+  const columnHelper = createColumnHelper<UserGetDetail>()
 
   const columns = [
     columnHelper.display({
@@ -99,11 +100,11 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
       enableColumnFilter: true,
       meta: 'w-stt',
     }),
-    columnHelper.accessor('code', {
+    columnHelper.accessor('id_number', {
       header: 'MSSV',
       cell: (info) => (
         <Link
-          href={`report/${info.row.original.id}`}
+          href={`report/${info.row.original.id}?profession=${props.profession}`}
           className="relative text-primary-base truncate"
         >
           <div className="max-w-[210px] truncate">{info.getValue()}</div>
@@ -116,7 +117,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
       header: 'Tên sinh viên',
       cell: (info) => (
         <Link
-          href={`lecturer/${info.row.original.id}`}
+          href={`lecturer/${info.row.original.id}?profession=${props.profession}`}
           className="relative hover:text-primary-base truncate"
         >
           <div className="max-w-[210px] truncate">{info.getValue()}</div>
@@ -138,7 +139,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
             placementTootip="bottom-start"
           >
             <Link
-              href={`lecturer/${info.row.original.id}`}
+              href={`lecturer/${info.row.original.id}?profession=${props.profession}`}
               className="relative hover:text-primary-base truncate"
             >
               <div className="max-w-[210px] truncate">{info.getValue()}</div>
