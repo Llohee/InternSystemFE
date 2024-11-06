@@ -55,6 +55,7 @@ export const useUniversityUpdate = (closeModal: () => void, tenant: TenantDetail
       code: tenant.code,
       // website: tenant.website,
       // location: tenant.location,
+      image_url: tenant.image_url.object,
       is_active: tenant.is_active,
     },
   })

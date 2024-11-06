@@ -62,7 +62,7 @@ const UpdateModal = (props: {
         title={
           <div className="w-full flex gap-3 items-center">
             <div className="grow text-heading-7 text-typography-title">
-              Chỉnh sửa doanh nghiệp
+              Chỉnh sửa trường học
             </div>
             <Button
               iconOnly
@@ -98,6 +98,7 @@ const UpdateModal = (props: {
               closeModal()
             }}
             universityDetail={props.universityDetail}
+            isEdit={true}
           />
         </div>
         <ConfirmCloseModal

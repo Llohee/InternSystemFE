@@ -98,6 +98,7 @@ const UpdateModal = (props: {
               closeModal()
             }}
             businessDetail={props.businessDetail}
+            isEdit={true}
           />
         </div>
         <ConfirmCloseModal

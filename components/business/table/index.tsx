@@ -86,33 +86,33 @@ const BusinessTable = (props: BusinesssProps, ref: any) => {
   const columnHelper = createColumnHelper<TenantDetail>()
 
   const columns = [
-    columnHelper.display({
-      id: 'choose',
-      header: () => (
-        <input
-          type={'checkbox'}
-          checked={chooseAllItems()}
-          onChange={(e) => {
-            toggleChooseAllItem(e.target.checked)
-          }}
-          className=""
-        />
-      ),
-      cell: (propsCell) => (
-        <input
-          type={'checkbox'}
-          checked={
-            itemChoose.find((val: any) => val === propsCell.row.original) !=
-            undefined
-          }
-          onChange={() => {
-            toggleChooseItem(propsCell.row.original)
-          }}
-        />
-      ),
-      enableColumnFilter: false,
-      meta: 'w-choose',
-    }),
+    // columnHelper.display({
+    //   id: 'choose',
+    //   header: () => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={chooseAllItems()}
+    //       onChange={(e) => {
+    //         toggleChooseAllItem(e.target.checked)
+    //       }}
+    //       className=""
+    //     />
+    //   ),
+    //   cell: (propsCell) => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={
+    //         itemChoose.find((val: any) => val === propsCell.row.original) !=
+    //         undefined
+    //       }
+    //       onChange={() => {
+    //         toggleChooseItem(propsCell.row.original)
+    //       }}
+    //     />
+    //   ),
+    //   enableColumnFilter: false,
+    //   meta: 'w-choose',
+    // }),
     columnHelper.display({
       id: 'number',
       header: () => 'STT',
@@ -230,13 +230,13 @@ const BusinessTable = (props: BusinesssProps, ref: any) => {
     debugTable: true,
   })
   React.useEffect(() => {
-    if (table.getState().columnFilters[0]?.id === 'fullName') {
-      if (table.getState().sorting[0]?.id !== 'fullName') {
-        table.setSorting([{ id: 'fullName', desc: false }])
+    if (table.getState().columnFilters[0]?.id === 'name') {
+      if (table.getState().sorting[0]?.id !== 'name') {
+        table.setSorting([{ id: 'name', desc: false }])
       }
     }
   }, [table.getState().columnFilters[0]?.id])
-  
+
   return (
     <>
       <TableView table={table} className="h-table-regular" />
