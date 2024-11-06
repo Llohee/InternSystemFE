@@ -15,13 +15,6 @@ export interface GetAllReportLecturerResponse {
   total_page: number
   data: UserGetDetail[]
 }
-// export interface ReportLecturerDetail {
-//   id: string
-//   fullname: string
-//   code: string
-//   email: string
-//   phone: string
-// }
 export interface GetAllReportResponse {
   page: number
   total: number

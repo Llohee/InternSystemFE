@@ -8,6 +8,7 @@ import { SwitchButton } from '@/components/ui/switch/switch'
 import { Uploader } from '@/components/ui/upload/upload'
 import { TenantDetail, UpdateTenantRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
+import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -114,6 +115,7 @@ export const FormBusiness = (props: {
             {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
           </Button>
         </ContainerFormFooter>
+        <DevTool control={props.form.control} />
       </form>
     </>
   )
