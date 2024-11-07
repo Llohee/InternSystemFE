@@ -15,8 +15,8 @@ const ConfirmRequestLink = (props: {
   closeModal: () => void
   tenantDetail: TenantDetail
 }) => {
-  const mutation = useRequestLinkMutation(props.closeModal)
   const isRoleAU = useRoleIsAdminUniversity()
+  const mutation = useRequestLinkMutation(props.closeModal, isRoleAU)
   return (
     <>
       <ConfirmModal
@@ -40,14 +40,15 @@ const ConfirmRequestLink = (props: {
     </>
   )
 }
-const useRequestLinkMutation = (action: () => void) => {
+const useRequestLinkMutation = (action: () => void, isRoleAU: boolean) => {
   const getAccessToken = useGetAccessToken()
   return useMutation<any, AxiosError, RequestLink, any>(
     (body) =>
       toast.promise(
         notificationApi.requestLink(
           getAccessToken.data!.access_token.token,
-          body
+          body,
+          isRoleAU
         ),
         {
           loading: 'Đang gửi yêu cầu',
