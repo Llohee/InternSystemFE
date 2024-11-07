@@ -77,7 +77,7 @@ const PostApi = {
   //     },
   //   })
   // },
-  getAllPostBusiness(
+  getAllPostTenant(
     accessToken: string,
     filter: PostFilterRequest,
     tenant: string

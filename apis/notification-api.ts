@@ -43,9 +43,10 @@ const notificationApi = {
   },
   requestLink(
     accessToken: string,
-    data: RequestLink
+    data: RequestLink,
+    isRoleAU: boolean
   ): Promise<any> {
-    const url = `/auth/users/notify/university-link`
+    const url = `/auth/users/notify/${isRoleAU ? "bussiness-link" : "university-link"}`
     // const url = `/auth/users/notify/bussiness-link`
     const config = {
       headers: {
