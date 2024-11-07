@@ -10,8 +10,8 @@ export const PostKeys = {
   all: ['getAllPost'] as const,
   getAllPost: (filter: PostFilterRequest) =>
     [...PostKeys.all, filter, 'getAllPost'] as const,
-  getAllPostBusiness: (filter: PostFilterRequest) =>
-    [...PostKeys.all, filter, 'getAllPostBusiness'] as const,
+  getAllPostTenant: (filter: PostFilterRequest) =>
+    [...PostKeys.all, filter, 'getAllPostTenant'] as const,
   getConfigPostLocal: () =>
     [...PostKeys.all, 'getConfigPostLocal'] as const,
   getAllProfession: (filter: ProfessionsFilterRequest) =>
@@ -103,9 +103,9 @@ export function useGetAllPostBusiness(tenant: string) {
     )
   }, [filterPost.filter.profession])
   return useQuery(
-    PostKeys.getAllPostBusiness(filterPost.filter),
+    PostKeys.getAllPostTenant(filterPost.filter),
     () =>
-      PostApi.getAllPostBusiness(
+      PostApi.getAllPostTenant(
         getAccessToken.data!.access_token.token,
         filterPost.filter,
         tenant

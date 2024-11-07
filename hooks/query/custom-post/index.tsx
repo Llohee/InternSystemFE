@@ -8,7 +8,7 @@ import CustomPostApi from '@/apis/custom-post'
 
 export const CustomPostKeys = {
   all: ['getAllCustomPost'] as const,
-  getAllPost: (filter: CustomPostFilterRequest) =>
+  getAllCustomPost: (filter: CustomPostFilterRequest) =>
     [...CustomPostKeys.all, filter, 'getAllCustomPost'] as const,
 }
 
@@ -23,9 +23,9 @@ export function useGetAllCustomPost() {
     )
   }, [filterPost.filter.title])
   return useQuery(
-    CustomPostKeys.getAllPost(filterPost.filter),
+    CustomPostKeys.getAllCustomPost(filterPost.filter),
     () =>
-      CustomPostApi.getAllPost(
+      CustomPostApi.getAllCustomPost(
         getAccessToken.data!.access_token.token,
         filterPost.filter
       ),
