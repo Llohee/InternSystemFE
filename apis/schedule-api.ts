@@ -69,7 +69,6 @@ const ScheduleApi = {
       }
     })
   },
-
   updateSchedule(
     accessToken: string,
     data: UpdateScheduleRequest,
@@ -83,6 +82,16 @@ const ScheduleApi = {
       },
     }
     return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteSchedule(accessToken: string, id: string): Promise<any> {
+    const url = `/schedule/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
   },
   updateActiveSchedule(
     accessToken: string,

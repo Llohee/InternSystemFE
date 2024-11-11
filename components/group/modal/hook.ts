@@ -54,7 +54,6 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
       name: group.name,
       lecturer: group.lecturer.id,
       students: group.students.map((e) => e.id)
-
     },
   })
 
