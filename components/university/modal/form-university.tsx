@@ -72,6 +72,17 @@ export const FormUniversity = (props: {
             control={props.form.control}
             name="image_url"
             required={true}
+            fileTypes={[
+              'jpeg',
+              'png',
+              'gif',
+              'bmp',
+              'webp',
+              'svg+xml',
+              'tiff',
+              'heic',
+              'heif',
+            ]}
           />
           {props.mutation.error && (
             <div className="col col-span-full mt-5 text-error-base text-label-5">
