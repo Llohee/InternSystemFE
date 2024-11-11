@@ -1,7 +1,7 @@
 import ScheduleApi from '@/apis/schedule-api'
 import { ConfirmModal } from '@/components/common/confirm'
 import { useGetAccessToken } from '@/hooks/query/auth'
-import { TenantKeys } from '@/hooks/query/tenant'
+import { ScheduleKeys } from '@/hooks/query/schedule'
 import { ErrorResponse, ScheduleDetail } from '@/models/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -50,7 +50,7 @@ const useDeleteScheduleMutation = (action: () => void) => {
       ),
     {
       onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries(TenantKeys.all)
+        queryClient.invalidateQueries(ScheduleKeys.all)
         action()
       },
     }
