@@ -23,6 +23,14 @@ export interface TenantDetail {
   location: string
   website: string
   image_url: any
+  receiver_university?: {
+    status: "Pending"
+    university_notlink: string
+  }[]
+  receiver_bussiness?: {
+    status: "Pending"
+    bussiness_notlink: string
+  }[]
 }
 export interface UpdateTenantRequest {
   code: string

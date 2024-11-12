@@ -1,31 +1,33 @@
 import { stringToRGB } from '@/components/common/get-initial'
 import { Tag } from '@/components/ui/tag'
 import { ColorStatus } from '@/models/api'
-export const StudentStatusOptions: {
+export const StatusView: {
   label: string
-  value: 'Pending' | 'HR Approver' | 'AU Approver'
+  value: 'Not link' | 'Processed' | 'Pending'
   color: string
 }[] = [
+  {
+    label: 'Chưa liên kết',
+    value: 'Not link',
+    color: ColorStatus.find(
+      (e) => e.name.toLowerCase() == 'chờ bổ sung thông tin'
+    )!.value,
+  },
   {
     label: 'Chờ phê duyệt',
     value: 'Pending',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'chưa xử lý')!.value,
   },
   {
-    label: 'Doanh nghiệp đã phê duyệt',
-    value: 'HR Approver',
-    color: ColorStatus.find((e) => e.name.toLowerCase() == 'chờ bổ sung thông tin')!.value,
-  },
-  {
-    label: 'Nhà trường đã phê duyệt',
-    value: 'AU Approver',
+    label: 'Đã liên kết',
+    value: 'Processed',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
   },
 ]
-export const ViewStatusStudent = (props: {
-  status: 'Pending' | 'HR Approver' | 'AU Approver'
+export const ViewStatusTenantLink = (props: {
+  status: 'Not link' | 'Processed' | 'Pending'
 }) => {
-  const color = StudentStatusOptions.find((e) => e.value === props.status)?.color
+  const color = StatusView.find((e) => e.value === props.status)?.color
   return (
     <Tag
       color={color}
@@ -38,7 +40,7 @@ export const ViewStatusStudent = (props: {
           background: `${color}`,
         }}
       />
-      {StudentStatusOptions.find((e) => e.value === props.status)?.label}
+      {StatusView.find((e) => e.value === props.status)?.label}
     </Tag>
   )
 }

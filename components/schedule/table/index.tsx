@@ -114,6 +114,7 @@ const ScheduleTable = (props: SchedulesProps, ref: any) => {
           onChange={() => {
             toggleChooseItem(propsCell.row.original)
           }}
+          disabled={propsCell.row.original.type === 'DEFAULT' && true}
         />
       ),
       enableColumnFilter: false,
@@ -165,7 +166,7 @@ const ScheduleTable = (props: SchedulesProps, ref: any) => {
       id: 'action',
       header: () => 'Tác vụ',
       cell: (info) => (
-        <div className="flex gap-2">
+        <div className="flex gap-2 !justify-end !items-start">
           <Button
             intent="grey"
             iconOnly
@@ -202,7 +203,6 @@ const ScheduleTable = (props: SchedulesProps, ref: any) => {
           <input
             type={'checkbox'}
             checked={info.row.original.is_active === true}
-            onChange={() => {}}
             onClick={() => {
               setIsShowModalActiveSchedule(true)
               setScheduleChoose(info.row.original)
@@ -218,6 +218,7 @@ const ScheduleTable = (props: SchedulesProps, ref: any) => {
               setIsShowModalDelete(true)
               setScheduleChoose(info.row.original)
             }}
+            disabled={info.row.original.type === 'DEFAULT' && true}
           >
             <svg
               width="17"
