@@ -7,7 +7,7 @@ import {
 import { PostDetail } from '@/models/api'
 import ConfirmApproveModal from './confirm-approve'
 import { useState } from 'react'
-import { ViewStatusStudent } from '../common/status-view'
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 
 const ApplyPost = (props: {
   postDetail: PostDetail

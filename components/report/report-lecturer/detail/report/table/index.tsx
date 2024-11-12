@@ -127,7 +127,7 @@ const ReportTable = (props: ReportProps, ref: any) => {
         </button>
       ),
       enableColumnFilter: true,
-      meta: 'w-switch',
+      meta: 'w-boolean',
     }),
     columnHelper.accessor('milestone', {
       id: 'milestone',
@@ -143,13 +143,6 @@ const ReportTable = (props: ReportProps, ref: any) => {
       ),
       enableColumnFilter: true,
       meta: 'w-time',
-    }),
-    columnHelper.accessor('status', {
-      id: 'status',
-      header: 'Trạng thái',
-      cell: (info) => <ViewStatusReport status={info.getValue()} />,
-      enableColumnFilter: true,
-      meta: 'w-boolean',
     }),
     columnHelper.accessor('upload_time', {
       id: 'upload_time',
@@ -206,6 +199,13 @@ const ReportTable = (props: ReportProps, ref: any) => {
       enableColumnFilter: true,
       sortDescFirst: false,
       meta: 'w-description',
+    }),
+    columnHelper.accessor('status', {
+      id: 'status',
+      header: 'Trạng thái',
+      cell: (info) => <ViewStatusReport status={info.getValue()} />,
+      enableColumnFilter: true,
+      meta: 'w-report_status',
     }),
     columnHelper.accessor('score_lecturer', {
       id: 'score_lecturer',

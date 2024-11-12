@@ -12,12 +12,13 @@ export type UserDetail = {
   create_time: string
   // activities: string
   university?: string
-  business?:string
+  business?: string
   access_token: {
     expireAt: number
     token: string
   }
   tenant: {
+    id: string
     name: string
     code: string
     image_url: string

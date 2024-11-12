@@ -1,4 +1,3 @@
-import { ViewStatusStudent } from '@/components/post/common/status-view'
 import Avatar from '@/components/ui/avatar/avatar'
 import { Button } from '@/components/ui/button/button'
 import {
@@ -8,6 +7,7 @@ import {
 import { PostDetail } from '@/models/api'
 import { useState } from 'react'
 import TenantConfirmApproveModal from './confirm-approve'
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 
 const TenantApplyPost = (props: {
   postDetail: PostDetail

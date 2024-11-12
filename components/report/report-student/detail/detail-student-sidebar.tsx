@@ -1,4 +1,5 @@
-import { ViewStatusStudent } from '@/components/report/report-lecturer/common/status-view'
+// import { ViewStatusStudent } from '@/components/tenant/tenant-link/common/status-view'
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 import Avatar from '@/components/ui/avatar/avatar'
 import { UserGetDetail } from '@/models/api'
 

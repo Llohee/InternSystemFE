@@ -3,7 +3,7 @@ import { Modal } from '@/components/ui/modal/modal'
 
 import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { useState } from 'react'
-import { TenantDetail } from '@/models/api'
+import { TenantDetail, UserDetail, UserGetDetail } from '@/models/api'
 import { useGetTenantById } from '@/hooks/query/tenant'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { ModalLoading } from '@/components/ui/skeleton'
@@ -15,27 +15,18 @@ const TenantDetailViewModal = (props: {
   tenantDetail: TenantDetail
   type: string
 }) => {
-  // const useDetail = useGetUserDetail()
+  const useDetail = useGetUserDetail()
   // const getTenantById = useGetTenantById(
   //   props.tenantDetail.id,
   //   useDetail.data.role === 'AU' ? 'business' : 'university'
   // )
-  // if (getTenantById.status === 'loading')
-  //   return (
-  //     <ModalLoading
-  //       length={5}
-  //       size="xl"
-  //       isOpen={props.isOpen}
-  //       closeModal={props.closeModal}
-  //     />
-  //   )
-  // if (getTenantById.status === 'error') return <></>
   return (
     <>
       <TenantDetailView
         isOpen={props.isOpen}
         closeModal={props.closeModal}
         tenantDetail={props.tenantDetail}
+        userDetail={useDetail.data}
         type={props.type}
       />
     </>
@@ -45,6 +36,7 @@ const TenantDetailView = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  userDetail: UserDetail
   type: string
 }) => {
   // const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
@@ -69,6 +61,7 @@ const TenantDetailView = (props: {
           <DetailView
             tenantDetail={props.tenantDetail}
             closeModal={props.closeModal}
+            userDetail={props.userDetail}
             type={props.type}
           />
         </div>
