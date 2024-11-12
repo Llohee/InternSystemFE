@@ -7,12 +7,12 @@ import { ScheduleDetail, UserGetDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { StatusView, ViewStatusStudent } from '../common/status-view'
 import ReportWrapper from './report'
 import { Tag } from '@/components/ui/tag'
 import Image from 'next/image'
 import waitingDev from '@/public/images/wating-dev.png'
 import Link from 'next/link'
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 
 const ReportView = (props: {
   id: string
@@ -60,7 +60,7 @@ const ReportView = (props: {
                       {
                         title: 'Báo cáo',
                         node: <ReportWrapper studentId={props.id} />,
-                      }
+                      },
                       // {
                       //   title: 'Lịch sử',
                       //   node: <></>,
@@ -116,7 +116,7 @@ const DetailSideBar = (props: {
                 {props.studentById.dataCvApply.map((item, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-2 gap-2 bg-white p-2 shadow-sm rounded-lg"
+                    className="grid grid-cols-2 gap-2 bg-grey-1 p-2 shadow-sm rounded-lg items-center"
                   >
                     <Image
                       src={item.tenant.image_url ?? ''}
@@ -139,7 +139,7 @@ const DetailSideBar = (props: {
                 ))}
               </div>
             )}
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <div className="text-heading-8">Hạn nộp báo cáo</div>
               {props.scheduleLecturer.milestones.map((e) => {
                 return (
@@ -149,7 +149,7 @@ const DetailSideBar = (props: {
                   </Tag>
                 )
               })}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mt-6">
@@ -165,7 +165,36 @@ const DetailSideBar = (props: {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-3 py-5 text-button-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-4 py-5 text-button-3">
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">Khoa:</p>
+              <p>{props.studentById.faculty}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">Viện:</p>
+              <p>{props.studentById.institute}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">Ngành:</p>
+              <p>{props.studentById.major}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">Lớp:</p>
+              <p>{props.studentById.class}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">CTĐT:</p>
+              <p>{props.studentById.program_training}</p>
+            </div>
+            <div className="flex gap-2">
+              <p className="text-title-3 text-typography-title">Niên Khóa:</p>
+              <p>
+                {dayjs(props.studentById.academic_year.start).format('YYYY')} -{' '}
+                {dayjs(props.studentById.academic_year.end).format('YYYY')}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 text-button-3">
             <div className="flex gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

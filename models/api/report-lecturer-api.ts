@@ -35,7 +35,7 @@ export interface ReportDetail {
     description: string
     time: string
   }
-  status: 'OVERDUE' | 'ONTIME'
+  status: 'WAITTING_SCORE' | 'BUSINESS_CHECKED' | 'LECTURER_CHECKED'
   attachments: any
   upload_time: string
   expired_time: number

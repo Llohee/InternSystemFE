@@ -3,27 +3,27 @@ import { Tag } from '@/components/ui/tag'
 import { ColorStatus } from '@/models/api'
 export const reportStatusOptions: {
   label: string
-  value: 'OVERDUE' | 'LECTURER_CHECKED' | 'ONTIME'
+  value: 'WAITTING_SCORE' | 'BUSINESS_CHECKED' | 'LECTURER_CHECKED'
   color: string
 }[] = [
   {
-    label: 'Quá hạn',
-    value: 'OVERDUE',
-    color: ColorStatus.find((e) => e.name.toLowerCase() == 'quá hạn')!.value,
+    label: 'Chờ chấm điểm',
+    value: 'WAITTING_SCORE',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
   },
   {
-    label: 'Đang chấm',
+    label: 'Doanh nghiệp đã chấm',
+    value: 'BUSINESS_CHECKED',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'chưa xử lý')!.value,
+  },
+  {
+    label: 'Giảng viên đã chấm',
     value: 'LECTURER_CHECKED',
-    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
-  },
-  {
-    label: 'Đang thực tập',
-    value: 'ONTIME',
-    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đang chấm')!.value,
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
   },
 ]
 export const ViewStatusReport = (props: {
-  status: 'OVERDUE' | 'LECTURER_CHECKED' | 'ONTIME'
+  status: 'WAITTING_SCORE' | 'BUSINESS_CHECKED' | 'LECTURER_CHECKED'
 }) => {
   const color = reportStatusOptions.find((e) => e.value === props.status)?.color
   return (
