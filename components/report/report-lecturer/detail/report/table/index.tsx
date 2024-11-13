@@ -207,8 +207,8 @@ const ReportTable = (props: ReportProps, ref: any) => {
       enableColumnFilter: true,
       meta: 'w-report_status',
     }),
-    columnHelper.accessor('score_lecturer', {
-      id: 'score_lecturer',
+    columnHelper.accessor('score_business', {
+      id: 'score_business',
       header: 'Điểm số doanh nghiệp',
       cell: (info) => (
         <div id="cell-enable-overflow" className="flex items-center gap-2">
