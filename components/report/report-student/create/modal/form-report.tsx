@@ -23,7 +23,7 @@ const FormReport = (props: {
   return (
     <>
       <form onSubmit={handleSubmit(props.handleFormSubmit)}>
-        <ContainerFormBody>
+        <ContainerFormBody className="h-[275.2px]">
           <Input<UpdateReportRequest>
             label="Ghi chú"
             name="description"
@@ -66,13 +66,15 @@ const FormReport = (props: {
           >
             Hủy
           </Button>
-          <Button
-            posting={props.mutation.isLoading}
-            intent={props.isEdit ? 'primary' : 'primary'}
-            type={'submit'}
-          >
-            {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
-          </Button>
+          {!props.isEdit && (
+            <Button
+              posting={props.mutation.isLoading}
+              intent={'primary'}
+              type={'submit'}
+            >
+              Tạo mới
+            </Button>
+          )}
         </ContainerFormFooter>
       </form>
     </>

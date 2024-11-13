@@ -56,7 +56,6 @@ const Createreport = (props: {
         closeModal={closeModal}
         size="large"
         className="!max-w-large"
-        hideBorder
         appear={false}
       >
         <FormReport

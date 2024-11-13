@@ -51,7 +51,7 @@ export const CustomComboboxOptions = React.forwardRef<
   <ComboboxOptions
     ref={ref}
     className={cx(
-      'absolute z-40 my-3 max-h-16 w-full list-none overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+      'absolute z-40 my-3 max-h-32 w-full list-none overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
       className
     )}
     // anchor="bottom"

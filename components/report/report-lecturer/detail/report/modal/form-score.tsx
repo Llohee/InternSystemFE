@@ -1,11 +1,18 @@
-import { ContainerFormBody } from '@/components/ui/container'
+import {
+  ContainerFormBody,
+  ContainerFormFooter,
+} from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { Uploader } from '@/components/ui/upload/upload'
 import { ReportDetail, UpdateReportRequest } from '@/models/api'
 import { UseFormReturn } from 'react-hook-form'
 import { useScoreCreate } from './hook'
 import { Button } from '@/components/ui/button/button'
-import { useRoleIsHumanResource } from '@/components/auth/hooks'
+import {
+  useRoleIsHumanResource,
+  useRoleIsLecturer,
+} from '@/components/auth/hooks'
+import { Pill } from '@/components/ui/pill'
 
 const FromScore = (props: {
   report: ReportDetail
@@ -14,6 +21,7 @@ const FromScore = (props: {
 }) => {
   const { register } = props.form
   const isRoleHR = useRoleIsHumanResource()
+  const isRoleLT = useRoleIsLecturer()
   const { createScore, handleFormSubmit, mutation } = useScoreCreate(
     props.report.id,
     isRoleHR
@@ -42,51 +50,73 @@ const FromScore = (props: {
           required={true}
           disabled
         />
+        {props.report.score_business && (
+          <div className="text-label-3 text-typography-label grid grid-cols-11 items-center">
+            <div className="col-span-3">Điếm số Doanh nghiệp:</div>
+            <div className="">
+              {props.report.score_business > 3 ? (
+                <Pill intent="success">{props.report.score_business}</Pill>
+              ) : (
+                <Pill intent="error">{props.report.score_business}</Pill>
+              )}
+            </div>
+          </div>
+        )}
+        {props.report.score_lecturer && (
+          <div className="text-label-3 text-typography-label grid grid-cols-11 items-center">
+            <div className="col-span-3">Điếm số Giảng viên:</div>
+            <div className="">
+              {props.report.score_lecturer > 3 ? (
+                <Pill intent="success">{props.report.score_lecturer}</Pill>
+              ) : (
+                <Pill intent="error">{props.report.score_lecturer}</Pill>
+              )}
+            </div>
+          </div>
+        )}
         <form
           className=""
           onSubmit={createScore.handleSubmit(handleFormSubmit)}
         >
-          <div className="flex gap-3 w-full pb-2.5">
-            <Input
-              label="Điểm số doanh nghiệp"
-              name="score_business"
-              register={createScore.register}
-              intent={
-                props.form.formState.errors.description ? 'error' : 'default'
-              }
-              type="number"
-              placeholder={'Nhập điểm số'}
-              defautValue={
-                props.report?.score_business
-                  ? String(props.report.score_business)
-                  : 'Chưa có điểm'
-              }
-              message={props.form.formState.errors.description?.message ?? ''}
-              disabled={isRoleHR ? false : true}
-              required={isRoleHR ? true : false}
-            />
-            <Input
-              label="Điểm số giảng viên"
-              name="score_lecturer"
-              register={createScore.register}
-              intent={
-                props.form.formState.errors.description ? 'error' : 'default'
-              }
-              type="number"
-              placeholder={'Nhập điểm số'}
-              defautValue={
-                props.report?.score_lecturer
-                  ? String(props.report.score_lecturer)
-                  : 'Chưa có điểm'
-              }
-              message={props.form.formState.errors.description?.message ?? ''}
-              disabled={
-                props.report.score_lecturer || !props.report.score_business
-                  ? true
-                  : false
-              }
-              required={isRoleHR ? false : true}
-            />
+          <div className="flex gap-3 w-full">
+            {isRoleHR && !props.report.score_business && (
+              <Input
+                label="Điểm số doanh nghiệp"
+                name="score_business"
+                register={createScore.register}
+                intent={
+                  props.form.formState.errors.description ? 'error' : 'default'
+                }
+                type="number"
+                placeholder={'Nhập điểm số'}
+                defautValue={
+                  props.report?.score_business
+                    ? String(props.report.score_business)
+                    : 'Chưa có điểm'
+                }
+                message={props.form.formState.errors.description?.message ?? ''}
+                required
+              />
+            )}
+            {isRoleLT && !props.report.score_lecturer && (
+              <Input
+                label="Điểm số giảng viên"
+                name="score_lecturer"
+                register={createScore.register}
+                intent={
+                  props.form.formState.errors.description ? 'error' : 'default'
+                }
+                type="number"
+                placeholder={'Nhập điểm số'}
+                defautValue={
+                  props.report?.score_lecturer
+                    ? String(props.report.score_lecturer)
+                    : 'Chưa có điểm'
+                }
+                message={props.form.formState.errors.description?.message ?? ''}
+                required
+              />
+            )}
             {((isRoleHR && !props.report.score_business) ||
               (!isRoleHR && !props.report.score_lecturer)) && (
               <div className="flex justify-end items-end gap-3 mb-1">
@@ -104,6 +134,15 @@ const FromScore = (props: {
           )}
         </form>
       </ContainerFormBody>
+      <ContainerFormFooter>
+        <Button
+          btnStyle={'no-background'}
+          intent={'grey'}
+          onClick={props.closeModal}
+        >
+          Đóng
+        </Button>
+      </ContainerFormFooter>
     </>
   )
 }

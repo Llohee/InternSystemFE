@@ -360,29 +360,29 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                             placementTootip="auto-start"
                           >
                             <div
-                              className={`relative py-0.5 flex flex-wrap gap-1 overflow-hidden h-fit ${
+                              className={`relative py-0.5 flex flex-col overflow-hidden h-fit ${
                                 props.idLecturer === stu.id &&
                                 'text-primary-base'
                               }`}
                             >
-                              {/* <Pill
-                                intent="primary"
-                                className="shadow absolute top-0"
-                              >
-                                {stu?.code ?? ''}
-                              </Pill> */}
                               <div
                                 className="line-clamp-2"
-                                style={{
-                                  textIndent: `${
-                                    stu.id_number?.length < 6
-                                      ? stu.id_number?.length * 4.25 + 58
-                                      : stu.id_number?.length * 5 + 58
-                                  }px`,
-                                }}
+                                // style={{
+                                //   textIndent: `${
+                                //     stu.id_number?.length < 6
+                                //       ? stu.id_number?.length * 4.25 + 58
+                                //       : stu.id_number?.length * 5 + 58
+                                //   }px`,
+                                // }}
                               >
                                 {stu.fullname}
                               </div>
+                              <Pill
+                                intent="primary"
+                                className="shadow"
+                              >
+                                ID: {stu?.id_number ?? ''}
+                              </Pill>
                             </div>
                           </Tooltip>
                         </div>

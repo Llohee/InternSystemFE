@@ -34,12 +34,22 @@ const useScoreCreateMutation = (
 
   return useMutation<any, AxiosError, { score_business?: number, score_lecturer?: number, report_id: string }, any>(
     (body) =>
-      ReportLecturerApi.createScore(
-        getAccessToken.data!.access_token.token,
-        isRoleHR,
-        ReportId,
-        body.score_business,
-        body.score_lecturer
+      toast.promise(
+        ReportLecturerApi.createScore(
+          getAccessToken.data!.access_token.token,
+          isRoleHR,
+          ReportId,
+          body.score_business,
+          body.score_lecturer
+        ),
+        {
+          loading: 'Đang chấm điểm',
+          success: 'Đã chấm điểm thành công',
+          error: (err) =>
+            (err as AxiosError<ErrorResponse>).response?.data?.description ??
+            (err as AxiosError).message,
+        },
+        {}
       ),
     {
       onSuccess: (data) => {
