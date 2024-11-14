@@ -31,8 +31,8 @@ const FormApply = (props: {
     <>
       <form onSubmit={handleSubmit(props.handleFormSubmit)}>
         <ContainerFormBody>
-          <div className="bg-grey-1 grid grid-cols-2 gap-2 px-6 py-4 border border-border-1 rounded-lg text-label-3 text-typography-label">
-            <div className="col-span-2 flex gap-2">
+          <div className="bg-grey-1 grid grid-cols-1 md:grid-cols-2 gap-2 px-6 py-4 border border-border-1 rounded-lg text-label-3 text-typography-label">
+            <div className="col-span-1 md:col-span-2 flex gap-2">
               <div className="">Họ và tên: </div>
               <div className="font-normal">{props.userDetail.fullname}</div>
             </div>
@@ -40,7 +40,7 @@ const FormApply = (props: {
               <div className="">Email: </div>
               <div className="font-normal">{props.userDetail.email}</div>
             </div>
-            <div className="col-span-1 flex gap-2 justify-end">
+            <div className="col-span-1 flex gap-2 md:justify-end">
               <div className="">Số điện thoại: </div>
               <div className="font-normal">{props.userDetail.phone}</div>
             </div>

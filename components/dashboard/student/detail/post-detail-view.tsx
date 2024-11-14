@@ -14,7 +14,7 @@ const PostDetailView = (props: { postDetail: PostDetail }) => {
   const userDetail = useGetUserDetail()
   return (
     <>
-      <div className="container mx-auto grid grid-cols-3 gap-6 mt-[60px]">
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mt-[60px]">
         <div className="col-span-2">
           <div className="bg-grey-2 px-8 py-6 rounded-lg flex flex-col gap-6">
             <div className="text-heading-6 text-typography-title">
@@ -150,7 +150,7 @@ const PostDetailView = (props: { postDetail: PostDetail }) => {
             </Button>
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <div className="bg-grey-2 px-8 py-8 rounded-lg grid grid-cols-2 gap-4 col-span-2">
             <div className="col-span-1 flex items-center">
               <Image
@@ -329,7 +329,7 @@ const PostDetailView = (props: { postDetail: PostDetail }) => {
             </Button>
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <div className="bg-grey-2 px-8 py-8 rounded-lg flex flex-col gap-8">
             <div className="text-heading-6 text-typography-title">
               Thông tin chung
