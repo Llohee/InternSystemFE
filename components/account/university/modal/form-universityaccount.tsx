@@ -144,13 +144,6 @@ export const FormUniversityAccount = (props: {
               )
             }}
           />
-
-          {props.mutation.error && (
-            <div className="col col-span-full mt-5 text-error-base text-label-5">
-              {(props.mutation.error as AxiosError<ErrorResponse>)?.response
-                ?.data?.description ?? ''}
-            </div>
-          )}
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button
