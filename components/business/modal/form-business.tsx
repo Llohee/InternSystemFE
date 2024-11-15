@@ -37,6 +37,7 @@ export const FormBusiness = (props: {
               intent={props.form.formState.errors.code ? 'error' : 'default'}
               placeholder={'Nhập mã doanh nghiệp'}
               message={props.form.formState.errors.code?.message ?? ''}
+              disabled={props.isEdit}
               required
             />
             <Controller
@@ -103,12 +104,6 @@ export const FormBusiness = (props: {
               'heif',
             ]}
           />
-          {props.mutation.error && (
-            <div className="col col-span-full mt-5 text-error-base text-label-5">
-              {(props.mutation.error as AxiosError<ErrorResponse>)?.response
-                ?.data?.description ?? ''}
-            </div>
-          )}
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button
