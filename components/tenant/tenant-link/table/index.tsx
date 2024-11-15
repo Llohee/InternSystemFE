@@ -138,7 +138,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       cell: (info) => (
         <button
           onClick={() => {
-            if (props.type === 'link') {
+            if (props.type === 'link' && !isroleAU) {
               router.push(
                 `/tenant-link/${info.row.original.id}/?tenant_name=${info.row.original.name}&tenant_code=${info.row.original.code}`
               )
@@ -159,7 +159,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       cell: (info) => (
         <button
           onClick={() => {
-            if (props.type === 'link') {
+            if (props.type === 'link' && !isroleAU) {
               router.push(
                 `/tenant-link/${info.row.original.id}/?tenant_name=${info.row.original.name}&tenant_code=${info.row.original.code}`
               )
