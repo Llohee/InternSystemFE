@@ -26,6 +26,8 @@ import React, {
 import TenantDetailViewModal from '../modal/tenant-detail-view'
 import { ViewStatusTenantLink } from '../common/status-view'
 import { useGetUserDetail } from '@/hooks/query/auth'
+import { useGetAccountUniversityById } from '@/hooks/query/account/university'
+import { useGetTenantById } from '@/hooks/query/tenant'
 
 interface UniversitysProps {
   getAllTenantData: GetAllTenantResponse
@@ -48,8 +50,12 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     []
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
-  const useDetail = useGetUserDetail()
   const isroleAU = useRoleIsAdminUniversity()
+  const useDetail = useGetUserDetail()
+  const tenantDetail = useGetTenantById(
+    useDetail.data.tenant.id,
+    isroleAU ? 'university' : 'business'
+  )
   const [isShowViewModal, setIsShowViewModal] = useState(false)
   const [tenantChoose, setTenantChoose] = useState<TenantDetail>()
   const {
@@ -176,7 +182,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       meta: 'w-name pl-10',
     }),
     columnHelper.accessor('receiver_university', {
-      header: 'Trạng thái',
+      header: 'Yêu cầu',
       cell: (info) => (
         <>
           {isroleAU ? (
@@ -187,7 +193,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
                       ?.filter(
                         (e) => e.university_notlink === useDetail.data.tenant.id
                       )
-                      .map((e) => e.status || 'Pending')[0] || 'Not link'
+                      .map((e) => e.status || 'Request')[0] || 'NotRequest'
                   : 'Processed'
               }
             />
@@ -198,6 +204,40 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
                   ? info.row.original.receiver_bussiness
                       ?.filter(
                         (e) => e.bussiness_notlink === useDetail.data.tenant.id
+                      )
+                      .map((e) => e.status || 'Request')[0] || 'NotRequest'
+                  : 'Processed'
+              }
+            />
+          )}
+        </>
+      ),
+      enableColumnFilter: true,
+      meta: 'w-name pl-10',
+    }),
+    columnHelper.accessor('receiver_university', {
+      header: 'Liên kết',
+      cell: (info) => (
+        <>
+          {isroleAU ? (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? tenantDetail.data?.receiver_bussiness
+                      ?.filter(
+                        (e) => e.bussiness_notlink === info.row.original.id
+                      )
+                      .map((e) => e.status || 'Pending')[0] || 'Not link'
+                  : 'Processed'
+              }
+            />
+          ) : (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? tenantDetail.data?.receiver_university
+                      ?.filter(
+                        (e) => e.university_notlink === info.row.original.id
                       )
                       .map((e) => e.status || 'Pending')[0] || 'Not link'
                   : 'Processed'
@@ -311,11 +351,12 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
             university_id={university_id}
           />
         )} */}
-      {tenantChoose && (
+      {tenantChoose && tenantDetail.status === 'success' && (
         <TenantDetailViewModal
           isOpen={isShowViewModal}
           closeModal={() => setIsShowViewModal(false)}
-          tenantDetail={tenantChoose}
+          tenantDetail={tenantDetail.data}
+          tenantChoose={tenantChoose}
           type={props.type}
         />
       )}

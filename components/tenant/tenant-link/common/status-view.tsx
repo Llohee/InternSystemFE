@@ -3,7 +3,7 @@ import { Tag } from '@/components/ui/tag'
 import { ColorStatus } from '@/models/api'
 export const StatusView: {
   label: string
-  value: 'Not link' | 'Processed' | 'Pending'
+  value: 'Not link' | 'Processed' | 'Pending' | 'Request' | 'NotRequest'
   color: string
 }[] = [
   {
@@ -19,13 +19,25 @@ export const StatusView: {
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'chưa xử lý')!.value,
   },
   {
+    label: 'Đã gửi yêu cầu',
+    value: 'Request',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
+  },
+  {
+    label: 'Chưa yêu cầu',
+    value: 'NotRequest',
+    color: ColorStatus.find(
+      (e) => e.name.toLowerCase() == 'chờ bổ sung thông tin'
+    )!.value,
+  },
+  {
     label: 'Đã liên kết',
     value: 'Processed',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
   },
 ]
 export const ViewStatusTenantLink = (props: {
-  status: 'Not link' | 'Processed' | 'Pending'
+  status: 'Not link' | 'Processed' | 'Pending' | 'Request' | 'NotRequest'
 }) => {
   const color = StatusView.find((e) => e.value === props.status)?.color
   return (
