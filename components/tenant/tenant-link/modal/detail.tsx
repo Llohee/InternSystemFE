@@ -13,7 +13,8 @@ import { useRoleIsAdminUniversity } from '@/components/auth/hooks'
 
 const DetailView = (props: {
   tenantDetail: TenantDetail
-  userDetail: UserDetail
+  isAUAccept?: boolean
+  isHRAccept?: boolean
   closeModal: () => void
   type: string
 }) => {
@@ -100,12 +101,7 @@ const DetailView = (props: {
           Đóng
         </Button>
         <div className={`${props.type === 'link' ? 'hidden' : 'flex gap-2'}`}>
-          {props.tenantDetail.receiver_university?.some(
-            (e) => e.university_notlink === props.userDetail.tenant.id
-          ) ||
-          props.tenantDetail.receiver_bussiness?.some(
-            (e) => e.bussiness_notlink === props.userDetail.tenant.id
-          ) ? (
+          {props.isAUAccept || props.isHRAccept ? (
             <Button
               intent={'success'}
               type={'submit'}
