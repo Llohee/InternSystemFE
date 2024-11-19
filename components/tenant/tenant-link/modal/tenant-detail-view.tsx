@@ -13,11 +13,18 @@ const TenantDetailViewModal = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  tenantChoose: TenantDetail
   type: string
 }) => {
-  const useDetail = useGetUserDetail()
-  // const getTenantById = useGetTenantById(
-  //   props.tenantDetail.id,
+  const isAUAccept = props.tenantDetail.receiver_bussiness?.some(
+    (e) => e.bussiness_notlink === props.tenantChoose.id
+  )
+  const isHRAccept = props.tenantDetail.receiver_university?.some(
+    (e) => e.university_notlink === props.tenantChoose.id
+  )
+  // const useDetail = useGetUserDetail()
+  // const tenantDetail = useGetTenantById(
+  //   props.tenantChoose.id,
   //   useDetail.data.role === 'AU' ? 'business' : 'university'
   // )
   return (
@@ -25,8 +32,9 @@ const TenantDetailViewModal = (props: {
       <TenantDetailView
         isOpen={props.isOpen}
         closeModal={props.closeModal}
-        tenantDetail={props.tenantDetail}
-        userDetail={useDetail.data}
+        tenantDetail={props.tenantChoose}
+        isAUAccept={isAUAccept}
+        isHRAccept={isHRAccept}
         type={props.type}
       />
     </>
@@ -36,7 +44,9 @@ const TenantDetailView = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
-  userDetail: UserDetail
+  isAUAccept?: boolean
+  isHRAccept?: boolean
+  // userDetail: UserDetail
   type: string
 }) => {
   // const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
@@ -61,7 +71,8 @@ const TenantDetailView = (props: {
           <DetailView
             tenantDetail={props.tenantDetail}
             closeModal={props.closeModal}
-            userDetail={props.userDetail}
+            isAUAccept={props.isAUAccept}
+            isHRAccept={props.isHRAccept}
             type={props.type}
           />
         </div>
