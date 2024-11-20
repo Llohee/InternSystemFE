@@ -25,6 +25,7 @@ export function Uploader<T extends FieldValues>({
   disabled?: boolean
   required?: boolean
   module: string
+  fileTypes?: string[]
 }) {
   const {
     field: { value, onChange },
@@ -33,7 +34,7 @@ export function Uploader<T extends FieldValues>({
     control: props.control,
     defaultValue: props.defaultValue,
   })
-
+  const fileTypes = ['JPG', 'PNG', 'GIF']
   const [item, setItem] = useState<AttachmentDetail | null>(
     props.attachment ?? null
   )
@@ -107,6 +108,7 @@ export function Uploader<T extends FieldValues>({
           handleChange={handleChange}
           children={<UploadView {...props} />}
           required={props.required ?? false}
+          types={props.fileTypes}
         />
       )}
     </div>
@@ -248,7 +250,7 @@ export const UploadView = (props: {
             >
               {props.fileTypes
                 ? props.fileTypes.map((e) => e.toLowerCase()).join(', ')
-                : 'doc, docx, xlsx, xls, csv, mp3, mp4, png, jpeg, jpg, pdf, ppt,pptx, zip, rar,...'}
+                : 'doc, docx, xlsx, xls, csv, mp3, mp4, png, jpeg, jpg, pdf, ppt, pptx, zip, rar,...'}
             </div>
           </div>
         </div>

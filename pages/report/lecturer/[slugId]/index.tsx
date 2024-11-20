@@ -7,11 +7,14 @@ import { useRouter } from 'next/router'
 
 const ReportLecturerDetailPage: NextPageWithAuthLayout = () => {
   const router = useRouter()
-  const { slugId } = router.query
+  const { slugId, profession } = router.query
   return (
     <>
       {slugId ? (
-        <ReportLecturerDetailWrapper id={slugId as string} profession="" />
+        <ReportLecturerDetailWrapper
+          id={slugId as string}
+          profession={profession as string}
+        />
       ) : (
         <NotFoundPage />
       )}

@@ -459,6 +459,7 @@ module.exports = {
         boolean: '130px',
         permissiontype: '150px',
         status: '150px',
+        report_status: '180px',
         time: '150px',
         sla: '210px',
       },

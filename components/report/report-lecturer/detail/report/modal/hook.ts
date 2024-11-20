@@ -8,19 +8,17 @@ import { AxiosError } from "axios"
 import { SubmitHandler, useForm, UseFormReset } from "react-hook-form"
 import toast from "react-hot-toast"
 
-export const useScoreCreate = (ReportId: string) => {
-  const createScore = useForm<{ score: number, report_id: string }>()
+export const useScoreCreate = (ReportId: string, isRoleHR: boolean) => {
+  const createScore = useForm<{ score_business?: number, score_lecturer?: number, report_id: string }>()
   createScore.register('report_id', { value: ReportId })
-  const mutation = useScoreCreateMutation(ReportId, () => {
+  const mutation = useScoreCreateMutation(ReportId, isRoleHR, () => {
     createScore.reset()
   })
-  const handleFormSubmit: SubmitHandler<{ score: number }> = async (data) => {
+  const handleFormSubmit: SubmitHandler<{ score_business?: number, score_lecturer?: number, report_id: string }> = async (data) => {
     mutation.mutate(data)
-    // console.log(data, typeReport)
   }
 
   return {
-    // Form
     createScore,
     handleFormSubmit,
     mutation,
@@ -29,15 +27,29 @@ export const useScoreCreate = (ReportId: string) => {
 
 const useScoreCreateMutation = (
   ReportId: string,
+  isRoleHR: boolean,
   reset: () => void
 ) => {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, { score: number }, any>(
+
+  return useMutation<any, AxiosError, { score_business?: number, score_lecturer?: number, report_id: string }, any>(
     (body) =>
-      ReportLecturerApi.createScore(
-        getAccessToken.data!.access_token.token,
-        ReportId,
-        body.score,
+      toast.promise(
+        ReportLecturerApi.createScore(
+          getAccessToken.data!.access_token.token,
+          isRoleHR,
+          ReportId,
+          body.score_business,
+          body.score_lecturer
+        ),
+        {
+          loading: 'Đang chấm điểm',
+          success: 'Đã chấm điểm thành công',
+          error: (err) =>
+            (err as AxiosError<ErrorResponse>).response?.data?.description ??
+            (err as AxiosError).message,
+        },
+        {}
       ),
     {
       onSuccess: (data) => {

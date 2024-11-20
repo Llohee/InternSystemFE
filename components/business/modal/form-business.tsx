@@ -8,6 +8,7 @@ import { SwitchButton } from '@/components/ui/switch/switch'
 import { Uploader } from '@/components/ui/upload/upload'
 import { TenantDetail, UpdateTenantRequest } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
+import { DevTool } from '@hookform/devtools'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -36,6 +37,7 @@ export const FormBusiness = (props: {
               intent={props.form.formState.errors.code ? 'error' : 'default'}
               placeholder={'Nhập mã doanh nghiệp'}
               message={props.form.formState.errors.code?.message ?? ''}
+              disabled={props.isEdit}
               required
             />
             <Controller
@@ -90,13 +92,18 @@ export const FormBusiness = (props: {
             control={props.form.control}
             name="image_url"
             required={true}
+            fileTypes={[
+              'jpeg',
+              'png',
+              'gif',
+              'bmp',
+              'webp',
+              'svg+xml',
+              'tiff',
+              'heic',
+              'heif',
+            ]}
           />
-          {props.mutation.error && (
-            <div className="col col-span-full mt-5 text-error-base text-label-5">
-              {(props.mutation.error as AxiosError<ErrorResponse>)?.response
-                ?.data?.description ?? ''}
-            </div>
-          )}
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button
@@ -114,6 +121,7 @@ export const FormBusiness = (props: {
             {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
           </Button>
         </ContainerFormFooter>
+        <DevTool control={props.form.control} />
       </form>
     </>
   )

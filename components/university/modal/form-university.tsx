@@ -37,6 +37,7 @@ export const FormUniversity = (props: {
               intent={props.form.formState.errors.code ? 'error' : 'default'}
               placeholder={'Nhập mã trường học'}
               message={props.form.formState.errors.code?.message ?? ''}
+              disabled={props.isEdit}
               required
             />
             <Controller
@@ -60,8 +61,27 @@ export const FormUniversity = (props: {
             intent={props.form.formState.errors.name ? 'error' : 'default'}
             placeholder={'Nhập tên trường học'}
             message={props.form.formState.errors.name?.message ?? ''}
-            disabled={props.isEdit}
             required
+          />
+          <Input<UpdateTenantRequest>
+            label="Website"
+            name="website"
+            type="textArea"
+            lineTextArea={1}
+            register={register}
+            intent={props.form.formState.errors.name ? 'error' : 'default'}
+            placeholder={'Nhập Website'}
+            message={props.form.formState.errors.name?.message ?? ''}
+          />
+          <Input<UpdateTenantRequest>
+            label="Địa chỉ"
+            name="location"
+            type="textArea"
+            register={register}
+            lineTextArea={3}
+            intent={props.form.formState.errors.name ? 'error' : 'default'}
+            placeholder={'Nhập địa chỉ'}
+            message={props.form.formState.errors.name?.message ?? ''}
           />
           <Uploader
             defaultValue={props.universityDetail?.image_url}
@@ -72,13 +92,18 @@ export const FormUniversity = (props: {
             control={props.form.control}
             name="image_url"
             required={true}
+            fileTypes={[
+              'jpeg',
+              'png',
+              'gif',
+              'bmp',
+              'webp',
+              'svg+xml',
+              'tiff',
+              'heic',
+              'heif',
+            ]}
           />
-          {props.mutation.error && (
-            <div className="col col-span-full mt-5 text-error-base text-label-5">
-              {(props.mutation.error as AxiosError<ErrorResponse>)?.response
-                ?.data?.description ?? ''}
-            </div>
-          )}
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button

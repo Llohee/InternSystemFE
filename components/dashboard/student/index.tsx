@@ -47,13 +47,7 @@ const StudentHomePage = () => {
     getConfigProfession.status === 'loading' ||
     getAllPost.status === 'loading'
   )
-    return (
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {[...Array(12)].map((_, index) => (
-          <SinglePostSkeleton />
-        ))}
-      </div>
-    )
+    return <SinglePostSkeleton />
   return (
     <>
       {getConfigLocal.status === 'success' &&

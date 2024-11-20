@@ -84,7 +84,7 @@ const Createscore = (props: {
           </div>
         }
         isOpen={props.isOpen}
-        closeModal={closeModal}
+        closeModal={props.closeModal}
         size="large"
         className="!max-w-large"
         hideBorder
@@ -100,7 +100,7 @@ const Createscore = (props: {
                 <FromScore
                   form={formUpdate}
                   report={props.report}
-                  closeModal={() => closeModal()}
+                  closeModal={() => props.closeModal()}
                 />
               ),
             },
@@ -117,7 +117,7 @@ const Createscore = (props: {
           ]}
           tabPadding={'px-6'}
         />
-        <ConfirmCloseModal
+        {/* <ConfirmCloseModal
           closeModal={(y) => {
             if (!y) setIsConfirmCloseModal(false)
             else {
@@ -128,7 +128,7 @@ const Createscore = (props: {
             }
           }}
           isOpen={isConfirmCloseModal}
-        />
+        /> */}
       </Modal>
     </>
   )

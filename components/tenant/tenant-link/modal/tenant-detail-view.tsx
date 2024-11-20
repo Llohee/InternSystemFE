@@ -3,7 +3,7 @@ import { Modal } from '@/components/ui/modal/modal'
 
 import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { useState } from 'react'
-import { TenantDetail } from '@/models/api'
+import { TenantDetail, UserDetail, UserGetDetail } from '@/models/api'
 import { useGetTenantById } from '@/hooks/query/tenant'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { ModalLoading } from '@/components/ui/skeleton'
@@ -13,29 +13,28 @@ const TenantDetailViewModal = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  tenantChoose: TenantDetail
   type: string
 }) => {
+  const isAUAccept = props.tenantDetail.receiver_bussiness?.some(
+    (e) => e.bussiness_notlink === props.tenantChoose.id
+  )
+  const isHRAccept = props.tenantDetail.receiver_university?.some(
+    (e) => e.university_notlink === props.tenantChoose.id
+  )
   // const useDetail = useGetUserDetail()
-  // const getTenantById = useGetTenantById(
-  //   props.tenantDetail.id,
+  // const tenantDetail = useGetTenantById(
+  //   props.tenantChoose.id,
   //   useDetail.data.role === 'AU' ? 'business' : 'university'
   // )
-  // if (getTenantById.status === 'loading')
-  //   return (
-  //     <ModalLoading
-  //       length={5}
-  //       size="xl"
-  //       isOpen={props.isOpen}
-  //       closeModal={props.closeModal}
-  //     />
-  //   )
-  // if (getTenantById.status === 'error') return <></>
   return (
     <>
       <TenantDetailView
         isOpen={props.isOpen}
         closeModal={props.closeModal}
-        tenantDetail={props.tenantDetail}
+        tenantDetail={props.tenantChoose}
+        isAUAccept={isAUAccept}
+        isHRAccept={isHRAccept}
         type={props.type}
       />
     </>
@@ -45,6 +44,9 @@ const TenantDetailView = (props: {
   isOpen: boolean
   closeModal: () => void
   tenantDetail: TenantDetail
+  isAUAccept?: boolean
+  isHRAccept?: boolean
+  // userDetail: UserDetail
   type: string
 }) => {
   // const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
@@ -69,6 +71,8 @@ const TenantDetailView = (props: {
           <DetailView
             tenantDetail={props.tenantDetail}
             closeModal={props.closeModal}
+            isAUAccept={props.isAUAccept}
+            isHRAccept={props.isHRAccept}
             type={props.type}
           />
         </div>

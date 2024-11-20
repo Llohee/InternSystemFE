@@ -95,16 +95,30 @@ export const SingleNotiSkeleton = () => {
 
 export const SinglePostSkeleton = () => {
   return (
-    <div className="flex gap-2 items-center">
-      <div className="animate-pulse bg-grey-2 h-20 w-[5px] rounded-l-md"></div>
-      <div className="animate-pulse bg-grey-2 h-16 aspect-square rounded-md" />
-      <div className="grow flex flex-col gap-2">
-        <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
-        <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
-        <div className="flex gap-2">
-          <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
-          <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
-        </div>
+    <div className="mx-4 lg:mx-16 my-8">
+      <div className="flex gap-2 items-center">
+        {[...Array(4)].map((_, index) => (
+          <div className="grow flex flex-col gap-2">
+            <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
+            <div className="animate-pulse bg-grey-2 rounded-md h-8 w-[100%]" />
+          </div>
+        ))}
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        {[...Array(12)].map((_, index) => (
+          <div className="flex gap-2 items-center">
+            <div className="animate-pulse bg-grey-2 h-20 w-[5px] rounded-l-md"></div>
+            <div className="animate-pulse bg-grey-2 h-16 aspect-square rounded-md" />
+            <div className="grow flex flex-col gap-2">
+              <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
+              <div className="animate-pulse bg-grey-2 rounded-lg h-5" />
+              <div className="flex gap-2">
+                <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
+                <div className="animate-pulse bg-grey-2 rounded-lg h-5 w-[25%]" />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

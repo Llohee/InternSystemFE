@@ -5,7 +5,6 @@ import { GetAllPostResponse } from '@/models/api'
 import produce from 'immer'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import waitingDev from '@/public/images/wating-dev.png'
 import { useRouter } from 'next/router'
 
 const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
@@ -26,7 +25,7 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
             <Image
               src={post.tenant.image_url}
               alt=""
-              width={100}
+              width={150}
               height={100}
             />
             <div className="flex flex-col justify-between gap-2 truncate">

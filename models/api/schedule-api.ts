@@ -32,6 +32,7 @@ export interface ScheduleDetail {
   }
   created_time: string
   is_active: boolean
+  type: "DEFAULT" | "CUSTOM"
 }
 export interface MilestonesDetail {
   id: string

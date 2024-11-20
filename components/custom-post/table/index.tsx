@@ -20,6 +20,7 @@ import {
   CustomPostDetail,
   GetAllCustomPostResponse,
 } from '@/models/api/custom-post-api'
+import DetailCustomPostModal from '../modal/detail-custom-post'
 // import ConfirmDeletePostModal from '../modal/confirm-delete-post'
 
 const CustomPostBusinessTable = (props: {
@@ -27,6 +28,7 @@ const CustomPostBusinessTable = (props: {
   isPreviousData: boolean
 }) => {
   const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
+  const [isShowModalDetail, setIsShowModalDetail] = useState(false)
   const [isShowModalDelete, setIsShowModalDelete] = useState(false)
   const [customPostChoose, setCustomPostChoose] = useState<CustomPostDetail>()
 
@@ -81,7 +83,14 @@ const CustomPostBusinessTable = (props: {
     }),
     columnHelper.accessor('title', {
       header: 'Tiêu đề',
-      cell: (info) => <div>{info.getValue()}</div>,
+      cell: (info) => (
+        <button
+          onClick={() => setIsShowModalDetail(true)}
+          className="hover:text-brand-hover"
+        >
+          {info.getValue()}
+        </button>
+      ),
       enableColumnFilter: true,
       meta: 'w-boolean',
     }),
@@ -226,6 +235,10 @@ const CustomPostBusinessTable = (props: {
           isPreviousData={props.isPreviousData}
         ></Pagination>
       </div>
+      <DetailCustomPostModal
+        isOpen={isShowModalDetail}
+        closeModal={() => setIsShowModalDetail(false)}
+      />
       {/* {postChoose && (
         <UpdatePosModal
           isOpen={isShowModalUpdate}

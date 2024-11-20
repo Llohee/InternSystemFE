@@ -56,6 +56,7 @@ export const useBusinessUpdate = (closeModal: () => void, tenant: TenantDetail, 
       website: tenant.website,
       location: tenant.location,
       is_active: tenant.is_active,
+      image_url: tenant.image_url.object
     },
   })
 

@@ -15,13 +15,11 @@ const ListProfession = (props: { allProfession: GetAllProfessionResponse }) => {
 
   return (
     <>
-      <div>
+      <div className="h-table-taller flex flex-col gap-6">
         {props.allProfession.data.map((val) => (
           <div
             className="bg-grey-1 col-span-1 flex gap-2 px-3 py-4 rounded-lg hover:bg-grey-2 transition-all ease-in-out duration-150 hover:shadow-[0_0_5px_0px_rgba(77,122,229,0.4)] relative hover:cursor-pointer border border-grey-2 hover:border-border-2"
-            onClick={() =>
-              router.push(`/report/lecturer?profession=${val.id}`)
-            }
+            onClick={() => router.push(`/report/lecturer?profession=${val.id}`)}
           >
             <div className="flex flex-col justify-between gap-2 truncate">
               <div className="">

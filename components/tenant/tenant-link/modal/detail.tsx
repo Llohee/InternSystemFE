@@ -3,20 +3,24 @@ import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
-import { TenantDetail } from '@/models/api'
+import { TenantDetail, UserDetail } from '@/models/api'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import ConfirmRequestLink from './confirm-request-link'
 import AcceptRequestLink from './accept-request-link'
+import { useRoleIsAdminUniversity } from '@/components/auth/hooks'
 
 const DetailView = (props: {
   tenantDetail: TenantDetail
+  isAUAccept?: boolean
+  isHRAccept?: boolean
   closeModal: () => void
   type: string
 }) => {
   const [isShowModalConfirm, setIsShowModalConfirm] = useState(false)
   const [isShowModalAccept, setIsShowModalAccept] = useState(false)
+
   return (
     <>
       <ContainerFormBody>
@@ -31,7 +35,7 @@ const DetailView = (props: {
             />
           </div>
           <div className="col-span-1 text-heading-6 text-typography-label">
-            {props.tenantDetail.name}
+            {props.tenantDetail.name} ({props.tenantDetail.code})
           </div>
 
           <div className="flex items-center text-label-3 text-typography-label gap-2">
@@ -88,7 +92,6 @@ const DetailView = (props: {
           </Link>
         </div>
       </ContainerFormBody>
-      {JSON.stringify(props.tenantDetail.id)}
       <ContainerFormFooter>
         <Button
           btnStyle={'no-background'}
@@ -98,20 +101,23 @@ const DetailView = (props: {
           Đóng
         </Button>
         <div className={`${props.type === 'link' ? 'hidden' : 'flex gap-2'}`}>
-          <Button
-            intent={'primary'}
-            type={'submit'}
-            onClick={() => setIsShowModalAccept(true)}
-          >
-            Chấp nhận liên kết
-          </Button>
-          <Button
-            intent={'success'}
-            type={'submit'}
-            onClick={() => setIsShowModalConfirm(true)}
-          >
-            Yêu cầu liên kết
-          </Button>
+          {props.isAUAccept || props.isHRAccept ? (
+            <Button
+              intent={'success'}
+              type={'submit'}
+              onClick={() => setIsShowModalAccept(true)}
+            >
+              Chấp nhận liên kết
+            </Button>
+          ) : (
+            <Button
+              intent={'primary'}
+              type={'submit'}
+              onClick={() => setIsShowModalConfirm(true)}
+            >
+              Yêu cầu liên kết
+            </Button>
+          )}
         </div>
       </ContainerFormFooter>
       <ConfirmRequestLink
@@ -126,7 +132,7 @@ const DetailView = (props: {
         isOpen={isShowModalAccept}
         closeModal={() => {
           setIsShowModalAccept(false)
-          // router.push('/tenant-link')
+          props.closeModal
         }}
         tenantDetail={props.tenantDetail}
       />

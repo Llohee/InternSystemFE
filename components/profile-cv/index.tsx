@@ -1,26 +1,16 @@
+import { useGetStudentById } from '@/hooks/query/account/student'
+import { useGetUserDetail } from '@/hooks/query/auth'
 import { useGetAllCV } from '@/hooks/query/profile-cv'
-import CreateCV from './modal/create-cv'
-import { useEffect, useState } from 'react'
-import { useFilterForCVStore } from '@/hooks/zustand/filter-for-profile-cv'
-import {
-  CVFilterRequest,
-  GetAllCVResponse,
-  UserDetail,
-  UserGetDetail,
-} from '@/models/api'
-import produce from 'immer'
-import { useGetDetailStudent } from '@/hooks/query/account/student'
-import {
-  CVListViewSkeleton,
-  ReportDetailSkeleton,
-} from '../report/report-lecturer/detail/skeleton'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { CVListViewSkeleton } from '../report/report-lecturer/detail/skeleton'
 import ListCV from './list-cv'
 import ProfileUser from './profile'
 
 const ProfielAndCVWrapper = () => {
-  const studentDetail = useGetDetailStudent()
+  const userDetail = useGetUserDetail()
+  const studentDetail = useGetStudentById(userDetail.data.id)
   const getAllCV = useGetAllCV()
   const router = useRouter()
   const [totalPost, setTotalPost] = useState(0)

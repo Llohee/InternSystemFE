@@ -127,7 +127,7 @@ const ReportTable = (props: ReportProps, ref: any) => {
         </button>
       ),
       enableColumnFilter: true,
-      meta: 'w-switch',
+      meta: 'w-boolean',
     }),
     columnHelper.accessor('milestone', {
       id: 'milestone',
@@ -143,13 +143,6 @@ const ReportTable = (props: ReportProps, ref: any) => {
       ),
       enableColumnFilter: true,
       meta: 'w-time',
-    }),
-    columnHelper.accessor('status', {
-      id: 'status',
-      header: 'Trạng thái',
-      cell: (info) => <ViewStatusReport status={info.getValue()} />,
-      enableColumnFilter: true,
-      meta: 'w-boolean',
     }),
     columnHelper.accessor('upload_time', {
       id: 'upload_time',
@@ -171,11 +164,15 @@ const ReportTable = (props: ReportProps, ref: any) => {
       header: 'Nộp muộn',
       cell: (info) => (
         <div className="flex flex-col">
-          {info.getValue()
-            ? dayjs().isAfter(info.row.original.milestone.time)
-              ? humanizeDurationConfig(info.getValue())
-              : <Pill intent="success">Đúng hạn</Pill>
-            : 'Chưa nộp'}
+          {info.getValue() ? (
+            dayjs().isAfter(info.row.original.milestone.time) ? (
+              humanizeDurationConfig(info.getValue())
+            ) : (
+              <Pill intent="success">Đúng hạn</Pill>
+            )
+          ) : (
+            'Chưa nộp'
+          )}
         </div>
       ),
       enableColumnFilter: true,
@@ -203,9 +200,36 @@ const ReportTable = (props: ReportProps, ref: any) => {
       sortDescFirst: false,
       meta: 'w-description',
     }),
-    columnHelper.accessor('score', {
-      id: 'score',
-      header: 'Điểm số',
+    columnHelper.accessor('status', {
+      id: 'status',
+      header: 'Trạng thái',
+      cell: (info) => <ViewStatusReport status={info.getValue()} />,
+      enableColumnFilter: true,
+      meta: 'w-report_status',
+    }),
+    columnHelper.accessor('score_business', {
+      id: 'score_business',
+      header: 'Điểm số doanh nghiệp',
+      cell: (info) => (
+        <div id="cell-enable-overflow" className="flex items-center gap-2">
+          {info.getValue() ? (
+            info.getValue() > 3 ? (
+              <Pill intent="success">{info.getValue()}</Pill>
+            ) : (
+              <Pill intent="error">{info.getValue()}</Pill>
+            )
+          ) : (
+            <Pill intent="warning">Chưa có điểm</Pill>
+          )}
+        </div>
+      ),
+      enableColumnFilter: true,
+      sortDescFirst: false,
+      meta: 'w-status',
+    }),
+    columnHelper.accessor('score_lecturer', {
+      id: 'score_lecturer',
+      header: 'Điểm số giảng viên',
       cell: (info) => (
         <div id="cell-enable-overflow" className="flex items-center gap-2">
           {info.getValue() ? (

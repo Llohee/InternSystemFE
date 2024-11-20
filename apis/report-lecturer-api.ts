@@ -3,9 +3,12 @@ import axiosClient from "./axios-client"
 import { getQuery } from "./common-api"
 import { trymObject } from "@/utils"
 import { GetAllReportComment, ReportCommentDetail } from "@/models/api/comment-api"
+import { useGetUserDetail } from "@/hooks/query/auth"
+import { useRoleIsHumanResource } from "@/components/auth/hooks"
 
 const ReportLecturerApi = {
-  getAllReportLecturer(
+
+  getAllStudent(
     accessToken: string,
     filter: ReportLecturerFilterRequest,
     profession: string
@@ -118,8 +121,10 @@ const ReportLecturerApi = {
   },
   createScore(
     accessToken: string,
+    isRoleHR: boolean,
     ReportId: string,
-    score: number,
+    score_business?: number,
+    score_lecturer?: number
   ): Promise<any> {
     const config = {
       headers: {
@@ -128,7 +133,10 @@ const ReportLecturerApi = {
       },
     }
     const url = `/report/${ReportId}/score`
-    return axiosClient.post(url, { score, report_id: ReportId }, config)
+    // const isRoleHR = useRoleIsHumanResource()
+    const body = isRoleHR ? { score_business: score_business, report_id: ReportId } : { score_lecturer, report_id: ReportId }
+    // console.log(body)
+    return axiosClient.post(url,  body , config)
   },
   getReportbyId(
     accessToken: string,

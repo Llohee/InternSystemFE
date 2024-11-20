@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 
 const ProfileUser = (props: { detailStudent: UserGetDetail }) => {
   return (
-    <div className="fixed">
+    <div className="sticky lg:top-24">
       <div className="p-6 bg-grey-1 rounded-lg flex flex-col gap-6">
         <div className="flex justify-between items-center mt-3">
           <div className="text-title-2">Thông tin</div>

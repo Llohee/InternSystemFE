@@ -3,7 +3,7 @@ import axiosClient from "./axios-client"
 import { trymObject } from "@/utils"
 
 const CustomPostApi = {
-  getAllPost(
+  getAllCustomPost(
     accessToken: string,
     filter: CustomPostFilterRequest,
   ): Promise<GetAllCustomPostResponse> {

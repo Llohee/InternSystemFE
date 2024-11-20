@@ -1,4 +1,7 @@
-import { useRoleIsSuperAdmin } from '@/components/auth/hooks'
+import {
+  useRoleIsAdminUniversity,
+  useRoleIsSuperAdmin,
+} from '@/components/auth/hooks'
 import { Button } from '@/components/ui/button/button'
 import { Pagination } from '@/components/ui/pagination/pagination'
 import { TableView } from '@/components/ui/table'
@@ -21,6 +24,10 @@ import React, {
   useState,
 } from 'react'
 import TenantDetailViewModal from '../modal/tenant-detail-view'
+import { ViewStatusTenantLink } from '../common/status-view'
+import { useGetUserDetail } from '@/hooks/query/auth'
+import { useGetAccountUniversityById } from '@/hooks/query/account/university'
+import { useGetTenantById } from '@/hooks/query/tenant'
 
 interface UniversitysProps {
   getAllTenantData: GetAllTenantResponse
@@ -43,7 +50,12 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     []
   )
   const roleIsSuperAdmin = useRoleIsSuperAdmin()
-
+  const isroleAU = useRoleIsAdminUniversity()
+  const useDetail = useGetUserDetail()
+  const tenantDetail = useGetTenantById(
+    useDetail.data.tenant.id,
+    isroleAU ? 'university' : 'business'
+  )
   const [isShowViewModal, setIsShowViewModal] = useState(false)
   const [tenantChoose, setTenantChoose] = useState<TenantDetail>()
   const {
@@ -132,7 +144,7 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       cell: (info) => (
         <button
           onClick={() => {
-            if (props.type === 'link') {
+            if (props.type === 'link' && isroleAU) {
               router.push(
                 `/tenant-link/${info.row.original.id}/?tenant_name=${info.row.original.name}&tenant_code=${info.row.original.code}`
               )
@@ -149,7 +161,91 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
       meta: 'w-name',
     }),
     columnHelper.accessor('code', {
-      header: 'Code',
+      header: 'Mã',
+      cell: (info) => (
+        <button
+          onClick={() => {
+            if (props.type === 'link' && isroleAU) {
+              router.push(
+                `/tenant-link/${info.row.original.id}/?tenant_name=${info.row.original.name}&tenant_code=${info.row.original.code}`
+              )
+            } else {
+              setIsShowViewModal(true), setTenantChoose(info.row.original)
+            }
+          }}
+          className="hover:text-brand-hover"
+        >
+          {info.getValue()}
+        </button>
+      ),
+      enableColumnFilter: true,
+      meta: 'w-name pl-10',
+    }),
+    columnHelper.accessor('receiver_university', {
+      header: 'Yêu cầu',
+      cell: (info) => (
+        <>
+          {isroleAU ? (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? info.row.original.receiver_university
+                      ?.filter(
+                        (e) => e.university_notlink === useDetail.data.tenant.id
+                      )
+                      .map((e) => e.status || 'Request')[0] || 'NotRequest'
+                  : 'Processed'
+              }
+            />
+          ) : (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? info.row.original.receiver_bussiness
+                      ?.filter(
+                        (e) => e.bussiness_notlink === useDetail.data.tenant.id
+                      )
+                      .map((e) => e.status || 'Request')[0] || 'NotRequest'
+                  : 'Processed'
+              }
+            />
+          )}
+        </>
+      ),
+      enableColumnFilter: true,
+      meta: 'w-name pl-10',
+    }),
+    columnHelper.accessor('receiver_university', {
+      header: 'Liên kết',
+      cell: (info) => (
+        <>
+          {isroleAU ? (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? tenantDetail.data?.receiver_bussiness
+                      ?.filter(
+                        (e) => e.bussiness_notlink === info.row.original.id
+                      )
+                      .map((e) => e.status || 'Pending')[0] || 'Not link'
+                  : 'Processed'
+              }
+            />
+          ) : (
+            <ViewStatusTenantLink
+              status={
+                props.type !== 'link'
+                  ? tenantDetail.data?.receiver_university
+                      ?.filter(
+                        (e) => e.university_notlink === info.row.original.id
+                      )
+                      .map((e) => e.status || 'Pending')[0] || 'Not link'
+                  : 'Processed'
+              }
+            />
+          )}
+        </>
+      ),
       enableColumnFilter: true,
       meta: 'w-name pl-10',
     }),
@@ -212,7 +308,6 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
     debugTable: true,
   })
 
-  const { type, is_readed, university_id } = router.query
   return (
     <>
       <TableView table={table} className="h-table-regular" />
@@ -256,11 +351,12 @@ const UniversityLinkTable = (props: UniversitysProps, ref: any) => {
             university_id={university_id}
           />
         )} */}
-      {tenantChoose && (
+      {tenantChoose && tenantDetail.status === 'success' && (
         <TenantDetailViewModal
           isOpen={isShowViewModal}
           closeModal={() => setIsShowViewModal(false)}
-          tenantDetail={tenantChoose}
+          tenantDetail={tenantDetail.data}
+          tenantChoose={tenantChoose}
           type={props.type}
         />
       )}

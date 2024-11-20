@@ -12,11 +12,11 @@ const ReportLecturerPage: NextPageWithAuthLayout = () => {
   const router = useRouter()
   const isRoleLecturer = useRoleIsLecturer()
   const { profession } = router.query
-  useEffect(() => {
-    if (router) {
-      queryClient.removeQueries(ReportLecturerKeys.all)
-    }
-  }, [router])
+  // useEffect(() => {
+  //   if (router) {
+  //     queryClient.removeQueries(ReportLecturerKeys.all)
+  //   }
+  // }, [router])
   return (
     <>
       {isRoleLecturer ? (
@@ -26,9 +26,9 @@ const ReportLecturerPage: NextPageWithAuthLayout = () => {
           <div className={`${(profession as string) ? 'hidden' : 'block'}`}>
             <ReportHUmanresourceWrapper />
           </div>
-          <div className={`${(profession as string) ? 'block' : 'hidden'}`}>
+          {profession && (
             <ReportLecturerWrapper profession={profession as string} />
-          </div>
+          )}
         </>
       )}
     </>
