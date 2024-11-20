@@ -1,21 +1,18 @@
-import { Menu, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 // import { NotificationMenu } from '@/components/notification/notification-menu'
-import { Button } from '../button/button'
 // import { UserMenu } from './user-menu'
 // import { UserDetail } from '@/models/api'
-import { MenuBar, MenuBarItemLink, MenuBarItems } from '../menu-bar/menu-bar'
-import { useHeaderSelectedItem } from '@/hooks/zustand/header-item'
+import { useRoleIsStudent } from '@/components/auth/hooks'
+import NotificationMenu from '@/components/notification'
 import { useGetUserDetail } from '@/hooks/query/auth'
 import { useLogoutNavigate } from '@/hooks/useLogout'
-import { UserMenu } from './user-menu'
-import NotificationMenu from '@/components/notification'
-import { useRoleIsStudent } from '@/components/auth/hooks'
-import { useGetDetailStudent } from '@/hooks/query/account/student'
+import { useHeaderSelectedItem } from '@/hooks/zustand/header-item'
 import toast from 'react-hot-toast'
+import { useGetDetailStudentMutation } from './hook'
+import { UserMenu } from './user-menu'
 // import { Tag } from '../tag'
 interface HeaderProps {
   title?: string
@@ -62,7 +59,7 @@ export function Header(props: HeaderProps) {
       )
     }
   }, [router])
-  const GetDetailStudent = useGetDetailStudent()
+  const mutation = useGetDetailStudentMutation()
   const userDetail = useGetUserDetail()
   const logoutNavigate = useLogoutNavigate()
   const isroleST = useRoleIsStudent()
@@ -111,10 +108,11 @@ export function Header(props: HeaderProps) {
                   return (
                     <>
                       <button
-                        onClick={() => {
-                          GetDetailStudent.status === 'error'
-                            ? toast(
-                                'Bạn chưa ở trong nhóm, hãy liên hệ nhà trường để kiểm tra!',
+                        onClick={async () => {
+                          mutation.mutate(undefined, {
+                            onError: (error) => {
+                              toast(
+                                'Bạn chưa ở trong nhóm, hãy liên hệ nhà trường để kiểm tra !',
                                 {
                                   icon: (
                                     <svg
@@ -131,7 +129,8 @@ export function Header(props: HeaderProps) {
                                   id: 'noti-alert-variant',
                                 }
                               )
-                            : router.push(`${item.link}`)
+                            },
+                          })
                         }}
                         className={`h-full flex items-center text-title-2 px-2 border-b-2 hover:text-primary-base whitespace-nowrap ${
                           isSelected
