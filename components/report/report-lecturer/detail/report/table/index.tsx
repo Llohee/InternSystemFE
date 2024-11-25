@@ -150,28 +150,36 @@ const ReportTable = (props: ReportProps, ref: any) => {
       cell: (info) => {
         return (
           <>
-            {info.getValue()
-              ? dayjs(info.getValue()).format(DATE_TIME_FORMAT_VIEW)
-              : 'Chưa nộp'}
+            {info.getValue() ? (
+              <button
+                onClick={() => {
+                  setIsShowModalCreateScore(true)
+                  setReportChoose(info.row.original)
+                }}
+                className="hover:text-primary-base"
+              >
+                {dayjs(info.getValue()).format(DATE_TIME_FORMAT_VIEW)}
+              </button>
+            ) : (
+              <Pill intent="warning">Chưa nộp</Pill>
+            )}
           </>
         )
       },
       enableColumnFilter: true,
       meta: 'w-time',
     }),
-    columnHelper.accessor('expired_time', {
-      id: 'expired_time',
+    columnHelper.accessor('status_overdue', {
+      id: 'status_overdue',
       header: 'Nộp muộn',
       cell: (info) => (
         <div className="flex flex-col">
-          {info.getValue() ? (
-            dayjs().isAfter(info.row.original.milestone.time) ? (
-              humanizeDurationConfig(info.getValue())
-            ) : (
-              <Pill intent="success">Đúng hạn</Pill>
-            )
+          {info.getValue() === 'OVERDUE' ? (
+            <Pill intent="warning">
+              {humanizeDurationConfig(info.row.original.expired_time)}
+            </Pill>
           ) : (
-            'Chưa nộp'
+            <Pill intent="success">Đúng hạn</Pill>
           )}
         </div>
       ),
@@ -179,6 +187,26 @@ const ReportTable = (props: ReportProps, ref: any) => {
       sortDescFirst: false,
       meta: 'w-tenant',
     }),
+    // columnHelper.accessor('expired_time', {
+    //   id: 'expired_time',
+    //   header: 'Nộp muộn',
+    //   cell: (info) => (
+    //     <div className="flex flex-col">
+    //       {info.getValue() ? (
+    //         dayjs().isAfter(info.row.original.milestone.time) ? (
+    //           humanizeDurationConfig(info.getValue())
+    //         ) : (
+    //           <Pill intent="success">Đúng hạn</Pill>
+    //         )
+    //       ) : (
+    //         <Pill intent="warning">Chưa nộp</Pill>
+    //       )}
+    //     </div>
+    //   ),
+    //   enableColumnFilter: true,
+    //   sortDescFirst: false,
+    //   meta: 'w-tenant',
+    // }),
     columnHelper.accessor('description', {
       id: 'description',
       header: 'Ghi chú',
@@ -192,7 +220,15 @@ const ReportTable = (props: ReportProps, ref: any) => {
             }
             placementTootip="bottom-start"
           >
-            {info.getValue()}
+            <button
+              onClick={() => {
+                setIsShowModalCreateScore(true)
+                setReportChoose(info.row.original)
+              }}
+              className="hover:text-primary-base"
+            >
+              {info.getValue()}
+            </button>
           </Tooltip>
         </div>
       ),
@@ -219,7 +255,7 @@ const ReportTable = (props: ReportProps, ref: any) => {
               <Pill intent="error">{info.getValue()}</Pill>
             )
           ) : (
-            <Pill intent="warning">Chưa có điểm</Pill>
+            <Pill intent="purple">Chưa chấm</Pill>
           )}
         </div>
       ),
@@ -239,7 +275,7 @@ const ReportTable = (props: ReportProps, ref: any) => {
               <Pill intent="error">{info.getValue()}</Pill>
             )
           ) : (
-            <Pill intent="warning">Chưa có điểm</Pill>
+            <Pill intent="purple">Chưa chấm</Pill>
           )}
         </div>
       ),

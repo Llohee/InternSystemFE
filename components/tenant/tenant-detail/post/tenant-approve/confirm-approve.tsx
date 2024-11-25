@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import { PostKeys } from '@/hooks/query/post'
+import { useRouter } from 'next/router'
 
 interface UpdateActivationProps {
   isOpen: boolean
@@ -21,7 +22,8 @@ interface UpdateActivationProps {
 }
 const TenantConfirmApproveModal = (props: UpdateActivationProps) => {
   const mutation = useApproveMutation(props.closeModal)
-
+  const router = useRouter()
+  const { tenant_code } = router.query
   return (
     <>
       <ConfirmModal
@@ -33,6 +35,7 @@ const TenantConfirmApproveModal = (props: UpdateActivationProps) => {
           mutation.mutate({
             post_id: props.post_id,
             cv_id: props.CV_applying.cv_id,
+            business_code: tenant_code as string
           })
           props.closeModal()
         }}
