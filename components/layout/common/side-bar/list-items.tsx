@@ -110,8 +110,8 @@ export const major: SideBarItemType = {
   text: 'Khoa - Viện - Ngành - Lớp',
   onlyFor: ['AU'],
 }
-export const semester: SideBarItemType = {
-  link: '/semester',
+export const schoolyear: SideBarItemType = {
+  link: '/school-year',
   icon: (
     <svg
       width="24"

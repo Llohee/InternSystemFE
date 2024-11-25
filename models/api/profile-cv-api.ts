@@ -50,4 +50,5 @@ export interface UpdateApplyCVRequest {
   post_id: string
   description?: string
   cv_id: string
+  business_code: string
 }
