@@ -21,6 +21,12 @@ export interface GetAllReportResponse {
   total_page: number
   data: ReportDetail[]
 }
+export interface CurentReportStudentDetail {
+  id: string
+  description: string
+  time: string
+  reports?: ReportDetail
+}
 export interface ReportDetail {
   id: string
   student: {
@@ -45,12 +51,7 @@ export interface ReportDetail {
   score_business: number
   score_lecturer: number
 }
-export interface CurentReportStudentDetail {
-  id: string
-  description: string
-  time: string
-  reports: ReportDetail[]
-}
+
 export interface UpdateReportRequest {
   milestone_id: string
   schedule_id: string

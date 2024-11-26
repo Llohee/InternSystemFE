@@ -104,7 +104,7 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
       header: 'MSSV',
       cell: (info) => (
         <Link
-          href={`report/${info.row.original.id}?profession=${props.profession}`}
+          href={`lecturer/${info.row.original.id}?profession=${props.profession}`}
           className="relative text-primary-base truncate"
         >
           <div className="max-w-[210px] truncate">{info.getValue()}</div>
