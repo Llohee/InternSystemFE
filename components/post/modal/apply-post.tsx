@@ -4,7 +4,7 @@ import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
-import { PostDetail } from '@/models/api'
+import { PostDetail, UserDetail } from '@/models/api'
 import ConfirmApproveModal from './confirm-approve'
 import { useState } from 'react'
 import { ViewStatusStudent } from '@/components/common/student-status/status-view'
@@ -14,7 +14,9 @@ const ApplyPost = (props: {
   closeModal: () => void
 }) => {
   const [isShowModalConfirm, setIsShowModalConfirm] = useState(false)
-
+  const [cvDetail, setCvDetail] = useState<
+    { cv_id: string; user_info: UserDetail; status: string } | undefined
+  >(undefined)
   return (
     <>
       <ContainerFormBody>
@@ -43,7 +45,9 @@ const ApplyPost = (props: {
                 </div>
                 <Button
                   disabled={val.status !== 'Pending'}
-                  onClick={() => setIsShowModalConfirm(true)}
+                  onClick={() => {
+                    setIsShowModalConfirm(true), setCvDetail(val)
+                  }}
                 >
                   <svg
                     width="24"
@@ -66,12 +70,6 @@ const ApplyPost = (props: {
                   </svg>
                 </Button>
               </div>
-              <ConfirmApproveModal
-                isOpen={isShowModalConfirm}
-                closeModal={() => setIsShowModalConfirm(false)}
-                post_id={props.postDetail.id}
-                CV_applying={val}
-              />
             </>
           ))}
         </div>
@@ -85,6 +83,14 @@ const ApplyPost = (props: {
           Đóng
         </Button>
       </ContainerFormFooter>
+      {cvDetail && (
+        <ConfirmApproveModal
+          isOpen={isShowModalConfirm}
+          closeModal={() => setIsShowModalConfirm(false)}
+          post_id={props.postDetail.id}
+          CV_applying={cvDetail}
+        />
+      )}
     </>
   )
 }
