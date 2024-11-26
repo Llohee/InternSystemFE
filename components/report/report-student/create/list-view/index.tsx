@@ -15,6 +15,7 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import Createreport from '../modal/create-report'
 import Updatereport from '../modal/update-report'
+import { ViewStatusReport } from '@/components/report/report-lecturer/detail/report/common/status-view'
 
 const ReportStudentListView = (props: {
   currentReport: CurentReportStudentDetail[]
@@ -83,16 +84,21 @@ const ReportStudentListView = (props: {
                           className="flex gap-2"
                           data-headlessui-state="open"
                         >
-                          {/* <div className="col col-span-1 font-medium text-title-3 max-w-xs truncate">
-                            Đã nộp vào:{' '}
-                            {dayjs(val.reports).format(DATE_TIME_FORMAT_VIEW)}
-                          </div> */}
+                          {val.reports && (
+                            <div className="col col-span-1 font-medium text-title-3 max-w-xs truncate">
+                              {/* Đã nộp vào:{' '}
+                              {dayjs(val.reports?.upload_time).format(
+                                DATE_TIME_FORMAT_VIEW
+                              )} */}
+                              <ViewStatusReport status={val.reports.status} />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </DisclosureButton>
                     <DisclosurePanel className="px-4 pt-4 pb-2 ">
                       <div className="flex flex-col">
-                        {(val.reports ?? []).length <= 0 ? (
+                        {!val.reports ? (
                           <>
                             <div className="flex flex-col gap-3 items-center justify-center">
                               Bạn chưa nộp bài tập cho mốc này
@@ -124,39 +130,37 @@ const ReportStudentListView = (props: {
                             </div>
                           </>
                         ) : (
-                          (val.reports ?? []).map((report, index) => (
-                            <>
-                              <div
-                                key={report.id}
-                                className="flex items-center gap-3 px-4 py-2 bg-grey-1 odd:bg-grey-3 cursor-pointer"
-                                onClick={() => setCurrentReport(report)}
+                          <>
+                            <div
+                              key={val.id}
+                              className="flex items-center gap-3 px-4 py-2 bg-grey-1 odd:bg-grey-3 cursor-pointer"
+                              onClick={() => setCurrentReport(val.reports)}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-                                  />
-                                </svg>
-                                <Tooltip
-                                  tootipDetail={
-                                    <div className="grow max-w-sm truncate">
-                                      {report.description}
-                                    </div>
-                                  }
-                                >
-                                  {report.description}
-                                </Tooltip>
-                              </div>
-                            </>
-                          ))
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
+                                />
+                              </svg>
+                              <Tooltip
+                                tootipDetail={
+                                  <div className="grow max-w-sm truncate">
+                                    {val.description}
+                                  </div>
+                                }
+                              >
+                                {val.description}
+                              </Tooltip>
+                            </div>
+                          </>
                         )}
                       </div>
                     </DisclosurePanel>

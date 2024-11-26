@@ -5,6 +5,7 @@ import {
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
+import { Pill } from '@/components/ui/pill'
 import { Uploader } from '@/components/ui/upload/upload'
 import { ReportDetail, UpdateReportRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
@@ -23,7 +24,7 @@ const FormReport = (props: {
   return (
     <>
       <form onSubmit={handleSubmit(props.handleFormSubmit)}>
-        <ContainerFormBody className="h-[275.2px]">
+        <ContainerFormBody className={`${!props.isEdit && 'h-[275.2px]'}`}>
           <Input<UpdateReportRequest>
             label="Ghi chú"
             name="description"
@@ -50,6 +51,38 @@ const FormReport = (props: {
             required={true}
             disabled={props.isEdit}
           />
+          {props.currentReportDetail?.score_business && (
+            <div className="text-label-3 text-typography-label grid grid-cols-11 items-center">
+              <div className="col-span-3">Điếm số Doanh nghiệp:</div>
+              <div className="">
+                {props.currentReportDetail?.score_business > 3 ? (
+                  <Pill intent="success">
+                    {props.currentReportDetail?.score_business}
+                  </Pill>
+                ) : (
+                  <Pill intent="error">
+                    {props.currentReportDetail?.score_business}
+                  </Pill>
+                )}
+              </div>
+            </div>
+          )}
+          {props.currentReportDetail?.score_lecturer && (
+            <div className="text-label-3 text-typography-label grid grid-cols-11 items-center">
+              <div className="col-span-3">Điếm số Giảng viên:</div>
+              <div className="">
+                {props.currentReportDetail?.score_lecturer > 3 ? (
+                  <Pill intent="success">
+                    {props.currentReportDetail?.score_lecturer}
+                  </Pill>
+                ) : (
+                  <Pill intent="error">
+                    {props.currentReportDetail?.score_lecturer}
+                  </Pill>
+                )}
+              </div>
+            </div>
+          )}
           <DevTool control={props.form.control} />
           {props.isEdit && (
             <ContainerCreateReportTime
