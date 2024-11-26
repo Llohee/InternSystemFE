@@ -10,17 +10,31 @@ import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-repo
 import produce from 'immer'
 import Link from 'next/link'
 import { ReportListViewSkeleton } from '../skeleton'
+import toast from 'react-hot-toast'
+import { useState } from 'react'
+import { UserGetDetail } from '@/models/api'
+import { useRouter } from 'next/router'
+import { useGetAllStudentMutation } from '../../table/hook'
+import { useQueryClient } from '@tanstack/react-query'
+import { ScheduleKeys } from '@/hooks/query/schedule'
 
 interface ReportLecturerProps {
-  idLecturer: string
+  student_id: string
   showList: boolean
   setShowList: (b: boolean) => void
   profession: string
+  group_id: string
 }
 const ReportLecturerListView = (props: ReportLecturerProps) => {
   const { showList, setShowList } = props
-  const allStudent = useGetAllStudent(props.profession)
+  const allStudent = useGetAllStudent(props.profession, props.group_id)
   const filterReportLecturer = useFilterForReportLecturerStore()
+  const [userChoose, setUserChoose] = useState<UserGetDetail | undefined>(
+    undefined
+  )
+  const mutation = useGetAllStudentMutation(userChoose)
+  const router = useRouter()
+  const queryClient = useQueryClient()
 
   return (
     <>
@@ -330,26 +344,62 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
               {allStudent.status === 'success' && (
                 <>
                   {allStudent.data.data.map((stu, index) => (
-                    <Link
-                      href={`/report/lecturer/${stu.id}`}
-                      onClick={() => setShowList(true)}
-                      key={index}
-                      className={`group flex py-4 px-6 justify-start text-body-3 gap-2 hover:bg-primary-hover/10 ${
-                        props.idLecturer === stu.id && 'bg-primary-base/10'
+                    // <Link
+                    //   href={`/report/lecturer/${stu.id}`}
+                    //   onClick={() => setShowList(true)}
+                    //   key={index}
+                    //   className={`group flex py-4 px-6 justify-start text-body-3 gap-2 hover:bg-primary-hover/10 ${
+                    //     props.student_id === stu.id && 'bg-primary-base/10'
+                    //   }`}
+                    // >
+                    <button
+                      onClick={async () => {
+                        mutation.mutate(undefined, {
+                          onError: (error) => {
+                            toast(
+                              'Ứng viên này chưa ở trong nhóm, hãy liên hệ nhà trường để được hỗ trợ !',
+                              {
+                                icon: (
+                                  <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="size-5 text-secondary1-base"
+                                  >
+                                    <path d="M21.7038 17.4087L14.2774 3.36949C14.0579 2.95596 13.7299 2.61001 13.3287 2.36874C12.9275 2.12747 12.4682 2 12 2C11.5318 2 11.0725 2.12747 10.6713 2.36874C10.2701 2.61001 9.94214 2.95596 9.72265 3.36949L2.29624 17.4087C2.0897 17.8005 1.98803 18.239 2.00112 18.6816C2.01421 19.1243 2.14161 19.556 2.37093 19.9348C2.60025 20.3137 2.92369 20.6267 3.30981 20.8436C3.69593 21.0604 4.13158 21.1737 4.57443 21.1724H19.4256C19.8684 21.1737 20.3041 21.0604 20.6902 20.8436C21.0763 20.6267 21.3998 20.3137 21.6291 19.9348C21.8584 19.556 21.9858 19.1243 21.9989 18.6816C22.012 18.239 21.9103 17.8005 21.7038 17.4087ZM12 18.6716C11.7527 18.6716 11.511 18.5983 11.3053 18.4609C11.0997 18.3235 10.9394 18.1282 10.8448 17.8997C10.7502 17.6712 10.7254 17.4198 10.7736 17.1773C10.8219 16.9347 10.941 16.7119 11.1158 16.5371C11.2907 16.3622 11.5135 16.2431 11.7561 16.1949C11.9986 16.1466 12.25 16.1714 12.4785 16.266C12.707 16.3607 12.9023 16.5209 13.0397 16.7266C13.177 16.9322 13.2504 17.1739 13.2504 17.4212C13.2504 17.7528 13.1186 18.0709 12.8842 18.3054C12.6497 18.5399 12.3316 18.6716 12 18.6716ZM12.8336 14.5037H11.1664L10.7496 7.835H13.2504L12.8336 14.5037Z" />
+                                  </svg>
+                                ),
+                                id: 'noti-alert-variant',
+                              }
+                            )
+                          },
+                          onSuccess: () => {
+                            router.push(
+                              `/report/lecturer/${stu?.id}?profession=${props.profession}&group_id=${props.group_id}`
+                            )
+                            queryClient.removeQueries(
+                              ScheduleKeys.getScheduleByLecturer()
+                            )
+                          },
+                        })
+                        setUserChoose(stu)
+                      }}
+                      className={`group flex py-4 px-6 justify-start items-center text-body-3 gap-4 hover:bg-primary-hover/10 w-full ${
+                        props.student_id === stu.id && 'bg-primary-base/10'
                       }`}
                     >
                       <div className="py-2">
                         <Tooltip
-                          tootipDetail={
-                            stu.fullname ?? 'Sinh viên: Chưa xác định'
-                          }
+                          tootipDetail={stu.fullname}
                           placementTootip="auto-start"
                           dark
                         >
-                          <Avatar name={stu.fullname ?? ''} />
+                          <Avatar name={stu.fullname ?? ''} size={'medium'} />
                         </Tooltip>
                       </div>
-                      <div className="flex flex-col gap-3">
+                      <div className="flex flex-col gap-3 group">
                         <div className="h-12 w-full">
                           <Tooltip
                             tootipDetail={
@@ -361,12 +411,12 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                           >
                             <div
                               className={`relative py-0.5 flex flex-col overflow-hidden h-fit ${
-                                props.idLecturer === stu.id &&
+                                props.student_id === stu.id &&
                                 'text-primary-base'
                               }`}
                             >
                               <div
-                                className="line-clamp-2"
+                                className="text-left text-body-2  group-hover:underline group-hover:underline-offset-1"
                                 // style={{
                                 //   textIndent: `${
                                 //     stu.id_number?.length < 6
@@ -377,17 +427,15 @@ const ReportLecturerListView = (props: ReportLecturerProps) => {
                               >
                                 {stu.fullname}
                               </div>
-                              <Pill
-                                intent="primary"
-                                className="shadow"
-                              >
+                              <Pill intent="primary" className="shadow">
                                 ID: {stu?.id_number ?? ''}
                               </Pill>
                             </div>
                           </Tooltip>
                         </div>
                       </div>
-                    </Link>
+                    </button>
+                    // </Link>
                   ))}
                 </>
               )}

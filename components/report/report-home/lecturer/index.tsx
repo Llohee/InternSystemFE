@@ -2,14 +2,14 @@ import PageError from '@/components/page-error/error'
 import { SearchIcon } from '@/components/ui/icon'
 import { DebouncedInput } from '@/components/ui/input/debouced-input'
 import { TableSkeleton } from '@/components/ui/skeleton'
-import { useGetAllProfession } from '@/hooks/query/post'
-import { useFilterForProfessionsStore } from '@/hooks/zustand/filter-for-post'
 import produce from 'immer'
-import ListProfession from './list-profession'
+import ListGroup from './list-group'
+import { useFilterForGroupStore } from '@/hooks/zustand/filter-for-group'
+import { useGetAllGroup } from '@/hooks/query/group'
 
-const ReportHUmanresourceWrapper = () => {
-  const filterProfession = useFilterForProfessionsStore()
-  const allProfession = useGetAllProfession()
+const ReportLecturerWrapper = () => {
+  const filterGroup = useFilterForGroupStore()
+  const allGroup = useGetAllGroup()
   return (
     <>
       <div className="flex items-center py-4">
@@ -17,11 +17,11 @@ const ReportHUmanresourceWrapper = () => {
           <div className="ml-2">
             <DebouncedInput
               placeholder={'Tìm kiếm'}
-              value={filterProfession.filter.name}
+              value={filterGroup.filter.name}
               className="lg:w-96 "
               onChange={(value) => {
-                filterProfession.update(
-                  produce(filterProfession.filter, (draftState) => {
+                filterGroup.update(
+                  produce(filterGroup.filter, (draftState) => {
                     draftState.name = value.toString()
                     draftState.page = 0
                   })
@@ -32,13 +32,11 @@ const ReportHUmanresourceWrapper = () => {
           </div>
         </div>
       </div>
-      {allProfession.status === 'error' && <PageError />}
-      {allProfession.status === 'loading' && <TableSkeleton />}
-      {allProfession.status === 'success' && (
-        <ListProfession allProfession={allProfession.data} />
-      )}
+      {allGroup.status === 'error' && <PageError />}
+      {allGroup.status === 'loading' && <TableSkeleton />}
+      {allGroup.status === 'success' && <ListGroup allGroup={allGroup.data} />}
     </>
   )
 }
 
-export default ReportHUmanresourceWrapper
+export default ReportLecturerWrapper
