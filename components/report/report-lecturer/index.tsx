@@ -12,7 +12,10 @@ import { useFilterForReportLecturerStore } from '@/hooks/zustand/filter-for-repo
 import { useRouter } from 'next/router'
 import { useRoleIsLecturer } from '@/components/auth/hooks'
 
-const ReportLecturerWrapper = (props: { profession: string }) => {
+const ReportWrapper = (props: {
+  profession: string
+  group_id: string
+}) => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
   useState(false)
   const [totalReportLecturer, setTotalReportLecturer] = useState(0)
@@ -22,7 +25,7 @@ const ReportLecturerWrapper = (props: { profession: string }) => {
   const filterReportLecturer = useFilterForReportLecturerStore()
   const router = useRouter()
 
-  const allReportLecturer = useGetAllStudent(props.profession)
+  const allReportLecturer = useGetAllStudent(props.profession, props.group_id)
   const tableRef = useRef<any>()
   useEffect(() => {
     if (allReportLecturer.status === 'success')
@@ -140,10 +143,11 @@ const ReportLecturerWrapper = (props: { profession: string }) => {
             setReportLecturerChoose={setReportLecturerChoose}
             isPreviousData={allReportLecturer.isPreviousData}
             profession={props.profession}
+            group_id={props.group_id}
           />
         )}
       </div>
     </>
   )
 }
-export default ReportLecturerWrapper
+export default ReportWrapper

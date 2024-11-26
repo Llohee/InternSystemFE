@@ -9,9 +9,10 @@ import ReportView from './report-view'
 import { useGetScheduleByLecturer } from '@/hooks/query/schedule'
 import { useGetStudentById } from '@/hooks/query/account/student'
 
-const ReportLecturerDetailWrapper = (props: {
+const ReportDetailWrapper = (props: {
   id: string
   profession: string
+  group_id: string
 }) => {
   const [showList, setShowList] = useState(true)
   return (
@@ -27,7 +28,7 @@ const ReportLecturerDetailWrapper = (props: {
           } overflow-hidden bg-grey-3 flex-nowrap max-w-[28rem]`}
         >
           <ReportLecturerListView
-            idLecturer={props.id}
+            student_id={props.id}
             showList={showList}
             setShowList={setShowList}
             {...props}
@@ -84,4 +85,4 @@ const ReportLecturerViewWrapper = (props: {
     </>
   )
 }
-export default ReportLecturerDetailWrapper
+export default ReportDetailWrapper

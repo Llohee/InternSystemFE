@@ -37,7 +37,7 @@ export const ReportLecturerKeys = {
   ],
 }
 
-export function useGetAllStudent(profession: string) {
+export function useGetAllStudent(profession: string, group_id: string) {
   const getAccessToken = useGetAccessToken()
   const filterUser = useFilterForReportLecturerStore()
   useEffect(() => {
@@ -53,7 +53,8 @@ export function useGetAllStudent(profession: string) {
       ReportLecturerApi.getAllStudent(
         getAccessToken.data!.access_token.token,
         filterUser.filter,
-        profession
+        profession,
+        group_id
       ),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )

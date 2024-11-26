@@ -18,6 +18,8 @@ export interface GetAllSchoolYearResponse {
 export interface SchoolYearDetail {
   id: string
   name?: { start: Date, end: Date }
+  start_day: Date
+  finish_day: Date
   description: string
   status: SemesterStatus
   created_time: string

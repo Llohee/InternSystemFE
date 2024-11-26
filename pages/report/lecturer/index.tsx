@@ -1,8 +1,9 @@
 import { useRoleIsLecturer } from '@/components/auth/hooks'
 import { AllUserAuth } from '@/components/auth/page-auth'
 import { MainLayout } from '@/components/layout'
-import ReportHUmanresourceWrapper from '@/components/report/report-humanresource'
-import ReportLecturerWrapper from '@/components/report/report-lecturer'
+import ReportHumanresourceWrapper from '@/components/report/report-home/humanresource'
+import ReportLecturerWrapper from '@/components/report/report-home/lecturer'
+import ReportWrapper from '@/components/report/report-lecturer'
 import { ReportLecturerKeys } from '@/hooks/query/report-lecturer'
 import { NextPageWithAuthLayout, queryClient } from '@/pages/_app'
 import { useRouter } from 'next/router'
@@ -11,7 +12,7 @@ import { useEffect } from 'react'
 const ReportLecturerPage: NextPageWithAuthLayout = () => {
   const router = useRouter()
   const isRoleLecturer = useRoleIsLecturer()
-  const { profession } = router.query
+  const { profession, group_id } = router.query
   // useEffect(() => {
   //   if (router) {
   //     queryClient.removeQueries(ReportLecturerKeys.all)
@@ -20,16 +21,15 @@ const ReportLecturerPage: NextPageWithAuthLayout = () => {
   return (
     <>
       {isRoleLecturer ? (
-        <ReportLecturerWrapper profession="" />
+        <>{!group_id && <ReportLecturerWrapper />}</>
       ) : (
-        <>
-          <div className={`${(profession as string) ? 'hidden' : 'block'}`}>
-            <ReportHUmanresourceWrapper />
-          </div>
-          {profession && (
-            <ReportLecturerWrapper profession={profession as string} />
-          )}
-        </>
+        <>{!profession && <ReportHumanresourceWrapper />}</>
+      )}
+      {(profession || group_id) && (
+        <ReportWrapper
+          profession={profession as string}
+          group_id={group_id as string}
+        />
       )}
     </>
   )
