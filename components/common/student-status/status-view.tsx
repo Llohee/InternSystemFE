@@ -3,12 +3,12 @@ import { Tag } from '@/components/ui/tag'
 import { ColorStatus } from '@/models/api'
 export const StatusView: {
   label: string
-  value: 'Not Apply' | 'Pending' | 'HR Approver' | 'AU Approver'
+  value: 'InActive' | 'Pending' | 'HR Approver' | 'AU Approver'
   color: string
 }[] = [
   {
-    label: 'Chưa ứng tuyển',
-    value: 'Not Apply',
+    label: 'Đang thực tập',
+    value: 'InActive',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'xử lý lại')!.value,
   },
   {
@@ -30,7 +30,7 @@ export const StatusView: {
   },
 ]
 export const ViewStatusStudent = (props: {
-  status: 'Not Apply' | 'Pending' | 'HR Approver' | 'AU Approver'
+  status: 'InActive' | 'Pending' | 'HR Approver' | 'AU Approver'
 }) => {
   const color = StatusView.find((e) => e.value === props.status)?.color
   return (
