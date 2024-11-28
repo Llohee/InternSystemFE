@@ -8,12 +8,14 @@ import { PostDetail, UserDetail } from '@/models/api'
 import ConfirmApproveModal from './confirm-approve'
 import { useState } from 'react'
 import { ViewStatusStudent } from '@/components/common/student-status/status-view'
+import DetailCVView from '../cv-detail/view-cv-detail'
 
 const ApplyPost = (props: {
   postDetail: PostDetail
   closeModal: () => void
 }) => {
   const [isShowModalConfirm, setIsShowModalConfirm] = useState(false)
+  const [isShowModalDetailView, setIsShowModalDetailView] = useState(false)
   const [cvDetail, setCvDetail] = useState<
     { cv_id: string; user_info: UserDetail; status: string } | undefined
   >(undefined)
@@ -23,16 +25,19 @@ const ApplyPost = (props: {
         <div className="flex flex-col gap-2">
           {props.postDetail.CV_applying.map((val, index) => (
             <>
-              <div
+              <button
                 key={val.user_info.id}
-                className="w-full flex gap-3 items-center px-4 py-3 hover:bg-slate-100 group first:rounded-t-lg last:rounded-b-lg cursor-pointer"
+                onClick={() => {
+                  setCvDetail(val), setIsShowModalDetailView(true)
+                }}
+                className="w-full text-left flex gap-3 items-center px-4 py-3 hover:bg-slate-100 group first:rounded-t-lg last:rounded-b-lg cursor-pointer group"
               >
                 <div className="w-full grid grid-cols-[minmax(0,_1fr)_fit-content(20px)] gap-3">
                   <div className="flex justify-between items-center">
                     <div className="flex gap-3">
                       <Avatar name={val.user_info.fullname ?? ''} />
                       <div>
-                        <div className="text-label-4 text-typography-label">
+                        <div className="text-label-4 text-typography-label group-hover:underline group-hover:underline-offset-1">
                           {val.user_info.fullname}
                         </div>
                         <div className="text-subtitle-4 text-typography-subtitle">
@@ -69,7 +74,7 @@ const ApplyPost = (props: {
                     ></path>
                   </svg>
                 </Button>
-              </div>
+              </button>
             </>
           ))}
         </div>
@@ -88,6 +93,13 @@ const ApplyPost = (props: {
           isOpen={isShowModalConfirm}
           closeModal={() => setIsShowModalConfirm(false)}
           post_id={props.postDetail.id}
+          CV_applying={cvDetail}
+        />
+      )}
+      {cvDetail && (
+        <DetailCVView
+          isOpen={isShowModalDetailView}
+          closeModal={() => setIsShowModalDetailView(false)}
           CV_applying={cvDetail}
         />
       )}
