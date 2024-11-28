@@ -31,7 +31,7 @@ const ListPost = (props: { getAllPost: GetAllPostResponse }) => {
             <div className="flex flex-col justify-between gap-2 truncate">
               <div className="">
                 <div className="truncate text-typography-title text-heading-6 group">
-                  {post.position.name}
+                  {post.title}
                 </div>
                 <Tooltip
                   placementTootip={'bottom-start'}

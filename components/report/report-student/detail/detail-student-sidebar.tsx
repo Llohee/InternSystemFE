@@ -18,7 +18,7 @@ const DetailStudentSideBar = (props: { detailStudent: UserGetDetail }) => {
                 status={
                   props.detailStudent.dataCvApply.find(
                     (e) => e.status !== 'Pending'
-                  )?.status ?? 'Not Apply'
+                  )?.status ?? 'InActive'
                 }
               />
             </div>
