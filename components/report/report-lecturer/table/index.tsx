@@ -21,6 +21,8 @@ import React, {
 } from 'react'
 import toast from 'react-hot-toast'
 import { useGetAllStudentMutation } from './hook'
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
+import { Pill } from '@/components/ui/pill'
 
 interface ReportLecturersProps {
   getAllReportLecturerData: GetAllReportLecturerResponse
@@ -243,6 +245,35 @@ const ReportLecturerTable = (props: ReportLecturersProps, ref: any) => {
     }),
     columnHelper.accessor('phone', {
       header: 'Số điện thoại',
+      enableColumnFilter: true,
+      meta: 'w-name',
+    }),
+    columnHelper.accessor('university', {
+      header: 'Trường học',
+      enableColumnFilter: true,
+      meta: 'w-name',
+    }),
+    columnHelper.accessor('business', {
+      header: 'Doanh nghiệp thực tập',
+      cell: (info) => (
+        <div>
+          {info.getValue() ? (
+            <Pill intent={'primary'}>{info.getValue()}</Pill>
+          ) : (
+            <Pill intent={'purple'}>Chưa có</Pill>
+          )}
+        </div>
+      ),
+      enableColumnFilter: true,
+      meta: 'w-name',
+    }),
+    columnHelper.accessor('dataCvApply', {
+      header: 'Trạng thái',
+      cell: (info) => (
+        <div>
+          <ViewStatusStudent status={info.getValue()[0].status} />
+        </div>
+      ),
       enableColumnFilter: true,
       meta: 'w-name',
     }),

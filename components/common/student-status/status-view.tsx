@@ -7,7 +7,7 @@ export const StatusView: {
   color: string
 }[] = [
   {
-    label: 'Đang thực tập',
+    label: 'Đã phê duyệt ở bài đăng khác',
     value: 'InActive',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'xử lý lại')!.value,
   },

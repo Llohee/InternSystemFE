@@ -13,24 +13,24 @@ const DetailCVView = (props: {
   const getCVDetail = useGetCVbyId(props.CV_applying.cv_id)
   return (
     <>
-      <Modal
-        title={
-          <div className="w-full flex gap-3 items-center">
-            <div className="grow text-heading-7 text-typography-title">
-              Thông tin ứng tuyển
+      {getCVDetail.status === 'success' && (
+        <Modal
+          title={
+            <div className="w-full flex gap-3 items-center">
+              <div className="grow text-heading-7 text-typography-title">
+                Thông tin ứng tuyển
+              </div>
             </div>
-          </div>
-        }
-        isOpen={props.isOpen}
-        closeModal={props.closeModal}
-        size="xl"
-      >
-        <div className="relative">
-          {getCVDetail.status === 'success' && (
+          }
+          isOpen={props.isOpen}
+          closeModal={props.closeModal}
+          size="xl"
+        >
+          <div className="relative">
             <CvDetail cvDetaildata={getCVDetail.data} />
-          )}
-        </div>
-      </Modal>
+          </div>
+        </Modal>
+      )}
     </>
   )
 }
