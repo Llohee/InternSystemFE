@@ -16,5 +16,6 @@ export * from './activities-api'
 export * from './post-api'
 export * from './custom-post-api'
 export * from './profile-cv-api'
+export * from './school-year-api'
 
 

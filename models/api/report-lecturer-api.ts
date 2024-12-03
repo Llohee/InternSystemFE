@@ -21,6 +21,12 @@ export interface GetAllReportResponse {
   total_page: number
   data: ReportDetail[]
 }
+export interface CurentReportStudentDetail {
+  id: string
+  description: string
+  time: string
+  reports?: ReportDetail
+}
 export interface ReportDetail {
   id: string
   student: {
@@ -36,6 +42,7 @@ export interface ReportDetail {
     time: string
   }
   status: 'WAITTING_SCORE' | 'BUSINESS_CHECKED' | 'LECTURER_CHECKED'
+  status_overdue: 'ONTIME' | 'OVERDUE'
   attachments: any
   upload_time: string
   expired_time: number
@@ -44,12 +51,7 @@ export interface ReportDetail {
   score_business: number
   score_lecturer: number
 }
-export interface CurentReportStudentDetail {
-  id: string
-  description: string
-  time: string
-  reports: ReportDetail[]
-}
+
 export interface UpdateReportRequest {
   milestone_id: string
   schedule_id: string

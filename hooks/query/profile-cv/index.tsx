@@ -11,6 +11,8 @@ export const ProfileCVKeys = {
   getAllCV: (filter: CVFilterRequest) =>
     [...ProfileCVKeys.all, filter, 'getAllCV'] as const,
   getConfigCV: () => [...ProfileCVKeys.all, 'getConfigCV'] as const,
+  getCVById: (id: string) =>
+    [...ProfileCVKeys.all, 'getAllCV', 'getCVById', id] as const,
 }
 
 export function useGetAllCV() {
@@ -26,7 +28,10 @@ export function useGetAllCV() {
   return useQuery(
     ProfileCVKeys.getAllCV(filterCV.filter),
     () =>
-      ProfileAndCVApi.getALLCV(getAccessToken.data!.access_token.token, filterCV.filter),
+      ProfileAndCVApi.getALLCV(
+        getAccessToken.data!.access_token.token,
+        filterCV.filter
+      ),
     { enabled: !getAccessToken.isFetching, keepPreviousData: true }
   )
 }
@@ -44,6 +49,15 @@ export function usegetConfigCV() {
         sort: [{ name: 'name', type: false }],
         query: [],
       }),
+    { enabled: !getAccessToken.isFetching }
+  )
+}
+export function useGetCVbyId(id: string) {
+  const getAccessToken = useGetAccessToken()
+
+  return useQuery(
+    ProfileCVKeys.getCVById(id),
+    () => ProfileAndCVApi.getCVById(getAccessToken.data!.access_token.token, id),
     { enabled: !getAccessToken.isFetching }
   )
 }

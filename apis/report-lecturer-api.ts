@@ -11,9 +11,10 @@ const ReportLecturerApi = {
   getAllStudent(
     accessToken: string,
     filter: ReportLecturerFilterRequest,
-    profession: string
+    profession: string,
+    group_id: string
   ): Promise<GetAllReportLecturerResponse> {
-    const url = `/auth/users/students?profession=${profession}`
+    const url = `/auth/users/students?profession=${profession}&group_id=${group_id}`
     let query = getQuery(filter.query, filter.name, [
       'name',
       'code'
@@ -136,7 +137,7 @@ const ReportLecturerApi = {
     // const isRoleHR = useRoleIsHumanResource()
     const body = isRoleHR ? { score_business: score_business, report_id: ReportId } : { score_lecturer, report_id: ReportId }
     // console.log(body)
-    return axiosClient.post(url,  body , config)
+    return axiosClient.post(url, body, config)
   },
   getReportbyId(
     accessToken: string,

@@ -83,6 +83,7 @@ const FormPost = (props: {
             register={props.form.register}
             label={'Tiêu đề bài đăng'}
             placeholder="Nhập tiêu đề"
+            disabled={props.isEdit}
             required
           />
           <Controller
@@ -162,6 +163,7 @@ const FormPost = (props: {
                     required
                     message={errors.position?.message ?? ''}
                     intent={errors.position ? 'error' : 'default'}
+                    disabled={props.isEdit}
                   />
                 </>
               )
@@ -198,6 +200,7 @@ const FormPost = (props: {
                       onChange(option.value ?? '')
                     }}
                     label={'Ngành nghề'}
+                    disabled={props.isEdit}
                     register={props.form.register}
                     required
                     message={errors.profession?.message ?? ''}
@@ -226,6 +229,7 @@ const FormPost = (props: {
                 intent={error ? 'error' : 'default'}
                 required
                 placeholder={'Nhập mô tả'}
+                disabled={props.isEdit}
               />
             )}
           />
@@ -248,6 +252,7 @@ const FormPost = (props: {
                 intent={error ? 'error' : 'default'}
                 required
                 placeholder={'Nhập yêu cầu'}
+                disabled={props.isEdit}
               />
             )}
           />
@@ -270,6 +275,7 @@ const FormPost = (props: {
                 intent={error ? 'error' : 'default'}
                 required
                 placeholder={'Nhập quyền lợi'}
+                disabled={props.isEdit}
               />
             )}
           />
@@ -299,6 +305,7 @@ const FormPost = (props: {
                       }}
                       label={''}
                       classname="!gap-0"
+                      disabled={props.isEdit}
                     />
                     <div
                       className={`text-label-3 font-normal ${
@@ -322,6 +329,7 @@ const FormPost = (props: {
                 type={'number'}
                 maxLength={2}
                 required
+                disabled={props.isEdit}
               />
             </div>
           </div>
@@ -335,6 +343,7 @@ const FormPost = (props: {
                   placeholder="Min"
                   type={'number'}
                   required
+                  disabled={props.isEdit}
                 />
               </div>
               <div className="col-span-4">
@@ -345,6 +354,7 @@ const FormPost = (props: {
                   placeholder="Max"
                   type={'number'}
                   required
+                  disabled={props.isEdit}
                 />
               </div>
               <div className="col-span-3">
@@ -372,6 +382,7 @@ const FormPost = (props: {
                           required
                           message={errors.currency?.message ?? ''}
                           intent={errors.currency ? 'error' : 'default'}
+                          disabled={props.isEdit}
                         />
                       </>
                     )
@@ -393,6 +404,7 @@ const FormPost = (props: {
                   props.form.formState.errors.expired_time?.message ?? ''
                 }
                 required
+                disabled={props.isEdit}
               />
             </div>
             <div className="col-span-5">
@@ -420,6 +432,7 @@ const FormPost = (props: {
                         required
                         message={errors.work_experience?.message ?? ''}
                         intent={errors.work_experience ? 'error' : 'default'}
+                        disabled={props.isEdit}
                       />
                     </>
                   )
