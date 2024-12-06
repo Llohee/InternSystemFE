@@ -1,4 +1,4 @@
-import { TypeQuery, TypeSort } from "./common"
+import { TypeQuery, TypeSort } from './common'
 
 export interface SchoolYearFilterRequest {
   name: string
@@ -17,36 +17,35 @@ export interface GetAllSchoolYearResponse {
 }
 export interface SchoolYearDetail {
   id: string
-  name?: { start: Date, end: Date }
-  start_day: Date
-  finish_day: Date
+  name: any
   description: string
+  start_day: Date
+  end_day: Date
   status: SemesterStatus
-  created_time: string
-  is_active: boolean
-  semester: SemesterDetail[]
+  created_time?: string
+  is_active?: boolean
+  semester?: SemesterDetail[]
 }
 export interface SemesterDetail {
-  semester_name?: string
+  id: string
+  name: any
   description: string
   status: SemesterStatus
-  time?: {
-    start: Date,
-    end: Date
-  }
+  start_day: Date
+  end_day: Date
 }
 export interface UpdateSchoolYearRequest {
-  name: { start: Date, end: Date }
+  name: { start: Date; end: Date }
   description: string
-  // status: SemesterStatus
-  start_time: Date
-  end_time: Date
+  start_day: Date
+  end_day: Date
   is_active: boolean
 }
 export interface UpdateSemesterRequest {
   name: string
   description: string
   // status: SemesterStatus
-  time: { start: Date, end: Date }
+  start_day: Date
+  end_day: Date
   is_active: boolean
 }

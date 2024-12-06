@@ -1,13 +1,14 @@
-import { useGetAllSchoolYear } from "@/hooks/query/school-year"
-import { useFilterForSchoolYearStore } from "@/hooks/zustand/filter-for-school-year"
-import { useEffect, useState } from "react"
-import { DebouncedInput } from "../ui/input/debouced-input"
-import produce from "immer"
-import { SearchIcon } from "../ui/icon"
-import { Button } from "../ui/button/button"
-import PageError from "../page-error/error"
-import { TableSkeleton } from "../ui/skeleton"
-import SchoolYearTable from "./table"
+import { useGetAllSchoolYear } from '@/hooks/query/school-year'
+import { useFilterForSchoolYearStore } from '@/hooks/zustand/filter-for-school-year'
+import { useEffect, useState } from 'react'
+import { DebouncedInput } from '../ui/input/debouced-input'
+import produce from 'immer'
+import { SearchIcon } from '../ui/icon'
+import { Button } from '../ui/button/button'
+import PageError from '../page-error/error'
+import { TableSkeleton } from '../ui/skeleton'
+import SchoolYearTable from './table'
+import CreateSchoolYearModal from './modal/create-school-year'
 
 const SchoolYearWrapper = () => {
   const [isShowModalCreate, setIsShowModalCreate] = useState(false)
@@ -110,12 +111,12 @@ const SchoolYearWrapper = () => {
           </>
         )}
       </div>
-      {/* <CreateSchoolYearModal
+      <CreateSchoolYearModal
         isOpen={isShowModalCreate}
         closeModal={() => {
           setIsShowModalCreate(false)
         }}
-      /> */}
+      />
     </>
   )
 }
