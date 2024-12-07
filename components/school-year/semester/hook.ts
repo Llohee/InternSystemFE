@@ -1,27 +1,23 @@
 import SchoolYearApi from '@/apis/school-year'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import { SchoolYearKeys } from '@/hooks/query/school-year'
-import {
-  ErrorResponse,
-  SchoolYearDetail,
-  UpdateSchoolYearRequest,
-} from '@/models/api'
+import { ErrorResponse, SemesterDetail, UpdateSemesterRequest } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const useSchoolYearCreate = (closeModal: () => void) => {
-  const createSchoolYear = useForm<UpdateSchoolYearRequest>({
+export const useSemesterCreate = (closeModal: () => void, id: string) => {
+  const createSemester = useForm<UpdateSemesterRequest>({
     defaultValues: { is_active: true },
   })
 
-  const mutation = useSchoolYearCreateMutation(() => {
-    createSchoolYear.reset()
-    closeModal()
-  })
-  const handleFormSubmit: SubmitHandler<UpdateSchoolYearRequest> = async (
+  const mutation = useSemesterCreateMutation(
+    closeModal,
+     id
+  )
+  const handleFormSubmit: SubmitHandler<UpdateSemesterRequest> = async (
     data
   ) => {
     mutation.mutate(data)
@@ -29,19 +25,20 @@ export const useSchoolYearCreate = (closeModal: () => void) => {
 
   return {
     // Form
-    createSchoolYear,
+    createSemester,
     handleFormSubmit,
     mutation,
   }
 }
-export function useSchoolYearCreateMutation(action: () => void) {
+export function useSemesterCreateMutation(closeModal: () => void, id: string) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateSchoolYearRequest, any>(
-    (createSchoolYearBody) =>
+  return useMutation<any, AxiosError, UpdateSemesterRequest, any>(
+    (createSemesterBody) =>
       toast.promise(
-        SchoolYearApi.createSchoolYear(
+        SchoolYearApi.createSemester(
           getAccessToken.data!.access_token.token,
-          createSchoolYearBody
+          id,
+          createSemesterBody
         ),
         {
           loading: 'Đang tạo mới năm học',
@@ -55,31 +52,31 @@ export function useSchoolYearCreateMutation(action: () => void) {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(SchoolYearKeys.all)
-        action()
+        closeModal()
       },
     }
   )
 }
-export const useSchoolYearUpdate = (
+export const useSemesterUpdate = (
   closeModal: () => void,
-  schoolyear: SchoolYearDetail
+  semester: SemesterDetail
 ) => {
-  const updateSchoolYear = useForm<UpdateSchoolYearRequest>({
+  const updateSemester = useForm<UpdateSemesterRequest>({
     defaultValues: {
-      name: { start: schoolyear.name.start, end: schoolyear.name.end },
-      description: schoolyear.description,
-      start_day: schoolyear.start_day,
-      end_day: schoolyear.end_day,
-      is_active: schoolyear.is_active,
+      name: semester.name,
+      description: semester.description,
+      start_day: semester.start_day,
+      end_day: semester.end_day,
+      is_active: semester.is_active,
     },
   })
 
-  const mutation = useSchoolYearUpdateMutation(
-    updateSchoolYear.reset,
-    schoolyear,
+  const mutation = useSemesterUpdateMutation(
+    updateSemester.reset,
+    semester,
     closeModal
   )
-  const handleFormSubmit: SubmitHandler<UpdateSchoolYearRequest> = async (
+  const handleFormSubmit: SubmitHandler<UpdateSemesterRequest> = async (
     data
   ) => {
     mutation.mutate(data)
@@ -87,24 +84,24 @@ export const useSchoolYearUpdate = (
 
   return {
     // Form
-    updateSchoolYear,
+    updateSemester,
     handleFormSubmit,
     mutation,
   }
 }
-export function useSchoolYearUpdateMutation(
-  reset: UseFormReset<UpdateSchoolYearRequest>,
-  schoolyear: SchoolYearDetail,
+export function useSemesterUpdateMutation(
+  reset: UseFormReset<UpdateSemesterRequest>,
+  semester: SemesterDetail,
   closeModal: () => void
 ) {
   const getAccessToken = useGetAccessToken()
-  return useMutation<any, AxiosError, UpdateSchoolYearRequest, any>(
-    (updateSchoolYearBody) =>
+  return useMutation<any, AxiosError, UpdateSemesterRequest, any>(
+    (updateSemesterBody) =>
       toast.promise(
-        SchoolYearApi.updateSchoolYear(
+        SchoolYearApi.updateSemester(
           getAccessToken.data!.access_token.token,
-          schoolyear.id,
-          updateSchoolYearBody
+          semester.id,
+          updateSemesterBody
         ),
         {
           loading: 'Đang cập nhật năm học',

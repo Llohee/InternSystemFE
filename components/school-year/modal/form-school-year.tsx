@@ -106,19 +106,16 @@ const FormSchoolYear = (props: {
               props.isEdit ? props.schoolYearDetail?.description : ''
             }
             message={props.form.formState.errors.description?.message ?? ''}
-            disabled={props.isEdit}
-            required
           />
           <InputDate<UpdateSchoolYearRequest>
             name="start_day"
             control={props.form.control}
-            intent={
-              props.form.formState.errors.start_day ? 'error' : 'default'
-            }
+            intent={props.form.formState.errors.start_day ? 'error' : 'default'}
             // onChange={(e) => {
             //   setTime(e.target.value)
             // }}
             label="Ngày bắt đầu"
+            placeholder="Chọn ngày bắt đầu"
             message={props.form.formState.errors.start_day?.message ?? ''}
             required
             // disabled={
@@ -135,7 +132,8 @@ const FormSchoolYear = (props: {
             // onChange={(e) => {
             //   setTime(e.target.value)
             // }}
-            label="Ngày bắt đầu"
+            placeholder="Chọn ngày kết thúc"
+            label="Ngày kết thúc"
             message={props.form.formState.errors.end_day?.message ?? ''}
             required
             // disabled={

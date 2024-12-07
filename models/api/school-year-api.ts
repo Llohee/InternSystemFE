@@ -33,6 +33,7 @@ export interface SemesterDetail {
   status: SemesterStatus
   start_day: Date
   end_day: Date
+  is_active: boolean
 }
 export interface UpdateSchoolYearRequest {
   name: { start: Date; end: Date }
