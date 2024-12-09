@@ -82,7 +82,6 @@ export const useSchoolYearUpdate = (
   }
 
   return {
-    // Form
     updateSchoolYear,
     handleFormSubmit,
     mutation,

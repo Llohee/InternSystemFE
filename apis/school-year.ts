@@ -53,7 +53,7 @@ const SchoolYearApi = {
     id: string,
     data: UpdateSchoolYearRequest
   ): Promise<any> {
-    const url = `/schedule/schoolyear/${id}`
+    const url = `/schedule/schoolyear/update/${id}`
     const config = {
       headers: {
         token: accessToken,
@@ -91,7 +91,7 @@ const SchoolYearApi = {
     id: string,
     data: UpdateSemesterRequest
   ): Promise<any> {
-    const url = `/schedule/schoolyear/semester/${id}/`
+    const url = `/schedule/schoolyear/semester/update/${id}/`
     const config = {
       headers: {
         token: accessToken,
