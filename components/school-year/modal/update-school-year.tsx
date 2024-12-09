@@ -60,6 +60,7 @@ const UpdateSchoolYearModal = (props: {
           closeModal={() => {
             closeModal()
           }}
+          schoolYearDetail={props.schoolyearDetail}
           isEdit={true}
         />
         <ConfirmCloseModal

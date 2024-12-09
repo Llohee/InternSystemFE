@@ -66,11 +66,7 @@ export const useSchoolYearUpdate = (
 ) => {
   const updateSchoolYear = useForm<UpdateSchoolYearRequest>({
     defaultValues: {
-      name: { start: schoolyear.name.start, end: schoolyear.name.end },
-      description: schoolyear.description,
-      start_day: schoolyear.start_day,
-      end_day: schoolyear.end_day,
-      is_active: schoolyear.is_active,
+      ...schoolyear,
     },
   })
 

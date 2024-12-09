@@ -17,7 +17,7 @@ export interface GetAllSchoolYearResponse {
 }
 export interface SchoolYearDetail {
   id: string
-  name: any
+  name: { start: Date; end: Date }
   description: string
   start_day: Date
   end_day: Date
@@ -45,7 +45,6 @@ export interface UpdateSchoolYearRequest {
 export interface UpdateSemesterRequest {
   name: string
   description: string
-  // status: SemesterStatus
   start_day: Date
   end_day: Date
   is_active: boolean
