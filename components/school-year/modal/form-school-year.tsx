@@ -74,12 +74,6 @@ const FormSchoolYear = (props: {
             defaultValue={props.schoolYearDetail?.name}
             name="name"
             render={({ field: { value, onChange } }) => {
-              // const parsedYearRange = value
-              //   ? {
-              //       start: dayjs(`${value.split('-')[0]}-01-01`).toDate(),
-              //       end: dayjs(`${value.split('-')[1]}-12-31`).toDate(),
-              //     }
-              //   : undefined
               return (
                 <FilterRangerDate
                   label="Năm học"
@@ -102,48 +96,25 @@ const FormSchoolYear = (props: {
               props.form.formState.errors.description ? 'error' : 'default'
             }
             placeholder={'Nhập ghi chú'}
-            defautValue={
-              props.isEdit ? props.schoolYearDetail?.description : ''
-            }
             message={props.form.formState.errors.description?.message ?? ''}
-            disabled={props.isEdit}
-            required
           />
           <InputDate<UpdateSchoolYearRequest>
             name="start_day"
             control={props.form.control}
-            intent={
-              props.form.formState.errors.start_day ? 'error' : 'default'
-            }
-            // onChange={(e) => {
-            //   setTime(e.target.value)
-            // }}
+            intent={props.form.formState.errors.start_day ? 'error' : 'default'}
             label="Ngày bắt đầu"
+            placeholder="Chọn ngày bắt đầu"
             message={props.form.formState.errors.start_day?.message ?? ''}
             required
-            // disabled={
-            //   props.ProjectDetail?.approval_status == 'REJECT' ||
-            //   props.typeHandle == 'aprrove'
-            //     ? true
-            //     : false
-            // }
           />
           <InputDate<UpdateSchoolYearRequest>
             name="end_day"
             control={props.form.control}
             intent={props.form.formState.errors.end_day ? 'error' : 'default'}
-            // onChange={(e) => {
-            //   setTime(e.target.value)
-            // }}
-            label="Ngày bắt đầu"
+            placeholder="Chọn ngày kết thúc"
+            label="Ngày kết thúc"
             message={props.form.formState.errors.end_day?.message ?? ''}
             required
-            // disabled={
-            //   props.ProjectDetail?.approval_status == 'REJECT' ||
-            //   props.typeHandle == 'aprrove'
-            //     ? true
-            //     : false
-            // }
           />
         </ContainerFormBody>
         <ContainerFormFooter>

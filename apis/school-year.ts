@@ -48,12 +48,36 @@ const SchoolYearApi = {
     }
     return axiosClient.post(url, trymObject(data), config)
   },
+  updateSchoolYear(
+    accessToken: string,
+    id: string,
+    data: UpdateSchoolYearRequest
+  ): Promise<any> {
+    const url = `/schedule/schoolyear/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteSchoolYear(accessToken: string, id: string): Promise<any> {
+    const url = `/schedule/schoolyear/delete-schoolyear/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
+  },
   createSemester(
     accessToken: string,
     id: string,
     data: UpdateSemesterRequest
   ): Promise<any> {
-    const url = `/school-year/${id}/semester/`
+    const url = `/schedule/schoolyear/${id}/semester/`
     const config = {
       headers: {
         token: accessToken,
@@ -61,6 +85,30 @@ const SchoolYearApi = {
       },
     }
     return axiosClient.post(url, trymObject(data), config)
+  },
+  updateSemester(
+    accessToken: string,
+    id: string,
+    data: UpdateSemesterRequest
+  ): Promise<any> {
+    const url = `/schedule/schoolyear/semester/${id}/`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.put(url, trymObject(data), config)
+  },
+  deleteSemester(accessToken: string, id: string): Promise<any> {
+    const url = `/schedule/schoolyear/delete-semester/${id}`
+    const config = {
+      headers: {
+        token: accessToken,
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+    return axiosClient.delete(url, config)
   },
 }
 
