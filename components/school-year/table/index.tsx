@@ -154,8 +154,14 @@ const SchoolYearTable = (props: {
               {info.row.getIsExpanded() ? <Chevron expanded /> : <Chevron />}
             </button>
           )}
-          {dayjs(info.getValue()?.start).format(YEAR_FORMAT_VIEW)} -{' '}
-          {dayjs(info.getValue()?.end).format(YEAR_FORMAT_VIEW)}
+          {info.row.depth === 0 ? (
+            <>
+              {dayjs(info.getValue()?.start).format(YEAR_FORMAT_VIEW)} -{' '}
+              {dayjs(info.getValue()?.end).format(YEAR_FORMAT_VIEW)}
+            </>
+          ) : (
+            <>{info.getValue()}</>
+          )}
         </div>
       ),
       enableColumnFilter: true,
