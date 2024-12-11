@@ -9,18 +9,18 @@ export const StatusView: {
   {
     label: 'Đã qua',
     value: 'PAST',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'quá hạn')!.value,
+  },
+  {
+    label: 'Đang diễn ra',
+    value: 'ONGOING',
+    color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
+  },
+  {
+    label: 'Sắp diễn ra',
+    value: 'UPCOMING',
     color: ColorStatus.find((e) => e.name.toLowerCase() == 'xử lý lại')!.value,
   },
-//   {
-//     label: 'Đang diễn ra',
-//     value: 'ONGOING',
-//     color: ColorStatus.find((e) => e.name.toLowerCase() == 'đã xử lý')!.value,
-//   },
-//   {
-//     label: 'Chưa đến',
-//     value: 'UPCOMING',
-//     color: ColorStatus.find((e) => e.name.toLowerCase() == 'quá hạn')!.value,
-//   },
 ]
 export const ViewStatusYearSemester = (props: {
   status: 'PAST' | 'ONGOING' | 'UPCOMING'

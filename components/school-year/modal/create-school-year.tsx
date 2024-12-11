@@ -29,7 +29,6 @@ const CreateSchoolYearModal = (props: {
               btnStyle="no-background"
               onClick={() => {
                 createSchoolYear.reset()
-                createSchoolYear.reset()
                 mutation.reset()
               }}
             >

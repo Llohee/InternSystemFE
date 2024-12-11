@@ -13,13 +13,14 @@ const CreateSemesteModal = (props: {
   semesterDetail?: SemesterDetail
 }) => {
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
-  const closeModal = () => {
-    setIsConfirmCloseModal(true)
-  }
   const { createSemester, handleFormSubmit, mutation } = useSemesterCreate(
     props.closeModal,
     props.schoolyearDetail.id
   )
+  const closeModal = () => {
+    setIsConfirmCloseModal(true)
+    createSemester.reset
+  }
   return (
     <>
       <Modal
@@ -32,7 +33,6 @@ const CreateSemesteModal = (props: {
               ariaLabel="Reset form"
               btnStyle="no-background"
               onClick={() => {
-                createSemester.reset()
                 createSemester.reset()
                 mutation.reset()
               }}

@@ -1,7 +1,11 @@
 import SchoolYearApi from '@/apis/school-year'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import { SchoolYearKeys } from '@/hooks/query/school-year'
-import { ErrorResponse, SemesterDetail, UpdateSemesterRequest } from '@/models/api'
+import {
+  ErrorResponse,
+  SemesterDetail,
+  UpdateSemesterRequest,
+} from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -13,10 +17,7 @@ export const useSemesterCreate = (closeModal: () => void, id: string) => {
     defaultValues: { is_active: true },
   })
 
-  const mutation = useSemesterCreateMutation(
-    closeModal,
-     id
-  )
+  const mutation = useSemesterCreateMutation(closeModal, id, createSemester.reset)
   const handleFormSubmit: SubmitHandler<UpdateSemesterRequest> = async (
     data
   ) => {
@@ -30,7 +31,11 @@ export const useSemesterCreate = (closeModal: () => void, id: string) => {
     mutation,
   }
 }
-export function useSemesterCreateMutation(closeModal: () => void, id: string) {
+export function useSemesterCreateMutation(
+  closeModal: () => void,
+  id: string,
+  reset: UseFormReset<UpdateSemesterRequest>
+) {
   const getAccessToken = useGetAccessToken()
   return useMutation<any, AxiosError, UpdateSemesterRequest, any>(
     (createSemesterBody) =>
@@ -52,6 +57,7 @@ export function useSemesterCreateMutation(closeModal: () => void, id: string) {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(SchoolYearKeys.all)
+        reset()
         closeModal()
       },
     }
