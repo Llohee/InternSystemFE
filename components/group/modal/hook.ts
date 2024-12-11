@@ -29,7 +29,10 @@ export function useGroupCreateMutation(
   return useMutation<any, AxiosError, UpdateGroupRequest, any>(
     (createGroupBody) =>
       toast.promise(
-        GroupApi.createGroup(getAccessToken.data!.access_token.token, createGroupBody),
+        GroupApi.createGroup(
+          getAccessToken.data!.access_token.token,
+          createGroupBody
+        ),
         {
           loading: 'Đang tạo mới nhóm',
           success: 'Tạo mới nhóm thành công',
@@ -53,7 +56,10 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
     defaultValues: {
       name: group.name,
       lecturer: group.lecturer.id,
-      students: group.students.map((e) => e.id)
+      students: group.students.map((e) => e.id),
+      school_year: group.school_year,
+      semester: group.semester,
+      overdue_apply: group.overdue_apply,
     },
   })
 
@@ -71,7 +77,7 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
 export function useGroupUpdateMutation(
   reset: UseFormReset<UpdateGroupRequest>,
   closeModal: () => void,
-  group: GroupDetail,
+  group: GroupDetail
 ) {
   const getAccessToken = useGetAccessToken()
   return useMutation<any, AxiosError, UpdateGroupRequest, any>(
