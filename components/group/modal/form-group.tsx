@@ -1,3 +1,4 @@
+import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
   CustomComboboxButton,
@@ -13,14 +14,18 @@ import {
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Input, inputStyles } from '@/components/ui/input/input'
+import { InputSelect } from '@/components/ui/select/select'
 import { SwitchButton } from '@/components/ui/switch/switch'
 import { useGetConfigLTWhithoutGroup } from '@/hooks/query/account/lecturer'
 import { useGetConfigSTWhithoutGroup } from '@/hooks/query/account/student'
+import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
 import { GroupDetail, UpdateGroupRequest, UserGetDetail } from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { Combobox, ComboboxInput } from '@headlessui/react'
 import { DevTool } from '@hookform/devtools'
+import { DatePicker } from 'antd'
 import { AxiosError } from 'axios'
+import dayjs from 'dayjs'
 import { ChangeEvent, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -38,7 +43,9 @@ export const FormGroup = (props: {
     formState: { errors },
     watch,
   } = props.form
-
+  const getAllSchoolYear = usegetConfigSchoolYear()
+  const [disableStartDate, setDisableStartDate] = useState<Date>()
+  const [disableEndDate, setDisableEndDate] = useState<Date>()
   return (
     <>
       <form
@@ -68,6 +75,86 @@ export const FormGroup = (props: {
                   label={'Trạng thái'}
                 />
               )}
+            />
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Controller
+              control={props.form.control}
+              name="school_year"
+              render={({ field: { value, onChange } }) => {
+                const options = getAllSchoolYear?.data?.data.map(
+                  (val: any) => ({
+                    value: val.id,
+                    label: `${val.name.start} - ${val.name.end}`,
+                  })
+                )
+                return (
+                  <InputSelect
+                    options={options}
+                    value={options?.filter((val) => value === val?.value)}
+                    onChange={(options) => {
+                      onChange(options?.value ?? '')
+                    }}
+                    label={'Năm học'}
+                    placeholder={'Chọn năm học'}
+                    required
+                    intent={
+                      props.form.formState.errors.school_year
+                        ? 'error'
+                        : 'default'
+                    }
+                    message={
+                      props.form.formState.errors.school_year?.message ?? ''
+                    }
+                  />
+                )
+              }}
+            />
+            <Controller
+              control={props.form.control}
+              name="semester"
+              render={({ field: { value, onChange } }) => {
+                const options =
+                  (getAllSchoolYear?.data?.data ?? [])
+                    .find((e) => e.id === props.form.watch('school_year'))
+                    ?.semester?.map((val: any) => ({
+                      value: val.id,
+                      label: `${val.name} (${dayjs(val.start_day).format(
+                        DATE_FORMAT_VIEW
+                      )} - ${dayjs(val.end_day).format(DATE_FORMAT_VIEW)})`,
+                      start: val.start_day,
+                      end: val.end_day,
+                    })) ?? []
+                return (
+                  <div className="col flex flex-col gap-3">
+                    <InputSelect
+                      options={options}
+                      value={options?.filter((val) => value === val?.value)}
+                      onChange={(options) => {
+                        onChange(options?.value ?? '')
+                        setDisableStartDate(options.start)
+                        setDisableEndDate(options.end)
+                      }}
+                      label={'Kì học'}
+                      placeholder={
+                        !props.form.watch('school_year')
+                          ? 'Chọn năm học trước'
+                          : 'Chọn kì học'
+                      }
+                      disabled={props.form.watch('school_year') ? false : true}
+                      intent={
+                        props.form.formState.errors.semester
+                          ? 'error'
+                          : 'default'
+                      }
+                      required
+                      message={
+                        props.form.formState.errors.semester?.message ?? ''
+                      }
+                    />
+                  </div>
+                )
+              }}
             />
           </div>
           <Controller
@@ -102,6 +189,7 @@ export const FormGroup = (props: {
                     className={`flex gap-1 text-label-3 text-typography-label`}
                   >
                     Giảng viên phụ trách
+                    <span className="text-error-base">*</span>
                   </label>
                   <Combobox
                     value={
@@ -184,7 +272,6 @@ export const FormGroup = (props: {
               )
             }}
           />
-
           <Controller
             control={props.form.control}
             name="students"
@@ -222,6 +309,7 @@ export const FormGroup = (props: {
                     className={`flex gap-1 text-label-3 text-typography-label`}
                   >
                     Sinh viên
+                    <span className="text-error-base">*</span>
                   </label>
                   <Combobox
                     value={filterUser?.filter(
@@ -306,6 +394,56 @@ export const FormGroup = (props: {
               )
             }}
           />
+          <div className="grid md:grid-cols-2 gap-6 items-end">
+            <div className="col-span-1">
+              <label
+                className={`flex gap-1 text-label-3 text-typography-label mb-2`}
+              >
+                Hạn tự ứng tuyển
+                <span className="text-error-base">*</span>
+              </label>
+              <Controller
+                name="overdue_apply"
+                control={props.form.control}
+                render={({ field: { value, onChange } }) => (
+                  <div className="w-full">
+                    <DatePicker
+                      className="w-full py-2 px-3"
+                      format="DD-MM-YYYY HH:mm"
+                      value={value ? dayjs(value) : null}
+                      onChange={(date) => {
+                        if (date) {
+                          onChange(dayjs(date))
+                        } else {
+                          onChange('')
+                        }
+                      }}
+                      placeholder={
+                        !watch('semester')
+                          ? 'Chọn kì học trước'
+                          : 'Chọn hạn tự ứng tuyển'
+                      }
+                      showTime={{ format: 'HH:mm' }}
+                      disabled={!watch('semester')}
+                      disabledDate={
+                        watch('semester')
+                          ? (current) =>
+                              (current && current < dayjs(disableStartDate)) ||
+                              current > dayjs(disableEndDate)
+                          : () => false
+                      }
+                    />
+                  </div>
+                )}
+              />
+            </div>
+            <div className="col-span-1 flex gap-1 text-body-3 text-typography-subtitle">
+              <span>*</span>{' '}
+              <div>
+                Sinh viên không thể tự ứng tuyển vào doanh nghiệp nếu quá hạn.
+              </div>
+            </div>
+          </div>
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button

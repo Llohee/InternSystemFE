@@ -17,6 +17,9 @@ export interface GetAllGroupResponse {
 export interface GroupDetail {
   id: string
   name: string
+  school_year: string
+  semester: string
+  overdue_apply: Date
   lecturer: UserGetDetail
   students: UserGetDetail[]
   university: string
@@ -25,6 +28,9 @@ export interface GroupDetail {
 }
 export interface UpdateGroupRequest {
   name: string
+  school_year: string
+  semester: string
+  overdue_apply: Date
   lecturer: string
   students: string[]
   is_active?: boolean

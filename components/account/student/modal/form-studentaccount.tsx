@@ -122,7 +122,7 @@ export const FormStudentAccount = (props: {
               />
             </div>
           )}
-          <div className="col col-span-full grid md:grid-cols-2 gap-5">
+          <div className="col col-span-full grid md:grid-cols-2 gap-6">
             <Input<UpdateUserRequest>
               label={'Họ và tên'}
               name="fullname"
