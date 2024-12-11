@@ -1,6 +1,5 @@
 import {
-  DATE_FORMAT_VIEW,
-  YEAR_FORMAT_VIEW,
+  DATE_FORMAT_VIEW
 } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
@@ -8,13 +7,12 @@ import {
   ContainerFormFooter,
 } from '@/components/ui/container'
 import { Input, inputStyles } from '@/components/ui/input/input'
-import InputDate from '@/components/ui/input/input-date'
-import { SelectDateRangeInput } from '@/components/ui/select-date/select-date-range-input'
 import {
   SchoolYearDetail,
   SemesterDetail,
   UpdateSemesterRequest,
 } from '@/models/api'
+import { DatePicker } from 'antd'
 import dayjs from 'dayjs'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
@@ -27,8 +25,40 @@ const FormSemester = (props: {
   SemesterDetail?: SemesterDetail
   isEdit?: boolean
 }) => {
-  const { register, handleSubmit } = props.form
+  const { register, handleSubmit, watch, setError, clearErrors, formState } =
+    props.form
+  const { errors, isSubmitting, isValid } = formState
 
+  const watchStart_DayDate = watch(`start_day`)
+  const watchEnd_DayDate = watch(`end_day`)
+  
+  const validateDates = () => {
+    if (watchStart_DayDate && watchEnd_DayDate) {
+      const isStart_DayAfterEnd_Day = dayjs(watchStart_DayDate).isAfter(
+        dayjs(watchEnd_DayDate)
+      )
+      const isEnd_DayBeforeStart_Day = dayjs(watchEnd_DayDate).isBefore(
+        dayjs(watchStart_DayDate)
+      )
+
+      if (isStart_DayAfterEnd_Day) {
+        setError('start_day', {
+          type: 'manual',
+          message: `Ngày bắt đầu phải nhỏ hơn ngày kết thúc`,
+        })
+      } else {
+        clearErrors('start_day')
+      }
+      if (isEnd_DayBeforeStart_Day) {
+        setError('end_day', {
+          type: 'manual',
+          message: `Ngày kết thúc phải lớn hơn ngày bắt đầu`,
+        })
+      } else {
+        clearErrors('end_day')
+      }
+    }
+  }
   return (
     <>
       <form
@@ -46,11 +76,8 @@ const FormSemester = (props: {
                 className: '!bg-grey-3 truncate',
               })}
             >
-              {dayjs(props.schoolyearDetail.name.start).format(
-                DATE_FORMAT_VIEW
-              )}{' '}
-              -{' '}
-              {dayjs(props.schoolyearDetail.name.end).format(DATE_FORMAT_VIEW)}
+              {dayjs(props.schoolyearDetail.start_day).format(DATE_FORMAT_VIEW)}{' '}
+              - {dayjs(props.schoolyearDetail.end_day).format(DATE_FORMAT_VIEW)}
             </div>
           </div>
           <Input<UpdateSemesterRequest>
@@ -76,42 +103,104 @@ const FormSemester = (props: {
             message={props.form.formState.errors.description?.message ?? ''}
             disabled={props.isEdit}
           />
-          <InputDate<UpdateSemesterRequest>
-            name="start_day"
-            control={props.form.control}
-            intent={props.form.formState.errors.start_day ? 'error' : 'default'}
-            // onChange={(e) => {
-            //   setTime(e.target.value)
-            // }}
-            label="Ngày bắt đầu"
-            placeholder="Chọn ngày bắt đầu"
-            message={props.form.formState.errors.start_day?.message ?? ''}
-            required
-            // disabled={
-            //   props.ProjectDetail?.approval_status == 'REJECT' ||
-            //   props.typeHandle == 'aprrove'
-            //     ? true
-            //     : false
-            // }
-          />
-          <InputDate<UpdateSemesterRequest>
-            name="end_day"
-            control={props.form.control}
-            intent={props.form.formState.errors.end_day ? 'error' : 'default'}
-            // onChange={(e) => {
-            //   setTime(e.target.value)
-            // }}
-            label="Ngày kết thúc"
-            placeholder="Chọn ngày kết thúc"
-            message={props.form.formState.errors.end_day?.message ?? ''}
-            required
-            // disabled={
-            //   props.ProjectDetail?.approval_status == 'REJECT' ||
-            //   props.typeHandle == 'aprrove'
-            //     ? true
-            //     : false
-            // }
-          />
+          <div className="">
+            <label
+              className={`flex gap-1 text-label-3 text-typography-label mb-2`}
+            >
+              Ngày bắt đầu
+              <span className="text-error-base">*</span>
+            </label>
+            <Controller
+              name="start_day"
+              control={props.form.control}
+              rules={{
+                validate: () => {
+                  validateDates()
+                  return true
+                },
+              }}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <div className="w-full">
+                  <DatePicker
+                    className="w-full py-2 px-3"
+                    format={'DD/MM/YYYY'}
+                    value={value ? dayjs(value).second(0).millisecond(0) : null}
+                    onChange={(date) => {
+                      if (date) {
+                        onChange(dayjs(date).startOf('day').toISOString())
+                        validateDates()
+                      } else {
+                        onChange('')
+                      }
+                    }}
+                    placeholder={'Chọn ngày bắt đầu'}
+                    disabledDate={(current) =>
+                      (current &&
+                        current < dayjs(props.schoolyearDetail.start_day)) ||
+                      current > dayjs(props.schoolyearDetail.end_day)
+                    }
+                  />
+                  {error && (
+                    <span className="mt-2 text-error-base text-label-5">
+                      {error.message}
+                    </span>
+                  )}
+                </div>
+              )}
+            />
+          </div>
+          <div className="">
+            <label
+              className={`flex gap-1 text-label-3 text-typography-label mb-2`}
+            >
+              Ngày kết thúc
+              <span className="text-error-base">*</span>
+            </label>
+            <Controller
+              name="end_day"
+              control={props.form.control}
+              rules={{
+                validate: () => {
+                  validateDates()
+                  return true
+                },
+              }}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <div className="w-full">
+                  <DatePicker
+                    className="w-full py-2 px-3"
+                    format={'DD/MM/YYYY'}
+                    value={value ? dayjs(value).second(0).millisecond(0) : null}
+                    onChange={(date) => {
+                      if (date) {
+                        onChange(dayjs(date).startOf('day').toISOString())
+                        validateDates()
+                      } else {
+                        onChange('')
+                      }
+                    }}
+                    placeholder={'Chọn ngày kết thúc'}
+                    disabledDate={(current) =>
+                      (current &&
+                        current < dayjs(props.schoolyearDetail.start_day)) ||
+                      current > dayjs(props.schoolyearDetail.end_day)
+                    }
+                  />
+                  {error && (
+                    <span className="mt-2 text-error-base text-label-5">
+                      {error.message}
+                    </span>
+                  )}
+                </div>
+              )}
+            />
+          </div>
         </ContainerFormBody>
         <ContainerFormFooter>
           <Button
@@ -122,9 +211,10 @@ const FormSemester = (props: {
             Hủy
           </Button>
           <Button
-            posting={props.mutation.isLoading}
+            posting={props.mutation.isLoading || isSubmitting}
             intent={props.isEdit ? 'primary' : 'primary'}
             type={'submit'}
+            disabled={!isValid || Object.keys(errors).length > 0}
           >
             {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
           </Button>
