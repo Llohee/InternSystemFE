@@ -1,6 +1,4 @@
-import {
-  DATE_FORMAT_VIEW
-} from '@/components/common/constant'
+import { DATE_FORMAT_VIEW } from '@/components/common/constant'
 import { Button } from '@/components/ui/button/button'
 import {
   ContainerFormBody,
@@ -31,7 +29,7 @@ const FormSemester = (props: {
 
   const watchStart_DayDate = watch(`start_day`)
   const watchEnd_DayDate = watch(`end_day`)
-  
+
   const validateDates = () => {
     if (watchStart_DayDate && watchEnd_DayDate) {
       const isStart_DayAfterEnd_Day = dayjs(watchStart_DayDate).isAfter(
@@ -40,8 +38,11 @@ const FormSemester = (props: {
       const isEnd_DayBeforeStart_Day = dayjs(watchEnd_DayDate).isBefore(
         dayjs(watchStart_DayDate)
       )
+      const isStart_DaySameEnd_Day = dayjs(watchStart_DayDate).isSame(
+        dayjs(watchEnd_DayDate)
+      )
 
-      if (isStart_DayAfterEnd_Day) {
+      if (isStart_DayAfterEnd_Day || isStart_DaySameEnd_Day) {
         setError('start_day', {
           type: 'manual',
           message: `Ngày bắt đầu phải nhỏ hơn ngày kết thúc`,
@@ -49,7 +50,7 @@ const FormSemester = (props: {
       } else {
         clearErrors('start_day')
       }
-      if (isEnd_DayBeforeStart_Day) {
+      if (isEnd_DayBeforeStart_Day || isStart_DaySameEnd_Day) {
         setError('end_day', {
           type: 'manual',
           message: `Ngày kết thúc phải lớn hơn ngày bắt đầu`,
@@ -142,6 +143,7 @@ const FormSemester = (props: {
                         current < dayjs(props.schoolyearDetail.start_day)) ||
                       current > dayjs(props.schoolyearDetail.end_day)
                     }
+                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
@@ -191,6 +193,7 @@ const FormSemester = (props: {
                         current < dayjs(props.schoolyearDetail.start_day)) ||
                       current > dayjs(props.schoolyearDetail.end_day)
                     }
+                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
