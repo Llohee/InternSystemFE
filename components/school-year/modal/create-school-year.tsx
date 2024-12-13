@@ -10,12 +10,13 @@ const CreateSchoolYearModal = (props: {
   closeModal: () => void
 }) => {
   const [isConfirmCloseModal, setIsConfirmCloseModal] = useState(false)
-  const closeModal = () => {
-    setIsConfirmCloseModal(true)
-  }
   const { createSchoolYear, handleFormSubmit, mutation } = useSchoolYearCreate(
     props.closeModal
   )
+  const closeModal = () => {
+    setIsConfirmCloseModal(true)
+    createSchoolYear.reset()
+  }
   return (
     <>
       <Modal
