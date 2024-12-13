@@ -55,6 +55,9 @@ const FormSchoolYear = (props: {
       const isEnd_DayBeforeStart_Day = dayjs(watchEnd_DayDate).isBefore(
         dayjs(watchStart_DayDate)
       )
+      const isStart_DaySameEnd_Day = dayjs(watchStart_DayDate).isSame(
+        dayjs(watchEnd_DayDate)
+      )
 
       const isStart_DateBeforeStart_Name = dayjs(watchStart_DayDate).isBefore(
         dayjs(watchStart_Name).startOf('year')
@@ -70,7 +73,7 @@ const FormSchoolYear = (props: {
         dayjs(watchEnd_Name).endOf('year')
       )
 
-      if (isStart_DayAfterEnd_Day) {
+      if (isStart_DayAfterEnd_Day || isStart_DaySameEnd_Day) {
         setError('start_day', {
           type: 'manual',
           message: `Ngày bắt đầu phải nhỏ hơn ngày kết thúc`,
@@ -78,12 +81,12 @@ const FormSchoolYear = (props: {
       } else if (isStart_DateBeforeStart_Name || isStart_DateAfterEnd_Name) {
         setError('start_day', {
           type: 'manual',
-          message: `Ngày bắt đầu phải thuộc năm họchọc`,
+          message: `Ngày bắt đầu phải thuộc năm học`,
         })
       } else {
         clearErrors('start_day')
       }
-      if (isEnd_DayBeforeStart_Day) {
+      if (isEnd_DayBeforeStart_Day || isStart_DaySameEnd_Day) {
         setError('end_day', {
           type: 'manual',
           message: `Ngày kết thúc phải lớn hơn ngày bắt đầu`,
@@ -191,7 +194,6 @@ const FormSchoolYear = (props: {
               name="start_day"
               control={props.form.control}
               rules={{
-                required: "Ngày bắt đầu là bắt buộc",
                 validate: () => {
                   validateDates()
                   return true
@@ -227,6 +229,7 @@ const FormSchoolYear = (props: {
                             current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
+                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
@@ -248,7 +251,6 @@ const FormSchoolYear = (props: {
               name="end_day"
               control={props.form.control}
               rules={{
-                required: "Ngày bắt đầu là bắt buộc",
                 validate: () => {
                   validateDates()
                   return true
@@ -284,6 +286,7 @@ const FormSchoolYear = (props: {
                             current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
+                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
