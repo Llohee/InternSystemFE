@@ -46,8 +46,8 @@ export function useSemesterCreateMutation(
           createSemesterBody
         ),
         {
-          loading: 'Đang tạo mới năm học',
-          success: 'Tạo mới năm học thành công',
+          loading: 'Đang tạo mới kì học',
+          success: 'Tạo mới kì học thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,
@@ -110,8 +110,8 @@ export function useSemesterUpdateMutation(
           updateSemesterBody
         ),
         {
-          loading: 'Đang cập nhật năm học',
-          success: 'Cập nhật năm học thành công',
+          loading: 'Đang cập nhật kì họchọc',
+          success: 'Cập nhật kì họchọc thành công',
           error: (err) =>
             (err as AxiosError<ErrorResponse>).response?.data?.description ??
             (err as AxiosError).message,

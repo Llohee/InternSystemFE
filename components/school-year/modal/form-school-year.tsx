@@ -33,10 +33,10 @@ const FormSchoolYear = (props: {
 
   const validateYears = () => {
     if (watchStart_Name && watchEnd_Name) {
-      const mathYear =
-        Math.abs(dayjs(watchEnd_Name).year() - dayjs(watchStart_Name).year()) >
-        1
-      if (mathYear) {
+      const mathYear = Math.abs(
+        dayjs(watchEnd_Name).year() - dayjs(watchStart_Name).year()
+      )
+      if (mathYear > 1 || mathYear == 0) {
         setError('name', {
           type: 'manual',
           message: `Năm bắt đầu và năm kết thúc phải liền nhau`,
@@ -56,10 +56,29 @@ const FormSchoolYear = (props: {
         dayjs(watchStart_DayDate)
       )
 
+      const isStart_DateBeforeStart_Name = dayjs(watchStart_DayDate).isBefore(
+        dayjs(watchStart_Name).startOf('year')
+      )
+      const isStart_DateAfterEnd_Name = dayjs(watchStart_DayDate).isAfter(
+        dayjs(watchEnd_Name).endOf('year')
+      )
+
+      const isEnd_DateBeforeStart_Name = dayjs(watchEnd_DayDate).isBefore(
+        dayjs(watchStart_Name).startOf('year')
+      )
+      const isEnd_DateAfterEnd_Name = dayjs(watchEnd_DayDate).isAfter(
+        dayjs(watchEnd_Name).endOf('year')
+      )
+
       if (isStart_DayAfterEnd_Day) {
         setError('start_day', {
           type: 'manual',
           message: `Ngày bắt đầu phải nhỏ hơn ngày kết thúc`,
+        })
+      } else if (isStart_DateBeforeStart_Name || isStart_DateAfterEnd_Name) {
+        setError('start_day', {
+          type: 'manual',
+          message: `Ngày bắt đầu phải thuộc năm họchọc`,
         })
       } else {
         clearErrors('start_day')
@@ -68,6 +87,11 @@ const FormSchoolYear = (props: {
         setError('end_day', {
           type: 'manual',
           message: `Ngày kết thúc phải lớn hơn ngày bắt đầu`,
+        })
+      } else if (isEnd_DateBeforeStart_Name || isEnd_DateAfterEnd_Name) {
+        setError('end_day', {
+          type: 'manual',
+          message: `Ngày kết thúc phải thuộc năm học`,
         })
       } else {
         clearErrors('end_day')
@@ -167,6 +191,7 @@ const FormSchoolYear = (props: {
               name="start_day"
               control={props.form.control}
               rules={{
+                required: "Ngày bắt đầu là bắt buộc",
                 validate: () => {
                   validateDates()
                   return true
@@ -196,8 +221,10 @@ const FormSchoolYear = (props: {
                     disabledDate={
                       watch('name')
                         ? (current) =>
-                            (current && current < dayjs(watch('name.start'))) ||
-                            current > dayjs(watch('name.end'))
+                            (current &&
+                              current <
+                                dayjs(watch('name.start')).startOf('year')) ||
+                            current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
                   />
@@ -221,6 +248,7 @@ const FormSchoolYear = (props: {
               name="end_day"
               control={props.form.control}
               rules={{
+                required: "Ngày bắt đầu là bắt buộc",
                 validate: () => {
                   validateDates()
                   return true
@@ -250,8 +278,10 @@ const FormSchoolYear = (props: {
                     disabledDate={
                       watch('name')
                         ? (current) =>
-                            (current && current < dayjs(watch('name.start'))) ||
-                            current > dayjs(watch('name.end'))
+                            (current &&
+                              current <
+                                dayjs(watch('name.start')).startOf('year')) ||
+                            current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
                   />

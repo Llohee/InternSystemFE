@@ -26,7 +26,7 @@ const UpdateSemesterModal = (props: {
         size="default"
         title={
           <div className="w-full h-6 flex gap-3 items-center">
-            <div className="grow">Chỉnh sửa năm học</div>
+            <div className="grow">Chỉnh sửa kì học</div>
             <Button
               iconOnly
               ariaLabel="Reset form"
