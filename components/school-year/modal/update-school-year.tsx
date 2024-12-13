@@ -32,7 +32,6 @@ const UpdateSchoolYearModal = (props: {
               btnStyle="no-background"
               onClick={() => {
                 updateSchoolYear.reset()
-                updateSchoolYear.reset()
                 mutation.reset()
               }}
             >
@@ -59,6 +58,7 @@ const UpdateSchoolYearModal = (props: {
           mutation={mutation}
           closeModal={() => {
             closeModal()
+            updateSchoolYear.reset()
           }}
           schoolYearDetail={props.schoolyearDetail}
           isEdit={true}

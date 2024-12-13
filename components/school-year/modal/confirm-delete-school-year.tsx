@@ -17,7 +17,7 @@ const ConfirmDeleteSchoolYearModal = (props: {
     <>
       <ConfirmModal
         {...props}
-        title={'Xóa năm học đã chọn'}
+        title={`Xóa năm học ${props.schoolyearDetail.name.start} - ${props.schoolyearDetail.name.end}`}
         description={'Năm học đã xóa sẽ không thể khôi phục'}
         type="Delete"
         action={() => {

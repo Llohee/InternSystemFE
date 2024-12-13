@@ -412,14 +412,20 @@ const SchoolYearTable = (props: {
       {schoolYearChoose && (
         <UpdateSchoolYearModal
           isOpen={isShowModalUpdate}
-          closeModal={() => setIsShowModalUpdate(false)}
+          closeModal={() => {
+            setIsShowModalUpdate(false)
+            setSchoolYearChoose(undefined)
+          }}
           schoolyearDetail={schoolYearChoose}
         />
       )}
       {schoolYearChoose && semesterChoose && (
         <UpdateSemesterModal
           isOpen={isShowModalUpdateSemester}
-          closeModal={() => setIsShowModalUpdateSemester(false)}
+          closeModal={() => {
+            setIsShowModalUpdateSemester(false)
+            setSemesterChoose(undefined)
+          }}
           schoolyearDetail={schoolYearChoose}
           semesterDetail={semesterChoose}
         />
