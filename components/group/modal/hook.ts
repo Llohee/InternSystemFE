@@ -10,6 +10,9 @@ import toast from 'react-hot-toast'
 
 export const useGroupCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdateGroupRequest>()
+  formCreate.register('overdue_apply', {
+    required: 'Hạn ứng tuyển là bắt buộc',
+  })
   const mutation = useGroupCreateMutation(formCreate.reset, closeModal)
   const handleFormSubmit: SubmitHandler<UpdateGroupRequest> = async (data) => {
     mutation.mutate(data)
@@ -61,6 +64,9 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
       semester: group.semester,
       overdue_apply: group.overdue_apply,
     },
+  })
+  formUpdate.register('overdue_apply', {
+    required: 'Hạn ứng tuyển là bắt buộc',
   })
 
   const mutation = useGroupUpdateMutation(formUpdate.reset, closeModal, group)

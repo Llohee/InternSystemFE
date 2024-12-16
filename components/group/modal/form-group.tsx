@@ -19,14 +19,19 @@ import { SwitchButton } from '@/components/ui/switch/switch'
 import { useGetConfigLTWhithoutGroup } from '@/hooks/query/account/lecturer'
 import { useGetConfigSTWhithoutGroup } from '@/hooks/query/account/student'
 import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
-import { GroupDetail, UpdateGroupRequest, UserGetDetail } from '@/models/api'
+import {
+  GroupDetail,
+  SemesterDetail,
+  UpdateGroupRequest,
+  UserGetDetail,
+} from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { Combobox, ComboboxInput } from '@headlessui/react'
 import { DevTool } from '@hookform/devtools'
 import { DatePicker } from 'antd'
 import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 
 export const FormGroup = (props: {
@@ -44,8 +49,17 @@ export const FormGroup = (props: {
     watch,
   } = props.form
   const getAllSchoolYear = usegetConfigSchoolYear()
-  const [disableStartDate, setDisableStartDate] = useState<Date>()
-  const [disableEndDate, setDisableEndDate] = useState<Date>()
+  // const [disableStartDate, setDisableStartDate] = useState<Date>()
+  // const [disableEndDate, setDisableEndDate] = useState<Date>()
+  const [semesterChoose, setSemesterChoose] = useState<
+    | {
+        value: any
+        label: string
+        start_day: Date
+        end_day: Date
+      }
+    | undefined
+  >()
   return (
     <>
       <form
@@ -122,9 +136,18 @@ export const FormGroup = (props: {
                       label: `${val.name} (${dayjs(val.start_day).format(
                         DATE_FORMAT_VIEW
                       )} - ${dayjs(val.end_day).format(DATE_FORMAT_VIEW)})`,
-                      start: val.start_day,
-                      end: val.end_day,
+                      start_day: val.start_day as Date,
+                      end_day: val.end_day as Date,
                     })) ?? []
+                useEffect(() => {
+                  if (props.isEdit) {
+                    setSemesterChoose(
+                      options.find(
+                        (e) => e.value === props.form.watch('semester')
+                      )
+                    )
+                  }
+                }, [props.isEdit])
                 return (
                   <div className="col flex flex-col gap-3">
                     <InputSelect
@@ -132,8 +155,10 @@ export const FormGroup = (props: {
                       value={options?.filter((val) => value === val?.value)}
                       onChange={(options) => {
                         onChange(options?.value ?? '')
-                        setDisableStartDate(options.start)
-                        setDisableEndDate(options.end)
+                        setSemesterChoose(options)
+                        // setDisableStartDate(options.start)
+                        // setDisableEndDate(options.end)
+                        props.form.setValue('overdue_apply', null)
                       }}
                       label={'Kì học'}
                       placeholder={
@@ -405,7 +430,10 @@ export const FormGroup = (props: {
               <Controller
                 name="overdue_apply"
                 control={props.form.control}
-                render={({ field: { value, onChange } }) => (
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
                   <div className="w-full">
                     <DatePicker
                       className="w-full py-2 px-3"
@@ -428,11 +456,17 @@ export const FormGroup = (props: {
                       disabledDate={
                         watch('semester')
                           ? (current) =>
-                              (current && current < dayjs(disableStartDate)) ||
-                              current > dayjs(disableEndDate)
+                              (current &&
+                                current < dayjs(semesterChoose?.start_day)) ||
+                              current > dayjs(semesterChoose?.end_day)
                           : () => false
                       }
                     />
+                    {error && (
+                      <span className="mt-2 text-error-base text-label-5">
+                        {props.form.formState.errors.overdue_apply?.message}
+                      </span>
+                    )}
                   </div>
                 )}
               />

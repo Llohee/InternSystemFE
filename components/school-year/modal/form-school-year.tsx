@@ -161,11 +161,10 @@ const FormSchoolYear = (props: {
                       }
                       onChange={handleDateChange}
                       format={YEAR_FORMAT_VIEW}
-                      required
                     />
                     {error && (
                       <span className="mt-2 text-error-base text-label-5">
-                        {error.message}
+                        {props.form.formState.errors.name?.message}
                       </span>
                     )}
                   </>
@@ -229,11 +228,10 @@ const FormSchoolYear = (props: {
                             current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
-                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
-                      {error.message}
+                      {props.form.formState.errors.start_day?.message}
                     </span>
                   )}
                 </div>
@@ -286,11 +284,10 @@ const FormSchoolYear = (props: {
                             current > dayjs(watch('name.end')).endOf('year')
                         : () => false
                     }
-                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
-                      {error.message}
+                      {props.form.formState.errors.end_day?.message}
                     </span>
                   )}
                 </div>
@@ -310,7 +307,6 @@ const FormSchoolYear = (props: {
             posting={props.mutation.isLoading || isSubmitting}
             intent={props.isEdit ? 'primary' : 'primary'}
             type={'submit'}
-            disabled={!isValid || Object.keys(errors).length > 0}
           >
             {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
           </Button>

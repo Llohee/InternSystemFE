@@ -90,6 +90,7 @@ const UpdateModal = (props: {
               closeModal()
             }}
             groupDetail={props.groupDetail}
+            isEdit={true}
           />
         </div>
         <ConfirmCloseModal
