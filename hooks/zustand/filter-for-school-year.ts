@@ -32,7 +32,7 @@ export const useFilterForSchoolYearStore = create<FilterForSchoolYearState>(
     },
   })
 )
-export const useFilterForSubServiceStore = create<FilterForSchoolYearState>(
+export const useFilterForSemesterStore = create<FilterForSchoolYearState>(
   (set) => ({
     filter: {
       name: '',

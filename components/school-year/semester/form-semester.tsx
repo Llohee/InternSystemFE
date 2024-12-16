@@ -143,11 +143,10 @@ const FormSemester = (props: {
                         current < dayjs(props.schoolyearDetail.start_day)) ||
                       current > dayjs(props.schoolyearDetail.end_day)
                     }
-                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
-                      {error.message}
+                      {props.form.formState.errors.start_day?.message}
                     </span>
                   )}
                 </div>
@@ -193,11 +192,10 @@ const FormSemester = (props: {
                         current < dayjs(props.schoolyearDetail.start_day)) ||
                       current > dayjs(props.schoolyearDetail.end_day)
                     }
-                    required
                   />
                   {error && (
                     <span className="mt-2 text-error-base text-label-5">
-                      {error.message}
+                      {props.form.formState.errors.end_day?.message}
                     </span>
                   )}
                 </div>
@@ -217,7 +215,6 @@ const FormSemester = (props: {
             posting={props.mutation.isLoading || isSubmitting}
             intent={props.isEdit ? 'primary' : 'primary'}
             type={'submit'}
-            disabled={!isValid || Object.keys(errors).length > 0}
           >
             {props.isEdit ? 'Cập nhật' : 'Tạo mới'}
           </Button>
