@@ -16,8 +16,17 @@ export const useSemesterCreate = (closeModal: () => void, id: string) => {
   const createSemester = useForm<UpdateSemesterRequest>({
     defaultValues: { is_active: true },
   })
-
-  const mutation = useSemesterCreateMutation(closeModal, id, createSemester.reset)
+  createSemester.register('start_day', {
+    required: 'Ngày bắt đầu là bắt buộc',
+  })
+  createSemester.register('end_day', {
+    required: 'Ngày kết thúc là bắt buộc',
+  })
+  const mutation = useSemesterCreateMutation(
+    closeModal,
+    id,
+    createSemester.reset
+  )
   const handleFormSubmit: SubmitHandler<UpdateSemesterRequest> = async (
     data
   ) => {
@@ -76,7 +85,12 @@ export const useSemesterUpdate = (
       is_active: semester.is_active,
     },
   })
-
+  updateSemester.register('start_day', {
+    required: 'Ngày bắt đầu là bắt buộc',
+  })
+  updateSemester.register('end_day', {
+    required: 'Ngày kết thúc là bắt buộc',
+  })
   const mutation = useSemesterUpdateMutation(
     updateSemester.reset,
     semester,

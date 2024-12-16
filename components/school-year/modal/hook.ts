@@ -16,6 +16,15 @@ export const useSchoolYearCreate = (closeModal: () => void) => {
   const createSchoolYear = useForm<UpdateSchoolYearRequest>({
     defaultValues: { is_active: true },
   })
+  createSchoolYear.register('name', {
+    required: 'Năm học là bắt buộc',
+  })
+  createSchoolYear.register('start_day', {
+    required: 'Ngày bắt đầu là bắt buộc',
+  })
+  createSchoolYear.register('end_day', {
+    required: 'Ngày kết thúc là bắt buộc',
+  })
 
   const mutation = useSchoolYearCreateMutation(() => {
     createSchoolYear.reset()
@@ -69,7 +78,15 @@ export const useSchoolYearUpdate = (
       ...schoolyear,
     },
   })
-
+  updateSchoolYear.register('name', {
+    required: 'Năm học là bắt buộc',
+  })
+  updateSchoolYear.register('start_day', {
+    required: 'Ngày bắt đầu là bắt buộc',
+  })
+  updateSchoolYear.register('end_day', {
+    required: 'Ngày kết thúc là bắt buộc',
+  })
   const mutation = useSchoolYearUpdateMutation(
     updateSchoolYear.reset,
     schoolyear,

@@ -30,7 +30,7 @@ export interface UpdateGroupRequest {
   name: string
   school_year: string
   semester: string
-  overdue_apply: Date
+  overdue_apply: Date | null
   lecturer: string
   students: string[]
   is_active?: boolean
