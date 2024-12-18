@@ -1,4 +1,5 @@
 import { TypeQuery, TypeSort } from './common'
+import { SchoolYearDetail, SemesterDetail } from './school-year-api'
 
 export interface ScheduleFilterRequest {
   name: string
@@ -21,8 +22,8 @@ export interface ScheduleDetail {
     fullname: string
     email: string
   }
-  school_year: string
-  semester: string
+  school_year: SchoolYearDetail
+  semester: SemesterDetail
   start_day: string
   finish_day: string
   milestones: MilestonesDetail[]

@@ -17,7 +17,10 @@ import React, {
   useImperativeHandle,
   useState,
 } from 'react'
-import { DATE_FORMAT_VIEW } from '@/components/common/constant'
+import {
+  DATE_FORMAT_VIEW,
+  YEAR_FORMAT_VIEW,
+} from '@/components/common/constant'
 import { useFilterForScheduleStore } from '@/hooks/zustand/filter-for-schedule'
 import { GetAllScheduleResponse, ScheduleDetail } from '@/models/api'
 import dayjs from 'dayjs'
@@ -137,6 +140,27 @@ const ScheduleTable = (props: SchedulesProps, ref: any) => {
       header: 'Tên mốc thời gian',
       enableColumnFilter: true,
       meta: 'w-name',
+    }),
+    columnHelper.accessor('school_year', {
+      header: 'Năm học',
+      cell: (info) => {
+        return (
+          <p>
+            {dayjs(info.getValue().name.start).format(YEAR_FORMAT_VIEW)}-
+            {dayjs(info.getValue().name.end).format(YEAR_FORMAT_VIEW)}
+          </p>
+        )
+      },
+      enableColumnFilter: true,
+      meta: 'w-tenant',
+    }),
+    columnHelper.accessor('semester', {
+      header: 'Kì học',
+      cell: (info) => {
+        return <p>{info.getValue().name}</p>
+      },
+      enableColumnFilter: true,
+      meta: 'w-tenant',
     }),
     columnHelper.accessor('start_day', {
       header: 'Ngày bắt đầu',
