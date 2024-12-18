@@ -1,7 +1,11 @@
 import ScheduleApi from '@/apis/schedule-api'
 import { useGetAccessToken } from '@/hooks/query/auth'
 import { ScheduleKeys } from '@/hooks/query/schedule'
-import { ErrorResponse, ScheduleDetail, UpdateScheduleRequest } from '@/models/api'
+import {
+  ErrorResponse,
+  ScheduleDetail,
+  UpdateScheduleRequest,
+} from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -10,8 +14,19 @@ import toast from 'react-hot-toast'
 
 export const useScheduleCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdateScheduleRequest>()
+  formCreate.register('school_year', {
+    required: 'Năm học là bắt buộc',
+  })
+  formCreate.register('semester', {
+    required: 'Kì học là bắt buộc',
+  })
+  formCreate.register('milestones', {
+    required: 'Mốc thời gian là bắt buộc',
+  })
   const mutation = useScheduleCreateMutation(formCreate.reset, closeModal)
-  const handleFormSubmit: SubmitHandler<UpdateScheduleRequest> = async (data) => {
+  const handleFormSubmit: SubmitHandler<UpdateScheduleRequest> = async (
+    data
+  ) => {
     mutation.mutate(data)
   }
   return {
@@ -29,7 +44,10 @@ export function useScheduleCreateMutation(
   return useMutation<any, AxiosError, UpdateScheduleRequest, any>(
     (createScheduleBody) =>
       toast.promise(
-        ScheduleApi.createSchedule(getAccessToken.data!.access_token.token, createScheduleBody),
+        ScheduleApi.createSchedule(
+          getAccessToken.data!.access_token.token,
+          createScheduleBody
+        ),
         {
           loading: 'Đang tạo mới mốc thời gian',
           success: 'Tạo mới mốc thời gian thành công',
@@ -48,11 +66,28 @@ export function useScheduleCreateMutation(
     }
   )
 }
-export const useScheduleUpdate = (closeModal: () => void, schedule: ScheduleDetail) => {
+export const useScheduleUpdate = (
+  closeModal: () => void,
+  schedule: ScheduleDetail
+) => {
   const formUpdate = useForm<UpdateScheduleRequest>()
-
-  const mutation = useScheduleUpdateMutation(formUpdate.reset, closeModal, schedule)
-  const handleFormSubmit: SubmitHandler<UpdateScheduleRequest> = async (data) => {
+  formUpdate.register('school_year', {
+    required: 'Năm học là bắt buộc',
+  })
+  formUpdate.register('semester', {
+    required: 'Kì học là bắt buộc',
+  })
+  formUpdate.register('milestones', {
+    required: 'Mốc thời gian là bắt buộc',
+  })
+  const mutation = useScheduleUpdateMutation(
+    formUpdate.reset,
+    closeModal,
+    schedule
+  )
+  const handleFormSubmit: SubmitHandler<UpdateScheduleRequest> = async (
+    data
+  ) => {
     mutation.mutate(data)
   }
 

@@ -11,7 +11,7 @@ export const inputStyles = cva(
     variants: {
       intent: {
         default: 'border-border-1',
-        error: 'border-error-base',
+        error: '!border-error-base',
         success: 'border-success-base',
       },
       disabled: {

@@ -1,4 +1,4 @@
-import { TypeQuery, TypeSort } from "./common"
+import { TypeQuery, TypeSort } from './common'
 
 export interface ScheduleFilterRequest {
   name: string
@@ -21,6 +21,8 @@ export interface ScheduleDetail {
     fullname: string
     email: string
   }
+  school_year: string
+  semester: string
   start_day: string
   finish_day: string
   milestones: MilestonesDetail[]
@@ -32,7 +34,7 @@ export interface ScheduleDetail {
   }
   created_time: string
   is_active: boolean
-  type: "DEFAULT" | "CUSTOM"
+  type: 'DEFAULT' | 'CUSTOM'
 }
 export interface MilestonesDetail {
   id: string
@@ -42,13 +44,15 @@ export interface MilestonesDetail {
 export interface UpdateScheduleRequest {
   id: string
   name: string
+  school_year: string
+  semester: string
   start_day: string
   finish_day: string
   milestones: {
     description: string
     time: string
   }[]
-  milestones_demo?: { [key: string]: string }
+  // milestones_demo?: { [key: string]: string }
   is_active: boolean
 }
 export interface UpdateActiveSchedule {

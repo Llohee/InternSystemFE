@@ -5,11 +5,15 @@ import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { useState } from 'react'
 import { FormSchedule } from './form-schedule'
 import { useScheduleCreate } from './hook'
+import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
+import { ModalLoading } from '@/components/ui/skeleton'
 interface CreateSchedule {
   isOpen: boolean
   closeModal: () => void
 }
 const CreateScheduleModal = (props: CreateSchedule) => {
+  const getAllSchoolYear = usegetConfigSchoolYear()
+
   const { handleFormSubmit, formCreate, mutation } = useScheduleCreate(
     props.closeModal
   )
@@ -23,6 +27,18 @@ const CreateScheduleModal = (props: CreateSchedule) => {
     formCreate.clearErrors
     mutation.reset()
   }
+
+  if (getAllSchoolYear.status === 'loading')
+    return (
+      <ModalLoading
+        length={5}
+        size="xl"
+        isOpen={props.isOpen}
+        closeModal={props.closeModal}
+      />
+    )
+  if (getAllSchoolYear.status === 'error') return <></>
+
   return (
     <>
       <Modal
@@ -36,8 +52,6 @@ const CreateScheduleModal = (props: CreateSchedule) => {
               ariaLabel="Reset form"
               btnStyle="no-background"
               onClick={() => {
-                formCreate.reset()
-                mutation.reset()
                 resetForm()
               }}
             >
@@ -62,7 +76,9 @@ const CreateScheduleModal = (props: CreateSchedule) => {
             form={formCreate}
             handleFormSubmit={handleFormSubmit}
             mutation={mutation}
+            getAllSchoolYear={getAllSchoolYear.data}
             closeModal={() => {
+              resetForm()
               closeModal()
             }}
           />

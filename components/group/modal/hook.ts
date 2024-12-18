@@ -10,6 +10,18 @@ import toast from 'react-hot-toast'
 
 export const useGroupCreate = (closeModal: () => void) => {
   const formCreate = useForm<UpdateGroupRequest>()
+  formCreate.register('school_year', {
+    required: 'Năm học là bắt buộc',
+  })
+  formCreate.register('semester', {
+    required: 'Kì học là bắt buộc',
+  })
+  formCreate.register('lecturer', {
+    required: 'Giảng viên phụ trách là bắt buộc',
+  })
+  formCreate.register('students', {
+    required: 'Sinh viên là bắt buộc',
+  })
   formCreate.register('overdue_apply', {
     required: 'Hạn ứng tuyển là bắt buộc',
   })
@@ -64,6 +76,18 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
       semester: group.semester,
       overdue_apply: group.overdue_apply,
     },
+  })
+  formUpdate.register('school_year', {
+    required: 'Năm học là bắt buộc',
+  })
+  formUpdate.register('semester', {
+    required: 'Kì học là bắt buộc',
+  })
+  formUpdate.register('lecturer', {
+    required: 'Giảng viên phụ trách là bắt buộc',
+  })
+  formUpdate.register('students', {
+    required: 'Sinh viên là bắt buộc',
   })
   formUpdate.register('overdue_apply', {
     required: 'Hạn ứng tuyển là bắt buộc',
