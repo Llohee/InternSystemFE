@@ -4,9 +4,10 @@ import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { useState } from 'react'
 import { FormGroup } from './form-group'
 import { useGroupUpdate } from './hook'
-import { GroupDetail } from '@/models/api'
+import { GetAllSchoolYearResponse, GroupDetail } from '@/models/api'
 import { ModalLoading } from '@/components/ui/skeleton'
 import { useGetGroupById } from '@/hooks/query/group'
+import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
 interface UpdateGroup {
   isOpen: boolean
   closeModal: () => void
@@ -14,7 +15,11 @@ interface UpdateGroup {
 }
 const UpdateGroupModal = (props: UpdateGroup) => {
   const getGroupById = useGetGroupById(props.groupDetail.id)
-  if (getGroupById.status === 'loading')
+  const getAllSchoolYear = usegetConfigSchoolYear()
+  if (
+    getGroupById.status === 'loading' ||
+    getAllSchoolYear.status === 'loading'
+  )
     return (
       <ModalLoading
         length={5}
@@ -23,12 +28,14 @@ const UpdateGroupModal = (props: UpdateGroup) => {
         closeModal={props.closeModal}
       />
     )
-  if (getGroupById.status === 'error') return <></>
+  if (getGroupById.status === 'error' || getAllSchoolYear.status === 'error')
+    return <></>
   return (
     <>
       <UpdateModal
         closeModal={props.closeModal}
         groupDetail={getGroupById.data}
+        getAllSchoolYear={getAllSchoolYear.data}
         isOpen={props.isOpen}
       />
     </>
@@ -39,6 +46,7 @@ const UpdateModal = (props: {
   isOpen: boolean
   closeModal: () => void
   groupDetail: GroupDetail
+  getAllSchoolYear: GetAllSchoolYearResponse
 }) => {
   const { handleFormSubmit, formUpdate, mutation } = useGroupUpdate(
     props.closeModal,
@@ -89,6 +97,7 @@ const UpdateModal = (props: {
             closeModal={() => {
               closeModal()
             }}
+            getAllSchoolYear={props.getAllSchoolYear}
             groupDetail={props.groupDetail}
             isEdit={true}
           />

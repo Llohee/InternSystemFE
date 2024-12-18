@@ -5,11 +5,14 @@ import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
 import { useState } from 'react'
 import { FormGroup } from './form-group'
 import { useGroupCreate } from './hook'
+import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
+import { ModalLoading } from '@/components/ui/skeleton'
 interface CreateGroup {
   isOpen: boolean
   closeModal: () => void
 }
 const CreateGroupModal = (props: CreateGroup) => {
+  const getAllSchoolYear = usegetConfigSchoolYear()
   const { handleFormSubmit, formCreate, mutation } = useGroupCreate(
     props.closeModal
   )
@@ -17,6 +20,17 @@ const CreateGroupModal = (props: CreateGroup) => {
   const closeModal = () => {
     setIsConfirmCloseModal(true)
   }
+
+  if (getAllSchoolYear.status === 'loading')
+    return (
+      <ModalLoading
+        length={5}
+        size="xl"
+        isOpen={props.isOpen}
+        closeModal={props.closeModal}
+      />
+    )
+  if (getAllSchoolYear.status === 'error') return <></>
   return (
     <>
       <Modal
@@ -54,6 +68,7 @@ const CreateGroupModal = (props: CreateGroup) => {
           <FormGroup
             form={formCreate}
             handleFormSubmit={handleFormSubmit}
+            getAllSchoolYear={getAllSchoolYear.data}
             mutation={mutation}
             closeModal={() => {
               closeModal()

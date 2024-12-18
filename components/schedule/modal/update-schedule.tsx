@@ -2,12 +2,13 @@ import { Button } from '@/components/ui/button/button'
 import { Modal } from '@/components/ui/modal/modal'
 import { ModalLoading } from '@/components/ui/skeleton'
 import { useGetSchedulebyId } from '@/hooks/query/schedule'
-import { ScheduleDetail } from '@/models/api'
+import { GetAllSchoolYearResponse, ScheduleDetail } from '@/models/api'
 import { useScheduleUpdate } from './hook'
 import { FormSchedule } from './form-schedule'
 import Image from 'next/image'
 import { useState } from 'react'
 import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
+import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
 interface UpdateScheduleProps {
   isOpen: boolean
   closeModal: () => void
@@ -16,7 +17,9 @@ interface UpdateScheduleProps {
 }
 const UpdateScheduleModal = (props: UpdateScheduleProps) => {
   const getSchedule = useGetSchedulebyId(props.schedule.id)
-  if (getSchedule.status === 'loading')
+  const getAllSchoolYear = usegetConfigSchoolYear()
+
+  if (getSchedule.status === 'loading' || getAllSchoolYear.status === 'loading')
     return (
       <ModalLoading
         length={7}
@@ -25,12 +28,14 @@ const UpdateScheduleModal = (props: UpdateScheduleProps) => {
         closeModal={props.closeModal}
       />
     )
-  if (getSchedule.status === 'error') return <></>
+  if (getSchedule.status === 'error' || getAllSchoolYear.status === 'error')
+    return <></>
 
   return (
     <UpdateModal
       closeModal={props.closeModal}
       data={getSchedule.data}
+      getAllSchoolYear={getAllSchoolYear.data}
       isOpen={props.isOpen}
       isEdit={props.isEdit}
     />
@@ -39,6 +44,7 @@ const UpdateScheduleModal = (props: UpdateScheduleProps) => {
 interface UpdateModalProps {
   isOpen: boolean
   closeModal: () => void
+  getAllSchoolYear: GetAllSchoolYearResponse
   data: ScheduleDetail
   isEdit: boolean
 }
@@ -92,6 +98,7 @@ const UpdateModal = (props: UpdateModalProps) => {
               handleFormSubmit={handleFormSubmit}
               mutation={mutation}
               closeModal={closeModal}
+              getAllSchoolYear={props.getAllSchoolYear}
               scheduleDetail={props.data}
               isReset={isReset}
               isEdit={props.isEdit}
