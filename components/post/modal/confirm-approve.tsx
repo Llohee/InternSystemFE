@@ -1,23 +1,22 @@
 import PostApi from '@/apis/post-api'
 import { ConfirmModal } from '@/components/common/confirm'
 import { useGetAccessToken } from '@/hooks/query/auth'
+import { PostKeys } from '@/hooks/query/post'
 import {
   ErrorResponse,
   UpdateApplyCVRequest,
-  PostDetail,
-  UserDetail,
+  UserGetDetail
 } from '@/models/api'
 import { queryClient } from '@/pages/_app'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
-import { PostKeys } from '@/hooks/query/post'
 
 interface UpdateActivationProps {
   isOpen: boolean
   closeModal: () => void
   post_id: string
-  CV_applying: { cv_id: string; user_info: UserDetail; status: string }
+  CV_applying: { cv_id: string; user_info: UserGetDetail; status: string }
 }
 const ConfirmApproveModal = (props: UpdateActivationProps) => {
   const mutation = useApproveMutation(props.closeModal)
