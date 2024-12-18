@@ -1,4 +1,9 @@
-import { Dialog, Transition } from '@headlessui/react'
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'
 import { Fragment } from 'react'
 import { Button } from '../ui/button/button'
 import { motion } from 'framer-motion'
@@ -18,7 +23,7 @@ export const ConfirmCloseModal = (props: ConfirmCloseModalProps) => {
           className="relative z-[2000] "
           onClose={props.closeModal}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0"
@@ -28,10 +33,10 @@ export const ConfirmCloseModal = (props: ConfirmCloseModalProps) => {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-1 flex flex-col gap-3 items-center justify-center p-4 text-center">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-200"
               enterFrom="scale-95 opacity-0"
@@ -40,7 +45,7 @@ export const ConfirmCloseModal = (props: ConfirmCloseModalProps) => {
               leaveFrom="scale-100 brightness-100"
               leaveTo="scale-95 brightness-95"
             >
-              <Dialog.Panel className="w-full max-w-[410px] transform overflow-hidden rounded-2xl bg-white p-0 text-left align-middle shadow-xl">
+              <DialogPanel className="w-full max-w-[410px] transform overflow-hidden rounded-2xl bg-white p-0 text-left align-middle shadow-xl">
                 <div className="w-full max-h-[calc(100vh-10rem)] overflow-auto">
                   <div className="flex flex-col justify-center items-center text-center p-6 gap-6">
                     <div className="flex flex-col gap-4 max-w-xs">
@@ -99,8 +104,8 @@ export const ConfirmCloseModal = (props: ConfirmCloseModalProps) => {
                     </div>
                   </div>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>

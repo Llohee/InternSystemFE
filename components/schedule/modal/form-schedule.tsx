@@ -93,7 +93,7 @@ export const FormSchedule = (props: {
             <Controller
               control={props.form.control}
               name="school_year"
-              defaultValue={props.scheduleDetail?.school_year}
+              defaultValue={props.scheduleDetail?.school_year.id}
               render={({ field: { value, onChange } }) => {
                 const options = props.getAllSchoolYear?.data.map(
                   (val: any) => ({
@@ -126,7 +126,7 @@ export const FormSchedule = (props: {
             <Controller
               control={props.form.control}
               name="semester"
-              defaultValue={props.scheduleDetail?.semester}
+              defaultValue={props.scheduleDetail?.semester.id}
               render={({ field: { value, onChange } }) => {
                 const options =
                   (props.getAllSchoolYear?.data ?? [])

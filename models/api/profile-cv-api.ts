@@ -24,6 +24,7 @@ export interface CVDetail {
   educational_level: string
   is_deleted: boolean
   layout_optional: string[]
+  status: 'Pending' | 'HR Approver' | 'AU Approver'
 }
 
 export interface UpdateCVRequest {

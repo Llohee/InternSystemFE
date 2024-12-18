@@ -1,5 +1,6 @@
-import { TypeQuery, TypeSort } from "./common"
-import { UserGetDetail } from "./user-api"
+import { TypeQuery, TypeSort } from './common'
+import { SchoolYearDetail, SemesterDetail } from './school-year-api'
+import { UserGetDetail } from './user-api'
 
 export interface GroupFilterRequest {
   name: string
@@ -17,8 +18,8 @@ export interface GetAllGroupResponse {
 export interface GroupDetail {
   id: string
   name: string
-  school_year: string
-  semester: string
+  school_year: SchoolYearDetail
+  semester: SemesterDetail
   overdue_apply: Date
   lecturer: UserGetDetail
   students: UserGetDetail[]

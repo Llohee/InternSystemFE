@@ -72,8 +72,8 @@ export const useGroupUpdate = (closeModal: () => void, group: GroupDetail) => {
       name: group.name,
       lecturer: group.lecturer.id,
       students: group.students.map((e) => e.id),
-      school_year: group.school_year,
-      semester: group.semester,
+      school_year: group.school_year.id,
+      semester: group.semester.id,
       overdue_apply: group.overdue_apply,
     },
   })
