@@ -155,6 +155,8 @@ export const FormSchedule = (props: {
                       value={options?.filter((val) => value === val?.value)}
                       onChange={(options) => {
                         onChange(options?.value ?? '')
+                        props.form.setValue('start_day', options.start_day)
+                        props.form.setValue('finish_day', options.end_day)
                         setSemesterChoose(options)
                       }}
                       label={'Kì học'}

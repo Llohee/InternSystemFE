@@ -22,8 +22,8 @@ const UpdateScheduleModal = (props: UpdateScheduleProps) => {
   if (getSchedule.status === 'loading' || getAllSchoolYear.status === 'loading')
     return (
       <ModalLoading
-        length={7}
-        size="large"
+        length={5}
+        size="default"
         isOpen={props.isOpen}
         closeModal={props.closeModal}
       />
