@@ -3,6 +3,7 @@ import { ConfigDetail, TypeQuery, TypeSort } from "./common"
 import { UserDetail } from "./login-api"
 import { CVDetail } from "./profile-cv-api"
 import { TenantDetail } from "./tenant-api"
+import { UserGetDetail } from "./user-api"
 
 export interface PostFilterRequest {
   local: string
@@ -61,7 +62,7 @@ export interface PostDetail {
   is_active: boolean
   // uni_postings: any[]
   // display_in: any[]
-  CV_applying: { cv_id: string, user_info: UserDetail, status: 'Pending' | 'HR Approver' | 'AU Approver' }[]
+  CV_applying: { cv_id: string, user_info: UserGetDetail, status: 'Pending' | 'HR Approver' | 'AU Approver' }[]
   description: string
   created_time?: string
   expired_time?: string

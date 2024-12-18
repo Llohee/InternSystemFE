@@ -1,14 +1,14 @@
+import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 import Avatar from '@/components/ui/avatar/avatar'
 import { Button } from '@/components/ui/button/button'
 import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
-import { PostDetail, UserDetail } from '@/models/api'
-import ConfirmApproveModal from './confirm-approve'
+import { PostDetail, UserGetDetail } from '@/models/api'
 import { useState } from 'react'
-import { ViewStatusStudent } from '@/components/common/student-status/status-view'
 import DetailCVView from '../cv-detail/view-cv-detail'
+import ConfirmApproveModal from './confirm-approve'
 
 const ApplyPost = (props: {
   postDetail: PostDetail
@@ -17,7 +17,12 @@ const ApplyPost = (props: {
   const [isShowModalConfirm, setIsShowModalConfirm] = useState(false)
   const [isShowModalDetailView, setIsShowModalDetailView] = useState(false)
   const [cvDetail, setCvDetail] = useState<
-    { cv_id: string; user_info: UserDetail; status: string } | undefined
+    | {
+        cv_id: string
+        user_info: UserGetDetail
+        status: 'Pending' | 'HR Approver' | 'AU Approver'
+      }
+    | undefined
   >(undefined)
   return (
     <>
