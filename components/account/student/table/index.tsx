@@ -91,33 +91,33 @@ const AccountStudentTable = (props: StudentAccountsProps, ref: any) => {
   const columnHelper = createColumnHelper<UserGetDetail>()
 
   const columns = [
-    columnHelper.display({
-      id: 'choose',
-      header: () => (
-        <input
-          type={'checkbox'}
-          checked={chooseAllItems()}
-          onChange={(e) => {
-            toggleChooseAllItem(e.target.checked)
-          }}
-          className=""
-        />
-      ),
-      cell: (propsCell) => (
-        <input
-          type={'checkbox'}
-          checked={
-            itemChoose.find((val: any) => val === propsCell.row.original) !=
-            undefined
-          }
-          onChange={() => {
-            toggleChooseItem(propsCell.row.original)
-          }}
-        />
-      ),
-      enableColumnFilter: false,
-      meta: 'w-choose',
-    }),
+    // columnHelper.display({
+    //   id: 'choose',
+    //   header: () => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={chooseAllItems()}
+    //       onChange={(e) => {
+    //         toggleChooseAllItem(e.target.checked)
+    //       }}
+    //       className=""
+    //     />
+    //   ),
+    //   cell: (propsCell) => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={
+    //         itemChoose.find((val: any) => val === propsCell.row.original) !=
+    //         undefined
+    //       }
+    //       onChange={() => {
+    //         toggleChooseItem(propsCell.row.original)
+    //       }}
+    //     />
+    //   ),
+    //   enableColumnFilter: false,
+    //   meta: 'w-choose',
+    // }),
     columnHelper.display({
       id: 'number',
       header: () => 'STT',

@@ -17,7 +17,11 @@ import React, {
   useImperativeHandle,
   useState,
 } from 'react'
-import { DATE_FORMAT_VIEW } from '@/components/common/constant'
+import {
+  DATE_FORMAT_SHORT_VIEW,
+  DATE_FORMAT_VIEW,
+  YEAR_FORMAT_VIEW,
+} from '@/components/common/constant'
 import { GetAllGroupResponse, GroupDetail } from '@/models/api'
 import { useFilterForGroupStore } from '@/hooks/zustand/filter-for-group'
 import dayjs from 'dayjs'
@@ -86,33 +90,33 @@ const GroupTable = (props: GroupsProps, ref: any) => {
   const columnHelper = createColumnHelper<GroupDetail>()
 
   const columns = [
-    columnHelper.display({
-      id: 'choose',
-      header: () => (
-        <input
-          type={'checkbox'}
-          checked={chooseAllItems()}
-          onChange={(e) => {
-            toggleChooseAllItem(e.target.checked)
-          }}
-          className=""
-        />
-      ),
-      cell: (propsCell) => (
-        <input
-          type={'checkbox'}
-          checked={
-            itemChoose.find((val: any) => val === propsCell.row.original) !=
-            undefined
-          }
-          onChange={() => {
-            toggleChooseItem(propsCell.row.original)
-          }}
-        />
-      ),
-      enableColumnFilter: false,
-      meta: 'w-choose',
-    }),
+    // columnHelper.display({
+    //   id: 'choose',
+    //   header: () => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={chooseAllItems()}
+    //       onChange={(e) => {
+    //         toggleChooseAllItem(e.target.checked)
+    //       }}
+    //       className=""
+    //     />
+    //   ),
+    //   cell: (propsCell) => (
+    //     <input
+    //       type={'checkbox'}
+    //       checked={
+    //         itemChoose.find((val: any) => val === propsCell.row.original) !=
+    //         undefined
+    //       }
+    //       onChange={() => {
+    //         toggleChooseItem(propsCell.row.original)
+    //       }}
+    //     />
+    //   ),
+    //   enableColumnFilter: false,
+    //   meta: 'w-choose',
+    // }),
     columnHelper.display({
       id: 'number',
       header: () => 'STT',
@@ -130,6 +134,33 @@ const GroupTable = (props: GroupsProps, ref: any) => {
       header: 'Tên nhóm',
       enableColumnFilter: true,
       meta: 'w-name',
+    }),
+    columnHelper.accessor('school_year', {
+      header: 'Năm học',
+      cell: (info) => {
+        return (
+          <p>
+            {dayjs(info.getValue().name.start).format(YEAR_FORMAT_VIEW)}-
+            {dayjs(info.getValue().name.end).format(YEAR_FORMAT_VIEW)}
+          </p>
+        )
+      },
+      enableColumnFilter: true,
+      meta: 'w-tenant',
+    }),
+    columnHelper.accessor('semester', {
+      header: 'Kì học',
+      cell: (info) => {
+        return (
+          <p>
+            {info.getValue().name} (
+            {dayjs(info.getValue().start_day).format(DATE_FORMAT_SHORT_VIEW)} -{' '}
+            {dayjs(info.getValue().end_day).format(DATE_FORMAT_SHORT_VIEW)})
+          </p>
+        )
+      },
+      enableColumnFilter: true,
+      meta: 'w-tenant',
     }),
     columnHelper.accessor('lecturer', {
       header: 'Giảng viên phụ trách',

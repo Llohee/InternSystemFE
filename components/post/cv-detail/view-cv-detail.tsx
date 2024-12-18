@@ -1,14 +1,16 @@
 import { Modal } from '@/components/ui/modal/modal'
-import { UserDetail } from '@/models/api'
-import React from 'react'
-import CVDetail from './cv-detail'
 import { useGetCVbyId } from '@/hooks/query/profile-cv'
+import { UserGetDetail } from '@/models/api'
 import CvDetail from './cv-detail'
 
 const DetailCVView = (props: {
   isOpen: boolean
   closeModal: () => void
-  CV_applying: { cv_id: string; user_info: UserDetail; status: string }
+  CV_applying: {
+    cv_id: string
+    user_info: UserGetDetail
+    status: 'Pending' | 'HR Approver' | 'AU Approver'
+  }
 }) => {
   const getCVDetail = useGetCVbyId(props.CV_applying.cv_id)
   return (
