@@ -20,11 +20,11 @@ const CreatescoreModal = (props: {
   if (getReportById.status === 'loading')
     return (
       <ModalLoading
-        closeModal={props.closeModal}
-        isOpen={props.isOpen}
         length={5}
-        size="large"
-      ></ModalLoading>
+        size="default"
+        isOpen={props.isOpen}
+        closeModal={props.closeModal}
+      />
     )
   if (getReportById.status === 'error') return <></>
   return (
