@@ -20,7 +20,7 @@ const UpdateHumanresourceModal = (props: {
     return (
       <ModalLoading
         length={5}
-        size="xl"
+        size="default"
         isOpen={props.isOpen}
         closeModal={props.closeModal}
       />

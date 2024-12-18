@@ -22,10 +22,11 @@ const UpdatePosModal = (props: PostProps) => {
       {GetPostbyId.status === 'error' && <></>}
       {GetPostbyId.status === 'loading' && (
         <ModalLoading
-          length={6}
-          isOpen={props.isOpen}
-          closeModal={props.closeModal}
-        />
+        length={5}
+        size="default"
+        isOpen={props.isOpen}
+        closeModal={props.closeModal}
+      />
       )}
       {GetPostbyId.status === 'success' && (
         <UpdatePost

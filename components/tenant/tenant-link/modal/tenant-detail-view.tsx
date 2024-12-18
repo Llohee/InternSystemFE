@@ -1,12 +1,6 @@
-import { Button } from '@/components/ui/button/button'
 import { Modal } from '@/components/ui/modal/modal'
 
-import { ConfirmCloseModal } from '@/components/common/confirm-close-modal'
-import { useState } from 'react'
-import { TenantDetail, UserDetail, UserGetDetail } from '@/models/api'
-import { useGetTenantById } from '@/hooks/query/tenant'
-import { useGetUserDetail } from '@/hooks/query/auth'
-import { ModalLoading } from '@/components/ui/skeleton'
+import { TenantDetail } from '@/models/api'
 import DetailView from './detail'
 
 const TenantDetailViewModal = (props: {
