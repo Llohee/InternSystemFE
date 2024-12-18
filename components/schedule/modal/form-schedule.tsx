@@ -5,15 +5,24 @@ import {
 } from '@/components/ui/container'
 import { Input } from '@/components/ui/input/input'
 import { SwitchButton } from '@/components/ui/switch/switch'
-import { ScheduleDetail, UpdateScheduleRequest } from '@/models/api'
+import {
+  GetAllSchoolYearResponse,
+  ScheduleDetail,
+  UpdateScheduleRequest,
+} from '@/models/api'
 import { ErrorResponse } from '@/models/api/common'
 import { AxiosError } from 'axios'
 import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 import { SelectMilestones } from './select-milestones'
 import { DevTool } from '@hookform/devtools'
+import { useEffect, useState } from 'react'
+import { InputSelect } from '@/components/ui/select/select'
+import { DATE_FORMAT_VIEW } from '@/components/common/constant'
+import dayjs from 'dayjs'
 
 export const FormSchedule = (props: {
   form: UseFormReturn<UpdateScheduleRequest, any>
+  getAllSchoolYear: GetAllSchoolYearResponse
   handleFormSubmit: SubmitHandler<UpdateScheduleRequest>
   scheduleDetail?: ScheduleDetail
   mutation: any
@@ -36,6 +45,15 @@ export const FormSchedule = (props: {
         .length ?? 0) + 1
     return length
   }
+  const [semesterChoose, setSemesterChoose] = useState<
+    | {
+        value: any
+        label: string
+        start_day: Date
+        end_day: Date
+      }
+    | undefined
+  >()
   return (
     <>
       <form
@@ -71,6 +89,96 @@ export const FormSchedule = (props: {
               )}
             />
           </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Controller
+              control={props.form.control}
+              name="school_year"
+              defaultValue={props.scheduleDetail?.school_year}
+              render={({ field: { value, onChange } }) => {
+                const options = props.getAllSchoolYear?.data.map(
+                  (val: any) => ({
+                    value: val.id,
+                    label: `${val.name.start} - ${val.name.end}`,
+                  })
+                )
+                return (
+                  <InputSelect
+                    options={options}
+                    value={options?.filter((val) => value === val?.value)}
+                    onChange={(options) => {
+                      onChange(options?.value ?? '')
+                    }}
+                    label={'Năm học'}
+                    placeholder={'Chọn năm học'}
+                    required
+                    intent={
+                      props.form.formState.errors.school_year
+                        ? 'error'
+                        : 'default'
+                    }
+                    message={
+                      props.form.formState.errors.school_year?.message ?? ''
+                    }
+                  />
+                )
+              }}
+            />
+            <Controller
+              control={props.form.control}
+              name="semester"
+              defaultValue={props.scheduleDetail?.semester}
+              render={({ field: { value, onChange } }) => {
+                const options =
+                  (props.getAllSchoolYear?.data ?? [])
+                    .find((e) => e.id === props.form.watch('school_year'))
+                    ?.semester?.map((val: any) => ({
+                      value: val.id,
+                      label: `${val.name} (${dayjs(val.start_day).format(
+                        DATE_FORMAT_VIEW
+                      )} - ${dayjs(val.end_day).format(DATE_FORMAT_VIEW)})`,
+                      start_day: val.start_day as Date,
+                      end_day: val.end_day as Date,
+                    })) ?? []
+                useEffect(() => {
+                  if (props.isEdit) {
+                    setSemesterChoose(
+                      options.find(
+                        (e) => e.value === props.form.watch('semester')
+                      )
+                    )
+                  }
+                }, [props.isEdit])
+                return (
+                  <div className="col flex flex-col gap-3">
+                    <InputSelect
+                      options={options}
+                      value={options?.filter((val) => value === val?.value)}
+                      onChange={(options) => {
+                        onChange(options?.value ?? '')
+                        setSemesterChoose(options)
+                      }}
+                      label={'Kì học'}
+                      placeholder={
+                        !props.form.watch('school_year')
+                          ? 'Chọn năm học trước'
+                          : 'Chọn kì học'
+                      }
+                      disabled={props.form.watch('school_year') ? false : true}
+                      intent={
+                        props.form.formState.errors.semester
+                          ? 'error'
+                          : 'default'
+                      }
+                      required
+                      message={
+                        props.form.formState.errors.semester?.message ?? ''
+                      }
+                    />
+                  </div>
+                )
+              }}
+            />
+          </div>
           <div className="">
             <div className="text-label-3 text-typography-label pb-2">
               <label className="col-span-5">
@@ -85,6 +193,7 @@ export const FormSchedule = (props: {
                   useForm={props.form}
                   default={(props.scheduleDetail?.milestones ?? [])[index]}
                   // type={props.type}
+                  semesterChoose={semesterChoose}
                   isReset={props.isReset}
                   scheduleDetail={props.scheduleDetail}
                   getLengthListMilestones={getLengthListMilestones}

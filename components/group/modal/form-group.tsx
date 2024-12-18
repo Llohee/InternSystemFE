@@ -20,6 +20,7 @@ import { useGetConfigLTWhithoutGroup } from '@/hooks/query/account/lecturer'
 import { useGetConfigSTWhithoutGroup } from '@/hooks/query/account/student'
 import { usegetConfigSchoolYear } from '@/hooks/query/school-year'
 import {
+  GetAllSchoolYearResponse,
   GroupDetail,
   SemesterDetail,
   UpdateGroupRequest,
@@ -37,6 +38,7 @@ import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 export const FormGroup = (props: {
   form: UseFormReturn<UpdateGroupRequest, any>
   handleFormSubmit: SubmitHandler<UpdateGroupRequest>
+  getAllSchoolYear: GetAllSchoolYearResponse
   groupDetail?: GroupDetail
   mutation: any
   closeModal: () => void
@@ -48,9 +50,6 @@ export const FormGroup = (props: {
     formState: { errors },
     watch,
   } = props.form
-  const getAllSchoolYear = usegetConfigSchoolYear()
-  // const [disableStartDate, setDisableStartDate] = useState<Date>()
-  // const [disableEndDate, setDisableEndDate] = useState<Date>()
   const [semesterChoose, setSemesterChoose] = useState<
     | {
         value: any
@@ -96,7 +95,7 @@ export const FormGroup = (props: {
               control={props.form.control}
               name="school_year"
               render={({ field: { value, onChange } }) => {
-                const options = getAllSchoolYear?.data?.data.map(
+                const options = props.getAllSchoolYear?.data?.map(
                   (val: any) => ({
                     value: val.id,
                     label: `${val.name.start} - ${val.name.end}`,
@@ -129,7 +128,7 @@ export const FormGroup = (props: {
               name="semester"
               render={({ field: { value, onChange } }) => {
                 const options =
-                  (getAllSchoolYear?.data?.data ?? [])
+                  (props.getAllSchoolYear?.data ?? [])
                     .find((e) => e.id === props.form.watch('school_year'))
                     ?.semester?.map((val: any) => ({
                       value: val.id,
@@ -434,9 +433,12 @@ export const FormGroup = (props: {
                   field: { value, onChange },
                   fieldState: { error },
                 }) => (
-                  <div className="w-full">
+                  <div>
                     <DatePicker
-                      className="w-full py-2 px-3"
+                      className={inputStyles({
+                        className: '!w-full',
+                        intent: error ? 'error' : 'default',
+                      })}
                       format="DD-MM-YYYY HH:mm"
                       value={value ? dayjs(value) : null}
                       onChange={(date) => {

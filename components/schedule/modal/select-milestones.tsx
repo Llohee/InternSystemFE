@@ -17,6 +17,7 @@ export const SelectMilestones = (props: {
   index: number
   useForm: UseFormReturn<UpdateScheduleRequest, any>
   isReset?: boolean
+  semesterChoose?: { value: any; label: string; start_day: Date; end_day: Date }
   default?: { description: string; time: any }
   scheduleDetail?: ScheduleDetail
   getLengthListMilestones: any
@@ -74,20 +75,20 @@ export const SelectMilestones = (props: {
       <div className="grid grid-cols-11 gap-2 items-center my-auto justify-between w-full">
         <div className="col-span-5">
           <InputSelect
-            name={'milestones'}
             options={optionSelectRuleMilestones}
-            value={
-              optionSelectRuleMilestones.find(
-                (val) => val.label === ruleMilestonesSelect
-              ) ?? null
-            }
+            value={optionSelectRuleMilestones.filter(
+              (val) => val.label === ruleMilestonesSelect
+            )}
             onChange={(option) => {
               setRuleMilestonesSelect(option?.label ?? '')
               changValueMatchingRule({
-                field: option?.label,
-                values: [],
+                description: option?.label,
+                time: [],
               })
             }}
+            intent={
+              props.useForm.formState.errors.milestones ? 'error' : 'default'
+            }
             label={''}
             disabled={props.isEdit}
             register={props.useForm.register}
@@ -115,7 +116,9 @@ export const SelectMilestones = (props: {
             value={props.default?.time ? dayjs(props.default.time) : undefined}
             className={inputStyles({
               disabled: props.isEdit ? true : false,
-              intent: 'default'
+              intent: props.useForm.formState.errors.milestones
+                ? 'error'
+                : 'default',
             })}
             onChange={(date) => {
               const formattedDate = date ? date.toISOString() : ''
@@ -124,12 +127,30 @@ export const SelectMilestones = (props: {
                 time: formattedDate,
               })
             }}
-            placeholder='Chọn thời gian...'
-            disabled={props.isEdit}
-            format={'DD/MM/YYYY'}
+            placeholder={
+              !props.useForm.watch('semester')
+                ? 'Chọn kì học trước'
+                : 'Chọn thời gian'
+            }
+            showTime={{ format: 'HH:mm' }}
+            disabled={props.isEdit || !props.useForm.watch('semester')}
+            format="DD-MM-YYYY HH:mm"
+            disabledDate={
+              props.useForm.watch('semester')
+                ? (current) =>
+                    (current &&
+                      current < dayjs(props.semesterChoose?.start_day)) ||
+                    current > dayjs(props.semesterChoose?.end_day)
+                : () => false
+            }
           />
         </div>
       </div>
+      {LengthListMilestones == 1 && (
+        <span className={'text-label-5 text-error-base'}>
+          {props.useForm.formState.errors.milestones?.message}
+        </span>
+      )}
     </>
   )
 }

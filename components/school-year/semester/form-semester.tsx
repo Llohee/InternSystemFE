@@ -124,9 +124,12 @@ const FormSemester = (props: {
                 field: { value, onChange },
                 fieldState: { error },
               }) => (
-                <div className="w-full">
+                <div>
                   <DatePicker
-                    className="w-full py-2 px-3"
+                    className={inputStyles({
+                      className: '!w-full',
+                      intent: error ? 'error' : 'default',
+                    })}
                     format={'DD/MM/YYYY'}
                     value={value ? dayjs(value).second(0).millisecond(0) : null}
                     onChange={(date) => {
@@ -173,9 +176,12 @@ const FormSemester = (props: {
                 field: { value, onChange },
                 fieldState: { error },
               }) => (
-                <div className="w-full">
+                <div>
                   <DatePicker
-                    className="w-full py-2 px-3"
+                    className={inputStyles({
+                      className: '!w-full',
+                      intent: error ? 'error' : 'default',
+                    })}
                     format={'DD/MM/YYYY'}
                     value={value ? dayjs(value).second(0).millisecond(0) : null}
                     onChange={(date) => {

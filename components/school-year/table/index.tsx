@@ -292,7 +292,7 @@ const SchoolYearTable = (props: {
         </>
       ),
       enableColumnFilter: false,
-      meta: 'w-[100px] sticky-action-column',
+      meta: 'w-boolean',
     }),
   ]
 

@@ -4,7 +4,7 @@ import {
   ContainerFormBody,
   ContainerFormFooter,
 } from '@/components/ui/container'
-import { Input } from '@/components/ui/input/input'
+import { Input, inputStyles } from '@/components/ui/input/input'
 import { SchoolYearDetail, UpdateSchoolYearRequest } from '@/models/api'
 import { DevTool } from '@hookform/devtools'
 import { DatePicker } from 'antd'
@@ -155,7 +155,10 @@ const FormSchoolYear = (props: {
                     <RangePicker
                       picker={'year'}
                       placeholder={['Chọn năm bắt đầu', 'Chọn năm kết thúc']}
-                      className="w-full py-2 px-3"
+                      className={inputStyles({
+                        className: '!w-full',
+                        intent: error ? 'error' : 'default',
+                      })}
                       value={
                         value ? [dayjs(value.start), dayjs(value.end)] : null
                       }
@@ -202,9 +205,12 @@ const FormSchoolYear = (props: {
                 field: { value, onChange },
                 fieldState: { error },
               }) => (
-                <div className="w-full">
+                <div>
                   <DatePicker
-                    className="w-full py-2 px-3"
+                    className={inputStyles({
+                      className: '!w-full',
+                      intent: error ? 'error' : 'default',
+                    })}
                     format={'DD/MM/YYYY'}
                     value={value ? dayjs(value).second(0).millisecond(0) : null}
                     onChange={(date) => {
@@ -258,9 +264,12 @@ const FormSchoolYear = (props: {
                 field: { value, onChange },
                 fieldState: { error },
               }) => (
-                <div className="w-full">
+                <div>
                   <DatePicker
-                    className="w-full py-2 px-3"
+                    className={inputStyles({
+                      className: '!w-full',
+                      intent: error ? 'error' : 'default',
+                    })}
                     format={'DD/MM/YYYY'}
                     value={value ? dayjs(value).second(0).millisecond(0) : null}
                     onChange={(date) => {
