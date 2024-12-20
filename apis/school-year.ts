@@ -16,7 +16,7 @@ const SchoolYearApi = {
     const url = `/schedule/schoolyear/`
     let query =
       filter.name != ''
-        ? `or(like(name,"${filter.name}"),like(semester.name,"${filter.name}"))`
+        ? `or(like(name.start,"${filter.name}"),like(name.end,"${filter.name}"),like(semester.name,"${filter.name}"))`
         : ''
 
     let sort = filter.sort
