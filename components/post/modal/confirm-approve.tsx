@@ -16,7 +16,7 @@ interface UpdateActivationProps {
   isOpen: boolean
   closeModal: () => void
   post_id: string
-  CV_applying: { cv_id: string; user_info: UserGetDetail; status: string }
+  CV_applying: { cv_id: string; user_info: UserGetDetail; status: 'Pending' | 'HR Approver' | 'AU Approver' }
 }
 const ConfirmApproveModal = (props: UpdateActivationProps) => {
   const mutation = useApproveMutation(props.closeModal)
